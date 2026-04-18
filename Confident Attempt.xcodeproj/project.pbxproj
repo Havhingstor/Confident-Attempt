@@ -6,33 +6,19 @@
 	objectVersion = 77;
 	objects = {
 
-/* Begin PBXContainerItemProxy section */
-		DA3C98E92F8E9E5100E5C79B /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = DA3C98CF2F8E9E4F00E5C79B /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = DA3C98D62F8E9E4F00E5C79B;
-			remoteInfo = "Confident Attempt";
-		};
-		DA3C98F32F8E9E5100E5C79B /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = DA3C98CF2F8E9E4F00E5C79B /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = DA3C98D62F8E9E4F00E5C79B;
-			remoteInfo = "Confident Attempt";
-		};
-/* End PBXContainerItemProxy section */
+/* Begin PBXBuildFile section */
+		DAC67E932F8F7A07005AFFB7 /* Confident Attempt Model in Frameworks */ = {isa = PBXBuildFile; productRef = DAC67E922F8F7A07005AFFB7 /* Confident Attempt Model */; };
+/* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		DA3C98D72F8E9E4F00E5C79B /* Confident Attempt.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Confident Attempt.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		DA3C98E82F8E9E5100E5C79B /* Confident AttemptTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Confident AttemptTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		DA3C98F22F8E9E5100E5C79B /* Confident AttemptUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Confident AttemptUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
 		DA3C98FA2F8E9E5100E5C79B /* Exceptions for "Confident Attempt" folder in "Confident Attempt" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				"Confident Attempt Model",
 				Info.plist,
 			);
 			target = DA3C98D62F8E9E4F00E5C79B /* Confident Attempt */;
@@ -48,16 +34,6 @@
 			path = "Confident Attempt";
 			sourceTree = "<group>";
 		};
-		DA3C98EB2F8E9E5100E5C79B /* Confident AttemptTests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = "Confident AttemptTests";
-			sourceTree = "<group>";
-		};
-		DA3C98F52F8E9E5100E5C79B /* Confident AttemptUITests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = "Confident AttemptUITests";
-			sourceTree = "<group>";
-		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,20 +41,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		DA3C98E52F8E9E5100E5C79B /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		DA3C98EF2F8E9E5100E5C79B /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
+				DAC67E932F8F7A07005AFFB7 /* Confident Attempt Model in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -89,8 +52,7 @@
 			isa = PBXGroup;
 			children = (
 				DA3C98D92F8E9E4F00E5C79B /* Confident Attempt */,
-				DA3C98EB2F8E9E5100E5C79B /* Confident AttemptTests */,
-				DA3C98F52F8E9E5100E5C79B /* Confident AttemptUITests */,
+				DAC67E912F8F7A07005AFFB7 /* Frameworks */,
 				DA3C98D82F8E9E4F00E5C79B /* Products */,
 			);
 			sourceTree = "<group>";
@@ -99,10 +61,15 @@
 			isa = PBXGroup;
 			children = (
 				DA3C98D72F8E9E4F00E5C79B /* Confident Attempt.app */,
-				DA3C98E82F8E9E5100E5C79B /* Confident AttemptTests.xctest */,
-				DA3C98F22F8E9E5100E5C79B /* Confident AttemptUITests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		DAC67E912F8F7A07005AFFB7 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -119,62 +86,18 @@
 			buildRules = (
 			);
 			dependencies = (
+				DAC67E902F8F79FE005AFFB7 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				DA3C98D92F8E9E4F00E5C79B /* Confident Attempt */,
 			);
 			name = "Confident Attempt";
 			packageProductDependencies = (
+				DAC67E922F8F7A07005AFFB7 /* Confident Attempt Model */,
 			);
 			productName = "Confident Attempt";
 			productReference = DA3C98D72F8E9E4F00E5C79B /* Confident Attempt.app */;
 			productType = "com.apple.product-type.application";
-		};
-		DA3C98E72F8E9E5100E5C79B /* Confident AttemptTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = DA3C99002F8E9E5100E5C79B /* Build configuration list for PBXNativeTarget "Confident AttemptTests" */;
-			buildPhases = (
-				DA3C98E42F8E9E5100E5C79B /* Sources */,
-				DA3C98E52F8E9E5100E5C79B /* Frameworks */,
-				DA3C98E62F8E9E5100E5C79B /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				DA3C98EA2F8E9E5100E5C79B /* PBXTargetDependency */,
-			);
-			fileSystemSynchronizedGroups = (
-				DA3C98EB2F8E9E5100E5C79B /* Confident AttemptTests */,
-			);
-			name = "Confident AttemptTests";
-			packageProductDependencies = (
-			);
-			productName = "Confident AttemptTests";
-			productReference = DA3C98E82F8E9E5100E5C79B /* Confident AttemptTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
-		DA3C98F12F8E9E5100E5C79B /* Confident AttemptUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = DA3C99032F8E9E5100E5C79B /* Build configuration list for PBXNativeTarget "Confident AttemptUITests" */;
-			buildPhases = (
-				DA3C98EE2F8E9E5100E5C79B /* Sources */,
-				DA3C98EF2F8E9E5100E5C79B /* Frameworks */,
-				DA3C98F02F8E9E5100E5C79B /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				DA3C98F42F8E9E5100E5C79B /* PBXTargetDependency */,
-			);
-			fileSystemSynchronizedGroups = (
-				DA3C98F52F8E9E5100E5C79B /* Confident AttemptUITests */,
-			);
-			name = "Confident AttemptUITests";
-			packageProductDependencies = (
-			);
-			productName = "Confident AttemptUITests";
-			productReference = DA3C98F22F8E9E5100E5C79B /* Confident AttemptUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
 
@@ -188,14 +111,6 @@
 				TargetAttributes = {
 					DA3C98D62F8E9E4F00E5C79B = {
 						CreatedOnToolsVersion = 26.5;
-					};
-					DA3C98E72F8E9E5100E5C79B = {
-						CreatedOnToolsVersion = 26.5;
-						TestTargetID = DA3C98D62F8E9E4F00E5C79B;
-					};
-					DA3C98F12F8E9E5100E5C79B = {
-						CreatedOnToolsVersion = 26.5;
-						TestTargetID = DA3C98D62F8E9E4F00E5C79B;
 					};
 				};
 			};
@@ -214,28 +129,12 @@
 			projectRoot = "";
 			targets = (
 				DA3C98D62F8E9E4F00E5C79B /* Confident Attempt */,
-				DA3C98E72F8E9E5100E5C79B /* Confident AttemptTests */,
-				DA3C98F12F8E9E5100E5C79B /* Confident AttemptUITests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		DA3C98D52F8E9E4F00E5C79B /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		DA3C98E62F8E9E5100E5C79B /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		DA3C98F02F8E9E5100E5C79B /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -252,32 +151,12 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		DA3C98E42F8E9E5100E5C79B /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		DA3C98EE2F8E9E5100E5C79B /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		DA3C98EA2F8E9E5100E5C79B /* PBXTargetDependency */ = {
+		DAC67E902F8F79FE005AFFB7 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = DA3C98D62F8E9E4F00E5C79B /* Confident Attempt */;
-			targetProxy = DA3C98E92F8E9E5100E5C79B /* PBXContainerItemProxy */;
-		};
-		DA3C98F42F8E9E5100E5C79B /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = DA3C98D62F8E9E4F00E5C79B /* Confident Attempt */;
-			targetProxy = DA3C98F32F8E9E5100E5C79B /* PBXContainerItemProxy */;
+			productRef = DAC67E8F2F8F79FE005AFFB7 /* Confident Attempt Model */;
 		};
 /* End PBXTargetDependency section */
 
@@ -488,108 +367,6 @@
 			};
 			name = Release;
 		};
-		DA3C99012F8E9E5100E5C79B /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = J553VJZ234;
-				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 26.5;
-				MACOSX_DEPLOYMENT_TARGET = 26.5;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "de.paulschuetz.Confident-AttemptTests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = auto;
-				STRING_CATALOG_GENERATE_SYMBOLS = NO;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
-				SWIFT_APPROACHABLE_CONCURRENCY = YES;
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2,7";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Confident Attempt.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Confident Attempt";
-				XROS_DEPLOYMENT_TARGET = 26.5;
-			};
-			name = Debug;
-		};
-		DA3C99022F8E9E5100E5C79B /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = J553VJZ234;
-				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 26.5;
-				MACOSX_DEPLOYMENT_TARGET = 26.5;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "de.paulschuetz.Confident-AttemptTests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = auto;
-				STRING_CATALOG_GENERATE_SYMBOLS = NO;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
-				SWIFT_APPROACHABLE_CONCURRENCY = YES;
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2,7";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Confident Attempt.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Confident Attempt";
-				XROS_DEPLOYMENT_TARGET = 26.5;
-			};
-			name = Release;
-		};
-		DA3C99042F8E9E5100E5C79B /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = J553VJZ234;
-				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 26.5;
-				MACOSX_DEPLOYMENT_TARGET = 26.5;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "de.paulschuetz.Confident-AttemptUITests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = auto;
-				STRING_CATALOG_GENERATE_SYMBOLS = NO;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
-				SWIFT_APPROACHABLE_CONCURRENCY = YES;
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2,7";
-				TEST_TARGET_NAME = "Confident Attempt";
-				XROS_DEPLOYMENT_TARGET = 26.5;
-			};
-			name = Debug;
-		};
-		DA3C99052F8E9E5100E5C79B /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = J553VJZ234;
-				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 26.5;
-				MACOSX_DEPLOYMENT_TARGET = 26.5;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "de.paulschuetz.Confident-AttemptUITests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = auto;
-				STRING_CATALOG_GENERATE_SYMBOLS = NO;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
-				SWIFT_APPROACHABLE_CONCURRENCY = YES;
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2,7";
-				TEST_TARGET_NAME = "Confident Attempt";
-				XROS_DEPLOYMENT_TARGET = 26.5;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -611,25 +388,18 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		DA3C99002F8E9E5100E5C79B /* Build configuration list for PBXNativeTarget "Confident AttemptTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				DA3C99012F8E9E5100E5C79B /* Debug */,
-				DA3C99022F8E9E5100E5C79B /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		DA3C99032F8E9E5100E5C79B /* Build configuration list for PBXNativeTarget "Confident AttemptUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				DA3C99042F8E9E5100E5C79B /* Debug */,
-				DA3C99052F8E9E5100E5C79B /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 /* End XCConfigurationList section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		DAC67E8F2F8F79FE005AFFB7 /* Confident Attempt Model */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = "Confident Attempt Model";
+		};
+		DAC67E922F8F7A07005AFFB7 /* Confident Attempt Model */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = "Confident Attempt Model";
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = DA3C98CF2F8E9E4F00E5C79B /* Project object */;
 }

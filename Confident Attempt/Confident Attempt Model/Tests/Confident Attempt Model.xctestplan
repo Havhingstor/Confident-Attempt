@@ -1,0 +1,24 @@
+{
+  "configurations" : [
+    {
+      "id" : "76746482-BE83-424A-94CE-460E68E9547B",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "performanceAntipatternCheckerEnabled" : true
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "Confident Attempt ModelTests",
+        "name" : "Confident Attempt ModelTests"
+      }
+    }
+  ],
+  "version" : 1
+}
