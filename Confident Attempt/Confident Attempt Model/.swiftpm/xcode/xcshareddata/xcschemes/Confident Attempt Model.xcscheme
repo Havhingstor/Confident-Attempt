@@ -30,7 +30,7 @@
       shouldUseLaunchSchemeArgsEnv = "YES">
       <TestPlans>
          <TestPlanReference
-            reference = "container:Confident Attempt Model.xctestplan"
+            reference = "container:Tests/Confident Attempt ModelTests/Confident Attempt Model.xctestplan"
             default = "YES">
          </TestPlanReference>
       </TestPlans>

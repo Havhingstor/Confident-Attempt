@@ -100,6 +100,28 @@ public class Task {
     public func getEvaluationForDay(_ offset: Int) -> Double {
         return Double(getDay(offset)) / self.expectedNum.getAsDaily(forDate: firstDay.addingDays(offset) ?? firstDay)
     }
+    
+    public func getTotal(from: CalculationStart, to: DateComponents) -> UInt {
+        guard let lastDate = to.asDate,
+              let beforeStart = Calendar.current.date(byAdding: from.getAsDateComponents(), to: lastDate),
+              let beforeOffset = beforeStart.dc.daysSince(firstDay),
+              let lastOffset = to.daysSince(firstDay) else {return 0}
+        
+        return dayResults.enumerated().filter({$0.offset > beforeOffset && $0.offset <= lastOffset}).reduce(0, {$0 + UInt($1.element)})
+    }
+    
+    public func getEvaluation(from: CalculationStart, to: DateComponents) -> Double {
+        guard let lastDate = to.asDate,
+              let beforeStart = Calendar.current.date(byAdding: from.getAsDateComponents(), to: lastDate),
+              let beforeOffset = beforeStart.dc.daysSince(firstDay),
+              let lastOffset = to.daysSince(firstDay) else {return 0}
+        
+        let totalEvaluation = ((beforeOffset + 1)...lastOffset).map({getEvaluationForDay($0)}).reduce((0, 0), {($0.0 + 1, $0.1 + $1)})
+        
+        guard totalEvaluation.0 != 0 else {return 0}
+        
+        return totalEvaluation.1 / Double(totalEvaluation.0)
+    }
 }
 
 public enum ExpectedCompletions: Codable {
@@ -118,6 +140,26 @@ public enum ExpectedCompletions: Codable {
                 return Double(number) / Double(forDate.daysInMonth())
             case .yearly(let number):
                 return Double(number) / Double(forDate.daysInYear())
+        }
+    }
+}
+
+public enum CalculationStart: Codable {
+    case days(number: UInt)
+    case weeks(number: UInt)
+    case months(number: UInt)
+    case years(number: UInt)
+    
+    func getAsDateComponents() -> DateComponents {
+        switch self {
+            case .days(let number):
+                DateComponents(day: -Int(number))
+            case .weeks(let number):
+                DateComponents(day: -Int(number * 7))
+            case .months(let number):
+                DateComponents(month: -Int(number))
+            case .years(let number):
+                DateComponents(year: -Int(number))
         }
     }
 }
