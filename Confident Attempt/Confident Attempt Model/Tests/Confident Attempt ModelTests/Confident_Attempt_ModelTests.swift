@@ -47,6 +47,8 @@ func testTaskBasics() {
     
     let thirdDay = DateComponents(year: 2026, month: 3, day: 18)
     let twoDayEvaluation = CalculationStart.days(number: 2)
+    let oneMonthEvaluation = CalculationStart.months(number: 1)
     #expect(baseTask.getTotal(from: twoDayEvaluation, to: thirdDay) == 5)
     #expect(baseTask.getEvaluation(from: twoDayEvaluation, to: thirdDay) == 1.25)
+    #expect(baseTask.getEvaluation(from: oneMonthEvaluation, to: thirdDay) != 0)
 }

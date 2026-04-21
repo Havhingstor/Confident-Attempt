@@ -10,7 +10,7 @@ public class Task {
     public private(set) var expectedNum: ExpectedCompletions
     var dayResults: [UInt8] = []
     
-    var firstDay: DateComponents {
+    public var firstDay: DateComponents {
         do {
             return try JSONDecoder().decode(DateComponents.self, from: firstDayInternal)
         } catch (let e) {
