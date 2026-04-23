@@ -9,11 +9,23 @@ public class Task {
     public private(set) var expectedNum: ExpectedCompletions
     var dayResults: [DateComponents: UInt8] = [:]
     
-    public init(name: String, textDescription: String, maxNum: UInt8? = 1, expectedNum: ExpectedCompletions = .daily(number: 1)) {
+    public init?(name: String, textDescription: String, maxNum: UInt8? = 1, expectedNum: ExpectedCompletions = .daily(number: 1)) {
         self.name = name
         self.textDescription = textDescription
         self.maxNum = maxNum
         self.expectedNum = expectedNum
+        
+        guard expectedNum.getNumber() > 0 else {return nil}
+        
+        if let maxNum {
+            if maxNum == 0 {
+                return nil
+            }
+            
+            if let daily = expectedNum.getAsDailyAlways(), daily > Double(maxNum) {
+                return nil
+            }
+        }
     }
     
     public func getDay(_ day: DateComponents = Date.now.dc) -> UInt8 {
@@ -72,13 +84,52 @@ public enum ExpectedCompletions: Codable {
     public func getAsDaily(forDate: DateComponents) -> Double {
         switch self {
             case .daily(let number):
-                return Double(number)
+                Double(number)
             case .weekly(let number):
-                return Double(number) / 7.0
+                Double(number) / 7.0
             case .monthly(let number):
-                return Double(number) / Double(forDate.daysInMonth())
+                Double(number) / Double(forDate.daysInMonth())
             case .yearly(let number):
-                return Double(number) / Double(forDate.daysInYear())
+                Double(number) / Double(forDate.daysInYear())
+        }
+    }
+    
+    public func getAsDailyAlways() -> Double? {
+        switch self {
+            case .daily(let number):
+                Double(number)
+            case .weekly(let number):
+                Double(number) / 7.0
+            case .monthly(_):
+                nil
+            case .yearly(_):
+                nil
+        }
+    }
+    
+    public func getNumber() -> UInt8 {
+        switch self {
+            case .daily(let number):
+                number
+            case .weekly(let number):
+                number
+            case .monthly(let number):
+                number
+            case .yearly(let number):
+                number
+        }
+    }
+    
+    mutating public func setNumber(to: UInt8) {
+        switch self {
+            case .daily(_):
+                self = .daily(number: to)
+            case .weekly(_):
+                self = .weekly(number: to)
+            case .monthly(_):
+                self = .monthly(number: to)
+            case .yearly(_):
+                self = .yearly(number: to)
         }
     }
 }

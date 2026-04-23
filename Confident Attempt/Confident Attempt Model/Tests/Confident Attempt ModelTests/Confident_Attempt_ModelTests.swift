@@ -22,7 +22,7 @@ func testTaskBasics() {
     let firstDay = DateComponents(year: 2026, month: 3, day: 17)
     let secondDay = DateComponents(year: 2026, month: 3, day: 18)
     let thirdDay = DateComponents(year: 2026, month: 3, day: 19)
-    let baseTask = Task(name: "Task", textDescription: "Some task", maxNum: 3, expectedNum: .daily(number: 2))
+    let baseTask = Task(name: "Task", textDescription: "Some task", maxNum: 3, expectedNum: .daily(number: 2))!
     
     baseTask.increaseDay(firstDay, by: 2)
     #expect(baseTask.getDay(firstDay) == 2)
@@ -42,4 +42,11 @@ func testTaskBasics() {
     #expect(baseTask.getTotal(from: twoDayEvaluation, to: thirdDay) == 3)
     #expect(baseTask.getEvaluation(from: twoDayEvaluation, to: thirdDay) == 0.75)
     #expect(baseTask.getEvaluation(from: oneMonthEvaluation, to: thirdDay) != 0)
+}
+
+@Test
+func testIllegalTask() {
+    #expect(Task(name: "A", textDescription: "", maxNum: 0) == nil)
+    #expect(Task(name: "A", textDescription: "", expectedNum: .daily(number: 0)) == nil)
+    #expect(Task(name: "A", textDescription: "", maxNum: 1, expectedNum: .daily(number: 2)) == nil)
 }

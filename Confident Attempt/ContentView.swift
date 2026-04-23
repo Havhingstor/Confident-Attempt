@@ -151,9 +151,9 @@ func getContainer() -> ModelContainer {
     let task2 = Task(name: "Test 2", textDescription: "Test", maxNum: .none)
     let task3 = Task(name: "Test 3", textDescription: "Test", maxNum: 10)
     let task4 = Task(name: "Test 4", textDescription: "Test", expectedNum: .weekly(number: 3))
-    container.mainContext.insert(task1)
-    container.mainContext.insert(task2)
-    container.mainContext.insert(task3)
-    container.mainContext.insert(task4)
+    container.mainContext.insert(task1!)
+    container.mainContext.insert(task2!)
+    container.mainContext.insert(task3!)
+    container.mainContext.insert(task4!)
     return container
 }
