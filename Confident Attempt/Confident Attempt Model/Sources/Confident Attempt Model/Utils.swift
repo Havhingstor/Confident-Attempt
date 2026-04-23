@@ -6,7 +6,15 @@ public extension Date {
     }
 }
 
-public extension DateComponents {
+extension DateComponents: @retroactive Comparable {
+    public static func < (lhs: DateComponents, rhs: DateComponents) -> Bool {
+        if let distance = lhs.daysSince(rhs), distance < 0 {
+            return true
+        } else {
+            return false
+        }
+    }
+    
     func daysSince(_ other: DateComponents) -> Int? {
         Calendar.current.dateComponents([.day], from: other, to: self).day
     }
