@@ -6,8 +6,9 @@ struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
     @Query(sort: \Habit.name) private var items: [Habit]
     
-    private var relevantPeriod = CalculationStart.months(number: 1)
-    private var goalOverall = 0.75
+    @AppStorage("relevantPeriod") private var relevantPeriod = CalculationStart.months(number: 1)
+    @AppStorage("redZone") private var redZone = 0.75
+    @State private var showingSettings = false
 
     private var today: DateComponents {
         Date.now.dc
@@ -22,47 +23,53 @@ struct ContentView: View {
     }
     
     var body: some View {
-        List(items) { item in
-            HStack {
-                getHabitSymbol(item)
-                VStack(alignment: .leading) {
-                    HStack {
-                        Text(item.name)
-                        
-                        Spacer()
-                        
-                        Text(getHabitGoal(item))
+        NavigationStack {
+            List(items) { item in
+                HStack {
+                    getHabitSymbol(item)
+                    VStack(alignment: .leading) {
+                        HStack {
+                            Text(item.name)
+                            
+                            Spacer()
+                            
+                            Text(getHabitGoal(item))
+                        }
+                        HStack {
+                            Text("Completion: \(item.getEvaluation(from: relevantPeriod, to: today).formatted(percentStyle))")
+                            
+                            Spacer()
+                            
+                            Text(getHabitText(item))
+                        }
                     }
-                    HStack {
-                        Text("Completion: \(item.getEvaluation(from: relevantPeriod, to: today).formatted(percentStyle))")
-                        
-                        Spacer()
-                        
-                        Text(getHabitText(item))
+                }
+                .foregroundStyle(getForegroundColour(item))
+                .swipeActions(edge: .trailing) {
+                    Button("Decrease", systemImage: "minus.circle") {
+                        withAnimation {
+                            item.decreaseDay(today, by: 1)
+                        }
+                    }
+                }
+                .swipeActions(edge: .leading) {
+                    Button("Increase", systemImage: "plus.circle") {
+                        withAnimation {
+                            item.increaseDay(today, by: 1)
+                        }
                     }
                 }
             }
-            .foregroundStyle(getForegroundColour(item))
-            .swipeActions(edge: .trailing) {
-                Button("Decrease", systemImage: "minus.circle") {
-                    withAnimation {
-                        item.decreaseDay(today, by: 1)
-                    }
+            .toolbar {
+                Button("Settings", systemImage: "gear") {
+                    showingSettings = true
                 }
-            }
-            .swipeActions(edge: .leading) {
-                Button("Increase", systemImage: "plus.circle") {
-                    withAnimation {
-                        item.increaseDay(today, by: 1)
-                    }
-                }
-            }
-        }
-        .toolbar {
-            ToolbarItem {
                 Button("New Habit", systemImage: "plus") {
                     
                 }
+            }
+            .sheet(isPresented: $showingSettings) {
+                SettingsView(redZone: $redZone, relevantPeriod: $relevantPeriod)
             }
         }
     }
@@ -113,13 +120,29 @@ struct ContentView: View {
         let goal = habit.goal
         let period = switch goal {
             case .daily(let goalNum):
-                "\(goalNum) daily"
+                if goalNum == 1 {
+                    "daily"
+                } else {
+                    "\(goalNum) per day"
+                }
             case .weekly(let goalNum):
-                "\(goalNum) weekly"
+                if goalNum == 1 {
+                    "weekly"
+                } else {
+                    "\(goalNum) per week"
+                }
             case .monthly(let goalNum):
-                "\(goalNum) monthly"
+                if goalNum == 1 {
+                    "monthly"
+                } else {
+                    "\(goalNum) per month"
+                }
             case .yearly(let goalNum):
-                "\(goalNum) yearly"
+                if goalNum == 1 {
+                    "yearly"
+                } else {
+                    "\(goalNum) per year"
+                }
         }
         
         return "Goal: \(period)"
@@ -128,7 +151,7 @@ struct ContentView: View {
     private func getForegroundColour(_ habit: Habit) -> Color {
         let eval = habit.getEvaluation(from: relevantPeriod, to: today)
         
-        return if eval < goalOverall {
+        return if eval < redZone {
             .red
         } else if eval >= 1.0 {
             .green

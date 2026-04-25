@@ -134,7 +134,7 @@ public enum CompletionGoal: Codable {
     }
 }
 
-public enum CalculationStart: Codable {
+public enum CalculationStart: Codable, RawRepresentable {
     case days(number: UInt)
     case weeks(number: UInt)
     case months(number: UInt)
@@ -150,6 +150,52 @@ public enum CalculationStart: Codable {
                 DateComponents(month: -Int(number))
             case .years(let number):
                 DateComponents(year: -Int(number))
+        }
+    }
+    
+    public func getNumber() -> UInt {
+        switch self {
+            case .days(let number):
+                number
+            case .weeks(let number):
+                number
+            case .months(let number):
+                number
+            case .years(let number):
+                number
+        }
+    }
+    
+    mutating public func setNumber(to: UInt) {
+        switch self {
+            case .days(_):
+                self = .days(number: to)
+            case .weeks(_):
+                self = .weeks(number: to)
+            case .months(_):
+                self = .months(number: to)
+            case .years(_):
+                self = .years(number: to)
+        }
+    }
+
+    public typealias RawValue = String
+    
+    public init?(rawValue: String) {
+        do {
+            self = try JSONDecoder().decode(Self.self, from: rawValue.data(using: .utf8) ?? Data())
+        } catch (let e) {
+            print("Can't create CalculationStart: \(e)")
+            return nil
+        }
+    }
+    
+    public var rawValue: String {
+        do {
+            return try String(data: JSONEncoder().encode(self), encoding: .utf8) ?? ""
+        } catch (let e) {
+            print("Can't encode CalculationStart: \(e)")
+            return ""
         }
     }
 }
