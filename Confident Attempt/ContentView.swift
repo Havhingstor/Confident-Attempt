@@ -6,10 +6,9 @@ struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
     @Query(sort: \Habit.name) private var items: [Habit]
     
-    @AppStorage("relevantPeriod") private var relevantPeriod = CalculationStart.months(number: 1)
-    @AppStorage("redZone") private var redZone = 0.75
-    @State private var showingSettings = false
-
+    @State private var relevantPeriod = CalculationStart.months(number: 1)
+    @State private var redZone = 0.75
+    
     private var today: DateComponents {
         Date.now.dc
     }
@@ -60,16 +59,17 @@ struct ContentView: View {
                     }
                 }
             }
+            .navigationTitle("Confident Attempt")
             .toolbar {
-                Button("Settings", systemImage: "gear") {
-                    showingSettings = true
+                NavigationLink {
+                    SettingsView(redZone: $redZone, relevantPeriod: $relevantPeriod)
+                } label: {
+                    Label("Settings", systemImage: "gear")
                 }
+
                 Button("New Habit", systemImage: "plus") {
                     
                 }
-            }
-            .sheet(isPresented: $showingSettings) {
-                SettingsView(redZone: $redZone, relevantPeriod: $relevantPeriod)
             }
         }
     }

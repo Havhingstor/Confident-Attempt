@@ -37,13 +37,14 @@ struct SettingsView: View {
             }
             
             
-            Section("Minimum Average") {
+            Section("Minimum Completion") {
                 VStack {
                     Slider(value: $redZone, in: 0...1, step: 0.01)
                     Text("\(redZone.formatted(.percent))")
                 }
             }
         }
+        .navigationTitle("Settings")
     }
     
     private var periodScale: Binding<PeriodScale> {
