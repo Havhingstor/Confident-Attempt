@@ -2,27 +2,27 @@ import SwiftData
 import Foundation
 
 @Model
-public class Task {
+public class Habit {
     public var name: String
     public var textDescription: String
     public private(set) var maxNum: UInt8?
-    public private(set) var expectedNum: ExpectedCompletions
+    public private(set) var goal: CompletionGoal
     var dayResults: [DateComponents: UInt8] = [:]
     
-    public init?(name: String, textDescription: String, maxNum: UInt8? = 1, expectedNum: ExpectedCompletions = .daily(number: 1)) {
+    public init?(name: String, textDescription: String, maxNum: UInt8? = 1, goal: CompletionGoal = .daily(number: 1)) {
         self.name = name
         self.textDescription = textDescription
         self.maxNum = maxNum
-        self.expectedNum = expectedNum
+        self.goal = goal
         
-        guard expectedNum.getNumber() > 0 else {return nil}
+        guard goal.getNumber() > 0 else {return nil}
         
         if let maxNum {
             if maxNum == 0 {
                 return nil
             }
             
-            if let daily = expectedNum.getAsDailyAlways(), daily > Double(maxNum) {
+            if let daily = goal.getAsDailyAlways(), daily > Double(maxNum) {
                 return nil
             }
         }
@@ -53,7 +53,7 @@ public class Task {
     }
     
     public func getEvaluationForDay(_ day: DateComponents) -> Double {
-        return Double(getDay(day)) / self.expectedNum.getAsDaily(forDate: day)
+        return Double(getDay(day)) / self.goal.getAsDaily(forDate: day)
     }
     
     public func getTotal(from: CalculationStart, to: DateComponents) -> UInt {
@@ -75,7 +75,7 @@ public class Task {
     }
 }
 
-public enum ExpectedCompletions: Codable {
+public enum CompletionGoal: Codable {
     case daily(number: UInt8)
     case weekly(number: UInt8)
     case monthly(number: UInt8)

@@ -3,11 +3,11 @@ import Foundation
 import Confident_Attempt_Model
 
 @Test
-func testExpected() {
-    let onceDaily = ExpectedCompletions.daily(number: 1)
-    let twiceWeekly = ExpectedCompletions.weekly(number: 2)
-    let thriceMonthly = ExpectedCompletions.monthly(number: 3)
-    let fourTimesAYear = ExpectedCompletions.yearly(number: 4)
+func testGoal() {
+    let onceDaily = CompletionGoal.daily(number: 1)
+    let twiceWeekly = CompletionGoal.weekly(number: 2)
+    let thriceMonthly = CompletionGoal.monthly(number: 3)
+    let fourTimesAYear = CompletionGoal.yearly(number: 4)
     
     let date = DateComponents(year: 2026, month: 3, day: 17)
     
@@ -18,35 +18,35 @@ func testExpected() {
 }
 
 @Test
-func testTaskBasics() {
+func testHabitBasics() {
     let firstDay = DateComponents(year: 2026, month: 3, day: 17)
     let secondDay = DateComponents(year: 2026, month: 3, day: 18)
     let thirdDay = DateComponents(year: 2026, month: 3, day: 19)
-    let baseTask = Task(name: "Task", textDescription: "Some task", maxNum: 3, expectedNum: .daily(number: 2))!
+    let baseHabit = Habit(name: "Habit", textDescription: "Some habit", maxNum: 3, goal: .daily(number: 2))!
     
-    baseTask.increaseDay(firstDay, by: 2)
-    #expect(baseTask.getDay(firstDay) == 2)
+    baseHabit.increaseDay(firstDay, by: 2)
+    #expect(baseHabit.getDay(firstDay) == 2)
     
-    baseTask.setDay(secondDay, to: 3)
-    #expect(baseTask.getDay(secondDay) == 3)
+    baseHabit.setDay(secondDay, to: 3)
+    #expect(baseHabit.getDay(secondDay) == 3)
     
-    baseTask.decreaseDay(thirdDay, by: 1)
-    #expect(baseTask.getDay(thirdDay) == 0)
+    baseHabit.decreaseDay(thirdDay, by: 1)
+    #expect(baseHabit.getDay(thirdDay) == 0)
     
-    #expect(baseTask.getEvaluationForDay(firstDay) == 1)
-    #expect(baseTask.getEvaluationForDay(secondDay) == 1.5)
-    #expect(baseTask.getEvaluationForDay(thirdDay) == 0)
+    #expect(baseHabit.getEvaluationForDay(firstDay) == 1)
+    #expect(baseHabit.getEvaluationForDay(secondDay) == 1.5)
+    #expect(baseHabit.getEvaluationForDay(thirdDay) == 0)
     
     let twoDayEvaluation = CalculationStart.days(number: 2)
     let oneMonthEvaluation = CalculationStart.months(number: 1)
-    #expect(baseTask.getTotal(from: twoDayEvaluation, to: thirdDay) == 3)
-    #expect(baseTask.getEvaluation(from: twoDayEvaluation, to: thirdDay) == 0.75)
-    #expect(baseTask.getEvaluation(from: oneMonthEvaluation, to: thirdDay) != 0)
+    #expect(baseHabit.getTotal(from: twoDayEvaluation, to: thirdDay) == 3)
+    #expect(baseHabit.getEvaluation(from: twoDayEvaluation, to: thirdDay) == 0.75)
+    #expect(baseHabit.getEvaluation(from: oneMonthEvaluation, to: thirdDay) != 0)
 }
 
 @Test
-func testIllegalTask() {
-    #expect(Task(name: "A", textDescription: "", maxNum: 0) == nil)
-    #expect(Task(name: "A", textDescription: "", expectedNum: .daily(number: 0)) == nil)
-    #expect(Task(name: "A", textDescription: "", maxNum: 1, expectedNum: .daily(number: 2)) == nil)
+func testIllegalHabit() {
+    #expect(Habit(name: "A", textDescription: "", maxNum: 0) == nil)
+    #expect(Habit(name: "A", textDescription: "", goal: .daily(number: 0)) == nil)
+    #expect(Habit(name: "A", textDescription: "", maxNum: 1, goal: .daily(number: 2)) == nil)
 }

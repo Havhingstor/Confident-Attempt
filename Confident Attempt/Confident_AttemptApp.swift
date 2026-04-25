@@ -8,6 +8,6 @@ struct Confident_AttemptApp: App {
         WindowGroup {
             ContentView()
         }
-        .modelContainer(for: Task.self, inMemory: true)
+        .modelContainer(for: Habit.self, inMemory: true)
     }
 }

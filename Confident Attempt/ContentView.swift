@@ -4,10 +4,10 @@ import Confident_Attempt_Model
 
 struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
-    @Query(sort: \Task.name) private var items: [Task]
+    @Query(sort: \Habit.name) private var items: [Habit]
     
     private var relevantPeriod = CalculationStart.months(number: 1)
-    private var expectedOverall = 0.75
+    private var goalOverall = 0.75
 
     private var today: DateComponents {
         Date.now.dc
@@ -24,21 +24,21 @@ struct ContentView: View {
     var body: some View {
         List(items) { item in
             HStack {
-                getTaskSymbol(item)
+                getHabitSymbol(item)
                 VStack(alignment: .leading) {
                     HStack {
                         Text(item.name)
                         
                         Spacer()
                         
-                        Text(getTaskExpected(item))
+                        Text(getHabitGoal(item))
                     }
                     HStack {
                         Text("Completion: \(item.getEvaluation(from: relevantPeriod, to: today).formatted(percentStyle))")
                         
                         Spacer()
                         
-                        Text(getTaskText(item))
+                        Text(getHabitText(item))
                     }
                 }
             }
@@ -60,39 +60,39 @@ struct ContentView: View {
         }
         .toolbar {
             ToolbarItem {
-                Button("New Task", systemImage: "plus") {
+                Button("New Habit", systemImage: "plus") {
                     
                 }
             }
         }
     }
     
-    private func getTaskSymbol(_ task: Task) -> some View {
-        let number = task.getDay(today)
+    private func getHabitSymbol(_ habit: Habit) -> some View {
+        let number = habit.getDay(today)
         
         var result = Image(systemName: "number.circle.fill")
         
         if number == 0 {
             result = Image(systemName: "xmark.circle.fill")
-        } else if let max = task.maxNum, max == 1 && number == 1 {
+        } else if let max = habit.maxNum, max == 1 && number == 1 {
             result = Image(systemName: "checkmark.circle.fill")
         } else if number <= 50 {
             result = Image(systemName: "\(number).circle.fill")
         }
         
-        if task.getEvaluationForDay(today) >= 1.0 {
+        if habit.getEvaluationForDay(today) >= 1.0 {
             return result.foregroundStyle(.green)
         } else {
             return result.foregroundStyle(.red)
         }
     }
     
-    private func getTaskText(_ task: Task) -> String {
-        let number = task.getDay(today)
+    private func getHabitText(_ habit: Habit) -> String {
+        let number = habit.getDay(today)
         
         var result = "Today: \(number)"
         
-        if let max = task.maxNum {
+        if let max = habit.maxNum {
             if max == 1 {
                 if number == 1 {
                     result = "Done"
@@ -109,26 +109,26 @@ struct ContentView: View {
         return result
     }
     
-    private func getTaskExpected(_ task: Task) -> String {
-        let expected = task.expectedNum
-        let period = switch expected {
-            case .daily(let expectedNum):
-                "\(expectedNum) daily"
-            case .weekly(let expectedNum):
-                "\(expectedNum) weekly"
-            case .monthly(let expectedNum):
-                "\(expectedNum) monthly"
-            case .yearly(let expectedNum):
-                "\(expectedNum) yearly"
+    private func getHabitGoal(_ habit: Habit) -> String {
+        let goal = habit.goal
+        let period = switch goal {
+            case .daily(let goalNum):
+                "\(goalNum) daily"
+            case .weekly(let goalNum):
+                "\(goalNum) weekly"
+            case .monthly(let goalNum):
+                "\(goalNum) monthly"
+            case .yearly(let goalNum):
+                "\(goalNum) yearly"
         }
         
-        return "Expected: \(period)"
+        return "Goal: \(period)"
     }
     
-    private func getForegroundColour(_ task: Task) -> Color {
-        let eval = task.getEvaluation(from: relevantPeriod, to: today)
+    private func getForegroundColour(_ habit: Habit) -> Color {
+        let eval = habit.getEvaluation(from: relevantPeriod, to: today)
         
-        return if eval < expectedOverall {
+        return if eval < goalOverall {
             .red
         } else if eval >= 1.0 {
             .green
@@ -145,15 +145,15 @@ struct ContentView: View {
 
 func getContainer() -> ModelContainer {
     let config = ModelConfiguration(isStoredInMemoryOnly: true)
-    let container = try! ModelContainer(for: Task.self, configurations: config)
+    let container = try! ModelContainer(for: Habit.self, configurations: config)
     
-    let task1 = Task(name: "Test 1", textDescription: "Test")
-    let task2 = Task(name: "Test 2", textDescription: "Test", maxNum: .none)
-    let task3 = Task(name: "Test 3", textDescription: "Test", maxNum: 10)
-    let task4 = Task(name: "Test 4", textDescription: "Test", expectedNum: .weekly(number: 3))
-    container.mainContext.insert(task1!)
-    container.mainContext.insert(task2!)
-    container.mainContext.insert(task3!)
-    container.mainContext.insert(task4!)
+    let habit1 = Habit(name: "Test 1", textDescription: "Test")
+    let habit2 = Habit(name: "Test 2", textDescription: "Test", maxNum: .none)
+    let habit3 = Habit(name: "Test 3", textDescription: "Test", maxNum: 10)
+    let habit4 = Habit(name: "Test 4", textDescription: "Test", goal: .weekly(number: 3))
+    container.mainContext.insert(habit1!)
+    container.mainContext.insert(habit2!)
+    container.mainContext.insert(habit3!)
+    container.mainContext.insert(habit4!)
     return container
 }
