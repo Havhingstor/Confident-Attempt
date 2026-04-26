@@ -5,6 +5,8 @@ struct SettingsView: View {
     @Binding var redZone: Double
     @Binding private var periodScale: PeriodScale
     @Binding private var periodAmount: Int
+    
+    @FocusState private var textFieldFocus: Bool
 
     init(redZone: Binding<Double>, periodScale: Binding<PeriodScale>, periodAmount: Binding<Int>) {
         self._redZone = redZone
@@ -32,6 +34,14 @@ struct SettingsView: View {
                     TextField("Amount", value: $periodAmount, format: .number)
                         .multilineTextAlignment(.trailing)
                         .keyboardType(.numberPad)
+                        .focused($textFieldFocus)
+                        .toolbar {
+                            if textFieldFocus {
+                                Button("Done", systemImage: "checkmark") {
+                                    textFieldFocus = false
+                                }
+                            }
+                        }
                 }
             }
             
