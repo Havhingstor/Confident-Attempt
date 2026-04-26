@@ -6,8 +6,13 @@ struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
     @Query(sort: \Habit.name) private var items: [Habit]
     
-    @State private var relevantPeriod = CalculationStart.months(number: 1)
-    @State private var redZone = 0.75
+    @AppStorage("periodScale") private var periodScale = PeriodScale.months
+    @AppStorage("periodAmount") private var periodAmount = 1
+    @AppStorage("redZone") private var redZone = 0.75
+    
+    private var calculationPeriod: CalculationStart {
+        periodScale.toCalculationStart(withNum: UInt(clamping: periodAmount))
+    }
     
     private var today: DateComponents {
         Date.now.dc
@@ -35,7 +40,7 @@ struct ContentView: View {
                             Text(getHabitGoal(item))
                         }
                         HStack {
-                            Text("Completion: \(item.getEvaluation(from: relevantPeriod, to: today).formatted(percentStyle))")
+                            Text("Completion: \(item.getEvaluation(from: calculationPeriod, to: today).formatted(percentStyle))")
                             
                             Spacer()
                             
@@ -62,7 +67,7 @@ struct ContentView: View {
             .navigationTitle("Confident Attempt")
             .toolbar {
                 NavigationLink {
-                    SettingsView(redZone: $redZone, relevantPeriod: $relevantPeriod)
+                    SettingsView(redZone: $redZone, periodScale: $periodScale, periodAmount: $periodAmount)
                 } label: {
                     Label("Settings", systemImage: "gear")
                 }
@@ -149,7 +154,7 @@ struct ContentView: View {
     }
     
     private func getForegroundColour(_ habit: Habit) -> Color {
-        let eval = habit.getEvaluation(from: relevantPeriod, to: today)
+        let eval = habit.getEvaluation(from: calculationPeriod, to: today)
         
         return if eval < redZone {
             .red

@@ -3,18 +3,19 @@ import Confident_Attempt_Model
 
 struct SettingsView: View {
     @Binding var redZone: Double
-    @Binding var relevantPeriod: CalculationStart
+    @Binding private var periodScale: PeriodScale
+    @Binding private var periodAmount: Int
 
-    init(redZone: Binding<Double>, relevantPeriod: Binding<CalculationStart>) {
+    init(redZone: Binding<Double>, periodScale: Binding<PeriodScale>, periodAmount: Binding<Int>) {
         self._redZone = redZone
-        self._relevantPeriod = relevantPeriod
-        
+        self._periodScale = periodScale
+        self._periodAmount = periodAmount
     }
     
     var body: some View {
         Form {
             Section("Evaluation Period") {
-                Picker("Scale", selection: self.periodScale) {
+                Picker("Scale", selection: $periodScale) {
                     Text("Days")
                         .tag(PeriodScale.days)
                     Text("Weeks")
@@ -28,11 +29,9 @@ struct SettingsView: View {
                 HStack {
                     Text("Amount")
                     Spacer()
-                    TextField("Amount", value: periodAmount, format: .number)
+                    TextField("Amount", value: $periodAmount, format: .number)
                         .multilineTextAlignment(.trailing)
-                    #if os(iOS) || os(iPadOS)
                         .keyboardType(.numberPad)
-                    #endif
                 }
             }
             
@@ -43,62 +42,21 @@ struct SettingsView: View {
                     Text("\(redZone.formatted(.percent))")
                 }
             }
-        }
-        .navigationTitle("Settings")
-    }
-    
-    private var periodScale: Binding<PeriodScale> {
-        Binding {
-            .fromCalculationStart(relevantPeriod)
-        } set: { scale in
-            relevantPeriod = scale.toCalculationStart(withNum: relevantPeriod.getNumber())
-        }
-    }
-    
-    private var periodAmount: Binding<UInt> {
-        Binding {
-            relevantPeriod.getNumber()
-        } set: { scale in
-            if scale > 0 {
-                relevantPeriod.setNumber(to: scale)
+            
+            Section {
+                Text("Made with ❤ by Paul")
+                Link(destination: URL(string: "https://github.com/Havhingstor/Confident-Attempt/issues")!, label: {
+                    Text("Issues")
+                })
+                Link(destination: URL(string: "https://github.com/Havhingstor/Confident-Attempt")!, label: {
+                    Text("GitHub")
+                })
             }
         }
+        .navigationTitle("Settings")
     }
 }
 
 #Preview {
-    SettingsView(redZone: .constant(0.75), relevantPeriod: .constant(.months(number: 1)))
-}
-
-fileprivate enum PeriodScale {
-    case days
-    case weeks
-    case months
-    case years
-    
-    func toCalculationStart(withNum: UInt) -> CalculationStart {
-        switch self {
-            case .days:
-                    .days(number: withNum)
-            case .weeks:
-                    .weeks(number: withNum)
-            case .months:
-                    .months(number: withNum)
-            case .years:
-                    .years(number: withNum)
-        }
-    }
-    
-    static func fromCalculationStart(_ start: CalculationStart) -> Self {
-        switch start {
-            case .days(_):
-                    .days
-            case .weeks(_):
-                    .weeks
-            case .months(_):
-                    .months
-            case .years(_):
-                    .years
-        }
-    }
+    SettingsView(redZone: .constant(0.75), periodScale: .constant(.months), periodAmount: .constant(1))
 }
