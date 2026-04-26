@@ -42,6 +42,16 @@ struct SettingsView: View {
                                 }
                             }
                         }
+                        .onChange(of: periodAmount) {
+                            if periodAmount < 1 {
+                                periodAmount = 1
+                            }
+                        }
+                }
+                .onTapGesture {
+                    if !textFieldFocus {
+                        textFieldFocus = true
+                    }
                 }
             }
             
