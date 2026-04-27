@@ -22,7 +22,7 @@ func testHabitBasics() {
     let firstDay = DateComponents(year: 2026, month: 3, day: 17)
     let secondDay = DateComponents(year: 2026, month: 3, day: 18)
     let thirdDay = DateComponents(year: 2026, month: 3, day: 19)
-    let baseHabit = Habit(name: "Habit", textDescription: "Some habit", maxNum: 3, goal: .daily(number: 2))!
+    let baseHabit = Habit(name: "Habit", textDescription: "Some habit", repetition: 3, goal: .daily(number: 2))!
     
     baseHabit.increaseDay(firstDay, by: 2)
     #expect(baseHabit.getDay(firstDay) == 2)
@@ -41,12 +41,13 @@ func testHabitBasics() {
     let oneMonthEvaluation = CalculationStart.months(number: 1)
     #expect(baseHabit.getTotal(from: twoDayEvaluation, to: thirdDay) == 3)
     #expect(baseHabit.getEvaluation(from: twoDayEvaluation, to: thirdDay) == 0.75)
-    #expect(baseHabit.getEvaluation(from: oneMonthEvaluation, to: thirdDay) != 0)
+    #expect(baseHabit.getEvaluation(from: oneMonthEvaluation, to: thirdDay) > 0)
+    #expect(baseHabit.getEvaluation(from: oneMonthEvaluation, to: thirdDay) < 0.25)
 }
 
 @Test
 func testIllegalHabit() {
-    #expect(Habit(name: "A", textDescription: "", maxNum: 0) == nil)
+    #expect(Habit(name: "A", textDescription: "", repetition: 0) == nil)
     #expect(Habit(name: "A", textDescription: "", goal: .daily(number: 0)) == nil)
-    #expect(Habit(name: "A", textDescription: "", maxNum: 1, goal: .daily(number: 2)) == nil)
+    #expect(Habit(name: "A", textDescription: "", repetition: 1, goal: .daily(number: 2)) == nil)
 }

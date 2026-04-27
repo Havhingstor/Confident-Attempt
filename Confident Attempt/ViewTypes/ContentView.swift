@@ -11,6 +11,7 @@ struct ContentView: View {
     @AppStorage("redZone") private var redZone = 0.75
     
     @State private var addHabitShown = false
+    @State private var editHabit: Habit? = nil
     
     private var calculationPeriod: CalculationStart {
         periodScale.toCalculationStart(withNum: UInt(clamping: periodAmount))
@@ -25,7 +26,7 @@ struct ContentView: View {
     }
     
     private var percentStyle: FloatingPointFormatStyle<Double>.Percent {
-        FloatingPointFormatStyle<Double>.Percent().precision(.fractionLength(0))
+        FloatingPointFormatStyle<Double>.Percent().precision(.fractionLength(0)).rounded(rule: .down)
     }
     
     var body: some View {
@@ -65,6 +66,9 @@ struct ContentView: View {
                         }
                     }
                 }
+                .onTapGesture {
+                    editHabit = item
+                }
             }
             .navigationTitle("Confident Attempt")
             .toolbar {
@@ -81,6 +85,9 @@ struct ContentView: View {
             .sheet(isPresented: $addHabitShown) {
                 HabitEditView()
             }
+            .sheet(item: $editHabit) { habit in
+                HabitEditView(editedHabit: habit)
+            }
         }
     }
     
@@ -91,7 +98,7 @@ struct ContentView: View {
         
         if number == 0 {
             result = Image(systemName: "xmark.circle.fill")
-        } else if let max = habit.maxNum, max == 1 && number == 1 {
+        } else if let repetition = habit.repetition, repetition == 1 && number == 1 {
             result = Image(systemName: "checkmark.circle.fill")
         } else if number <= 50 {
             result = Image(systemName: "\(number).circle.fill")
@@ -109,8 +116,8 @@ struct ContentView: View {
         
         var result = "Today: \(number)"
         
-        if let max = habit.maxNum {
-            if max == 1 {
+        if let repetition = habit.repetition {
+            if repetition == 1 {
                 if number == 1 {
                     result = "Done"
                 } else {
@@ -119,7 +126,7 @@ struct ContentView: View {
                 
                 result += " today"
             } else {
-                result += " / \(max)"
+                result += " / \(repetition)"
             }
         }
         
@@ -181,8 +188,8 @@ func getContainer() -> ModelContainer {
     let container = try! ModelContainer(for: Habit.self, configurations: config)
     
     let habit1 = Habit(name: "Test 1", textDescription: "Test")
-    let habit2 = Habit(name: "Test 2", textDescription: "Test", maxNum: .none)
-    let habit3 = Habit(name: "Test 3", textDescription: "Test", maxNum: 10)
+    let habit2 = Habit(name: "Test 2", textDescription: "Test", repetition: .none)
+    let habit3 = Habit(name: "Test 3", textDescription: "Test", repetition: 10)
     let habit4 = Habit(name: "Test 4", textDescription: "Test", goal: .weekly(number: 3))
     container.mainContext.insert(habit1!)
     container.mainContext.insert(habit2!)

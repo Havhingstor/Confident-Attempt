@@ -3,14 +3,15 @@ import Confident_Attempt_Model
 import SwiftData
 
 struct HabitEditView: View {
-    private var editedHabit: Binding<Habit>?
+    private var editedHabit: Habit?
     @Environment(\.modelContext) private var modelContext
     
     @Environment(\.dismiss) private var dismiss
     
     @State private var name = ""
     @State private var description = ""
-    @State private var maxNum = Optional(UInt8(1))
+    @State private var repetitionCustom = UInt8(2)
+    @State private var repetitionType = RepetitionType.normal
     @State private var goalScale = TimeScale.day
     @State private var goalAmount = UInt8(1)
     
@@ -19,84 +20,152 @@ struct HabitEditView: View {
     }
     
     private var allowed: Bool {
-        Habit.testValues(maxNum: maxNum, goal: goal)
+        Habit.testValues(repetition: repetition, goal: goal)
     }
     
-    init(editedHabit: Binding<Habit>? = nil) {
+    private var repetition: UInt8? {
+        switch repetitionType {
+            case .normal:
+                1
+            case .repetitive:
+                repetitionCustom
+            case .unlimited:
+                nil
+        }
+    }
+    
+    var repetitionTypeHelpText: String {
+        switch repetitionType {
+            case .normal:
+                "A habit that can be completed once per day."
+            case .repetitive:
+                "A habit that can be completed multiple times per day, up to a limit of \(repetitionCustom)."
+            case .unlimited:
+                "A habit that can be completed multiple times per day."
+        }
+    }
+    
+    init(editedHabit: Habit? = nil) {
         self.editedHabit = editedHabit
         
         if let editedHabit {
-            let editedHabit = editedHabit.wrappedValue
-            name = editedHabit.name
-            description = editedHabit.textDescription
-            maxNum = editedHabit.maxNum
-            goalScale = .fromCompletionGoal(editedHabit.goal)
-            goalAmount = editedHabit.goal.getNumber()
+            _name = State(initialValue: editedHabit.name)
+            _description = State(initialValue: editedHabit.textDescription)
+            _goalScale = State(initialValue: .fromCompletionGoal(editedHabit.goal))
+            _goalAmount = State(initialValue: editedHabit.goal.getNumber())
+            
+            if editedHabit.repetition == 1 {
+                _repetitionType = State(initialValue: .normal)
+            } else if let rep = editedHabit.repetition {
+                _repetitionType = State(initialValue: .repetitive)
+                _repetitionCustom = State(initialValue: rep)
+            } else {
+                _repetitionType = State(initialValue: .unlimited)
+            }
         }
     }
     
     var body: some View {
-        Form {
-            Section {
-                CustomTextField(TextField("Name", text: $name))
-                CustomTextField(TextField("Description", text: $description))
-            }
-            
-            Section("Goal") {
-                LabeledTextField(label: "Amount", TextField("Amount", value: $goalAmount, format: .number))
-                    .keyboardType(.numberPad)
+        NavigationStack {
+            Form {
+                Section {
+                    CustomTextField(TextField("Name", text: $name))
+                    CustomTextField(TextField("Description", text: $description))
+                }
                 
-                Picker("Scale", selection: $goalScale) {
-                    Text("per Day")
-                        .tag(TimeScale.day)
-                    Text("per Week")
-                        .tag(TimeScale.week)
-                    Text("per Month")
-                        .tag(TimeScale.month)
-                    Text("per Year")
-                        .tag(TimeScale.year)
-                }
-            }
-            
-            if !allowed {
-                Text("The current goal cannot be reached with the current maximum number!")
-                    .listRowBackground(Color.red)
-                    .font(.title3)
-            }
-        }
-        .toolbar {
-            ToolbarItem(placement: .cancellationAction) {
-                Button("Cancel", role: .cancel) {
-                    dismiss()
-                }
-            }
-            ToolbarItem(placement: .confirmationAction) {
-                Button("Save", role: .confirm) {
-                    if let editedHabit {
-                        editedHabit.name.wrappedValue = name
-                        editedHabit.textDescription.wrappedValue = description
-                        editedHabit.maxNum.wrappedValue = maxNum
-                        editedHabit.goal.wrappedValue = goal
-                    } else {
-                        if let new = Habit(name: name, textDescription: description, maxNum: maxNum, goal: goal) {
-                            modelContext.insert(new)
-                            dismiss()
-                        }
+                Section("Goal") {
+                    LabeledTextField(label: "Amount", TextField("Amount", value: $goalAmount, format: .number))
+                        .keyboardType(.numberPad)
+                    
+                    Picker("Scale", selection: $goalScale) {
+                        Text("per Day")
+                            .tag(TimeScale.day)
+                        Text("per Week")
+                            .tag(TimeScale.week)
+                        Text("per Month")
+                            .tag(TimeScale.month)
+                        Text("per Year")
+                            .tag(TimeScale.year)
                     }
                 }
-                .disabled(!allowed)
+                
+                Section("Repetition") {
+                    Picker("Type", selection: $repetitionType) {
+                        Text("Normal")
+                            .tag(RepetitionType.normal)
+                        Text("Repetitive")
+                            .tag(RepetitionType.repetitive)
+                        Text("Unlimited")
+                            .tag(RepetitionType.unlimited)
+                    }
+                    .pickerStyle(.segmented)
+                    Text(repetitionTypeHelpText)
+                    if repetitionType == .repetitive {
+                        LabeledTextField(label: "Maximum Number", TextField("Maximum Number", value: $repetitionCustom, format: .number))
+                            .keyboardType(.numberPad)
+                    }
+                }
+                
+                if !allowed {
+                    Text("The current goal cannot be reached with the current repetition!")
+                        .listRowBackground(Color.red)
+                        .font(.title3)
+                }
+                
+                if name.isEmpty {
+                    Text("The name of the habit can't be empty!")
+                        .listRowBackground(Color.red)
+                        .font(.title3)
+                }
             }
-        }
-        .onChange(of: goal) {
-            if goalAmount < 0 {
-                goalAmount = 1
+            .navigationTitle("\(editedHabit == nil ? "Add" : "Edit") Habit")
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button("Cancel", role: .cancel) {
+                        dismiss()
+                    }
+                }
+                ToolbarItem(placement: .confirmationAction) {
+                    Button("Save", role: .confirm) {
+                        guard let newHabit = Habit(name: name, textDescription: description, repetition: repetition, goal: goal) else {
+                            return
+                        }
+                        
+                        
+                        if let editedHabit {
+                            modelContext.delete(editedHabit)
+                            newHabit.dayResults = editedHabit.dayResults
+                        }
+                        
+                        modelContext.insert(newHabit)
+                        dismiss()
+                    }
+                    .disabled(!allowed || name.isEmpty)
+                }
             }
+            .onChange(of: goal) {
+                if goalAmount < 1 {
+                    goalAmount = 1
+                }
+            }
+            .onChange(of: repetitionCustom) {
+                if repetitionCustom < 1 {
+                    repetitionCustom = 1
+                }
+            }
+            .animation(.default, value: allowed)
+            .animation(.default, value: name.isEmpty)
+            .animation(.default, value: repetition)
         }
     }
 }
 
+fileprivate enum RepetitionType {
+    case normal
+    case repetitive
+    case unlimited
+}
+
 #Preview {
-    NavigationStack {
-        HabitEditView()
-    }
+    HabitEditView()
 }

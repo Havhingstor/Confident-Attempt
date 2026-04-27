@@ -5,28 +5,28 @@ import Foundation
 public class Habit {
     public var name: String
     public var textDescription: String
-    public var maxNum: UInt8?
+    public var repetition: UInt8?
     public var goal: CompletionGoal
-    private var dayResults: [DateComponents: UInt8] = [:]
+    public var dayResults: [DateComponents: UInt8] = [:]
     
-    public init?(name: String, textDescription: String, maxNum: UInt8? = 1, goal: CompletionGoal = .daily(number: 1)) {
+    public init?(name: String, textDescription: String, repetition: UInt8? = 1, goal: CompletionGoal = .daily(number: 1)) {
         self.name = name
         self.textDescription = textDescription
-        self.maxNum = maxNum
+        self.repetition = repetition
         self.goal = goal
         
-        if !Self.testValues(maxNum: maxNum, goal: goal) {
+        if !Self.testValues(repetition: repetition, goal: goal) {
             return nil
         }
     }
     
-    public static func testValues(maxNum: UInt8?, goal: CompletionGoal) -> Bool {
+    public static func testValues(repetition: UInt8?, goal: CompletionGoal) -> Bool {
         guard goal.getNumber() > 0 else {return false}
         
-        if let maxNum {
-            guard maxNum > 0 else {return false}
+        if let repetition {
+            guard repetition > 0 else {return false}
             
-            if let daily = goal.getAsDailyAlways(), daily > Double(maxNum) {
+            if let daily = goal.getAsDailyAlways(), daily > Double(repetition) {
                 return false
             }
         }
@@ -39,9 +39,9 @@ public class Habit {
     }
     
     public func setDay(_ day: DateComponents, to: UInt8) {
-        switch maxNum {
-            case let .some(max) where to > max:
-                dayResults[day] = max
+        switch repetition {
+            case let .some(repetition) where to > repetition:
+                dayResults[day] = repetition
             default:
                 dayResults[day] = to
         }
@@ -73,11 +73,12 @@ public class Habit {
         guard let lastDate = to.asDate,
               let beforeStart = Calendar.current.date(byAdding: from.getAsDateComponents(), to: lastDate)?.dc else {return 0}
         
-        let totalEvaluation = dayResults.filter({$0.key > beforeStart && $0.key <= to}).reduce((0, 0), {($0.0 + 1, $0.1 + getEvaluationForDay($1.key))})
+        let totalEvaluation = dayResults.filter({$0.key > beforeStart && $0.key <= to}).reduce(0, {$0 + getEvaluationForDay($1.key)})
         
-        guard totalEvaluation.0 != 0 else {return 0}
+        let totalDays = to.daysSince(beforeStart)
+        guard let totalDays, totalDays > 0 else {return 0}
         
-        return totalEvaluation.1 / Double(totalEvaluation.0)
+        return totalEvaluation / Double(totalDays)
     }
 }
 
