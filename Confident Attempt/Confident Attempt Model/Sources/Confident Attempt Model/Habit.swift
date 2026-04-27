@@ -5,9 +5,9 @@ import Foundation
 public class Habit {
     public var name: String
     public var textDescription: String
-    public private(set) var maxNum: UInt8?
-    public private(set) var goal: CompletionGoal
-    var dayResults: [DateComponents: UInt8] = [:]
+    public var maxNum: UInt8?
+    public var goal: CompletionGoal
+    private var dayResults: [DateComponents: UInt8] = [:]
     
     public init?(name: String, textDescription: String, maxNum: UInt8? = 1, goal: CompletionGoal = .daily(number: 1)) {
         self.name = name
@@ -15,17 +15,23 @@ public class Habit {
         self.maxNum = maxNum
         self.goal = goal
         
-        guard goal.getNumber() > 0 else {return nil}
+        if !Self.testValues(maxNum: maxNum, goal: goal) {
+            return nil
+        }
+    }
+    
+    public static func testValues(maxNum: UInt8?, goal: CompletionGoal) -> Bool {
+        guard goal.getNumber() > 0 else {return false}
         
         if let maxNum {
-            if maxNum == 0 {
-                return nil
-            }
+            guard maxNum > 0 else {return false}
             
             if let daily = goal.getAsDailyAlways(), daily > Double(maxNum) {
-                return nil
+                return false
             }
         }
+        
+        return true
     }
     
     public func getDay(_ day: DateComponents = Date.now.dc) -> UInt8 {
@@ -75,7 +81,7 @@ public class Habit {
     }
 }
 
-public enum CompletionGoal: Codable {
+public enum CompletionGoal: Codable, Equatable {
     case daily(number: UInt8)
     case weekly(number: UInt8)
     case monthly(number: UInt8)

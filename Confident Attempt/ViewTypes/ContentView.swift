@@ -6,9 +6,11 @@ struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
     @Query(sort: \Habit.name) private var items: [Habit]
     
-    @AppStorage("periodScale") private var periodScale = PeriodScale.months
+    @AppStorage("periodScale") private var periodScale = TimeScale.month
     @AppStorage("periodAmount") private var periodAmount = 1
     @AppStorage("redZone") private var redZone = 0.75
+    
+    @State private var addHabitShown = false
     
     private var calculationPeriod: CalculationStart {
         periodScale.toCalculationStart(withNum: UInt(clamping: periodAmount))
@@ -73,8 +75,11 @@ struct ContentView: View {
                 }
 
                 Button("New Habit", systemImage: "plus") {
-                    
+                    addHabitShown = true
                 }
+            }
+            .sheet(isPresented: $addHabitShown) {
+                HabitEditView()
             }
         }
     }
