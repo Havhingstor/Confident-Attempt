@@ -133,8 +133,8 @@ struct HabitEditView: View {
                         
                         
                         if let editedHabit {
+                            newHabit.copyDayResults(from: editedHabit)
                             modelContext.delete(editedHabit)
-                            newHabit.dayResults = editedHabit.dayResults
                         }
                         
                         modelContext.insert(newHabit)

@@ -7,7 +7,7 @@ public class Habit {
     public var textDescription: String
     public var repetition: UInt8?
     public var goal: CompletionGoal
-    public var dayResults: [DateComponents: UInt8] = [:]
+    private var dayResults: [DateComponents: UInt8] = [:]
     
     public init?(name: String, textDescription: String, repetition: UInt8? = 1, goal: CompletionGoal = .daily(number: 1)) {
         self.name = name
@@ -79,6 +79,13 @@ public class Habit {
         guard let totalDays, totalDays > 0 else {return 0}
         
         return totalEvaluation / Double(totalDays)
+    }
+    
+    public func copyDayResults(from other: Habit) {
+        dayResults.removeAll(keepingCapacity: true)
+        other.dayResults.forEach { (day, value) in
+            setDay(day, to: value)
+        }
     }
 }
 
