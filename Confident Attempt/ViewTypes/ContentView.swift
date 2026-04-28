@@ -60,20 +60,15 @@ struct ContentView: View {
                 HStack {
                     getHabitSymbol(item)
                     VStack(alignment: .leading) {
-                        HStack {
-                            Text(item.name)
-                            
-                            Spacer()
-                            
-                            Text(getHabitGoal(item))
-                        }
-                        HStack {
-                            Text("Completion: \(item.getEvaluation(from: calculationPeriod, to: today).formatted(percentStyle))")
-                            
-                            Spacer()
-                            
-                            Text(getHabitText(item))
-                        }
+                        Text(item.name)
+                    }
+                    Spacer()
+                    VStack(alignment: .trailing) {
+                        Text(getHabitGoal(item))
+                        
+                        Text(getHabitText(item))
+                        
+                        Text("Completion: \(item.getEvaluation(from: calculationPeriod, to: today).formatted(percentStyle))")
                     }
                 }
                 .foregroundStyle(getForegroundColour(item))

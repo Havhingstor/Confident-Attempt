@@ -1,0 +1,24 @@
+{
+  "originHash" : "18f91dc6485dbd6077104795d8ab8bdab397e2476f72ea35cd2cea4ca79de92f",
+  "pins" : [
+    {
+      "identity" : "sfsafesymbols",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/SFSafeSymbols/SFSafeSymbols.git",
+      "state" : {
+        "revision" : "e01b3d4f861412f8dcee8d93c417d2c2b0cdfd77",
+        "version" : "7.0.0"
+      }
+    },
+    {
+      "identity" : "sfsymbolspicker",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/alessiorubicini/SFSymbolsPicker",
+      "state" : {
+        "revision" : "d3a6936db5fedbb48a037b556d52a215071af48e",
+        "version" : "1.0.9"
+      }
+    }
+  ],
+  "version" : 3
+}

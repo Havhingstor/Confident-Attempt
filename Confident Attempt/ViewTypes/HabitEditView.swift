@@ -83,6 +83,14 @@ struct HabitEditView: View {
         }
     }
     
+    func createConfirmButton(_ title: LocalizedStringKey, _ action: @escaping () -> Void) -> some View {
+        if #available(iOS 26, *) {
+            Button(title, role: .confirm, action: action)
+        } else {
+            Button(title, action: action)
+        }
+    }
+    
     var body: some View {
         NavigationStack {
             Form {
@@ -150,7 +158,7 @@ struct HabitEditView: View {
                     }
                 }
                 ToolbarItem(placement: .confirmationAction) {
-                    Button("Save", role: .confirm) {
+                     createConfirmButton("Save") {
                         guard nameAllowed else {return}
                         
                         if let editedHabit {
@@ -183,6 +191,7 @@ struct HabitEditView: View {
             .animation(.default, value: name.isEmpty)
             .animation(.default, value: repetition)
         }
+        .interactiveDismissDisabled()
     }
 }
 
