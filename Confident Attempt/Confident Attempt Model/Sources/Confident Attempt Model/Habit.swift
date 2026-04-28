@@ -5,15 +5,17 @@ import Foundation
 public class Habit {
     public var name: String
     public var textDescription: String
+    public var symbol: String?
     public private(set) var repetition: UInt?
     public private(set) var goal: CompletionGoal
     private var dayResults: [DateComponents: UInt] = [:]
     
-    public init?(name: String, textDescription: String, repetition: UInt? = 1, goal: CompletionGoal = .daily(number: 1)) {
+    public init?(name: String, textDescription: String, symbol: String? = nil , repetition: UInt? = 1, goal: CompletionGoal = .daily(number: 1)) {
         self.name = name
         self.textDescription = textDescription
         self.repetition = repetition
         self.goal = goal
+        self.symbol = symbol
         
         if !Self.testValues(repetition: repetition, goal: goal) {
             return nil
@@ -25,6 +27,7 @@ public class Habit {
         self.textDescription = from.textDescription
         self.repetition = from.repetition
         self.goal = from.goal
+        self.symbol = from.symbol
         if copyData {
             self.dayResults = from.dayResults
         }

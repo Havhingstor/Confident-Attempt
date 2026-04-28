@@ -151,6 +151,7 @@ struct HabitEditView: View {
                 }
             }
             .navigationTitle("\(editedHabit == nil ? "Add" : "Edit") Habit")
+            .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button("Cancel", role: .cancel) {

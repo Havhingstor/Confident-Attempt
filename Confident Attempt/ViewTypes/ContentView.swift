@@ -52,6 +52,7 @@ struct ContentView: View {
             return newName
         }
         
+        return ""
     }
     
     var body: some View {
@@ -60,6 +61,8 @@ struct ContentView: View {
                 HStack {
                     getHabitSymbol(item)
                     VStack(alignment: .leading) {
+                        Image(systemName: item.symbol ?? "book.pages")
+                            .font(.title3)
                         Text(item.name)
                     }
                     Spacer()
