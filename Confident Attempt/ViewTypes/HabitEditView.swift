@@ -23,6 +23,24 @@ struct HabitEditView: View {
         Habit.testValues(repetition: repetition, goal: goal)
     }
     
+    private var nameAllowed: Bool {
+        if let editedHabit, editedHabit.name == name {
+            return true
+        }
+        let descriptor = FetchDescriptor<Habit>(
+            predicate: #Predicate { habit in
+                habit.name == name
+            }
+        )
+        
+        if let existing = try? modelContext.fetch(descriptor),
+           !existing.isEmpty {
+            return false
+        }
+        
+        return true
+    }
+    
     private var repetition: UInt8? {
         switch repetitionType {
             case .normal:
@@ -117,6 +135,12 @@ struct HabitEditView: View {
                         .listRowBackground(Color.red)
                         .font(.title3)
                 }
+                
+                if !nameAllowed {
+                    Text("The name of the habit must be unique!")
+                        .listRowBackground(Color.red)
+                        .font(.title3)
+                }
             }
             .navigationTitle("\(editedHabit == nil ? "Add" : "Edit") Habit")
             .toolbar {
@@ -127,20 +151,21 @@ struct HabitEditView: View {
                 }
                 ToolbarItem(placement: .confirmationAction) {
                     Button("Save", role: .confirm) {
-                        guard let newHabit = Habit(name: name, textDescription: description, repetition: repetition, goal: goal) else {
-                            return
-                        }
-                        
+                        guard nameAllowed else {return}
                         
                         if let editedHabit {
-                            newHabit.copyDayResults(from: editedHabit)
-                            modelContext.delete(editedHabit)
+                            editedHabit.name = name
+                            editedHabit.textDescription = description
+                            editedHabit.setRepetitionAndGoal(rep: repetition, goal: goal)
+                        } else {
+                            guard let newHabit = Habit(name: name, textDescription: description, repetition: repetition, goal: goal) else {return}
+                            
+                            modelContext.insert(newHabit)
                         }
                         
-                        modelContext.insert(newHabit)
                         dismiss()
                     }
-                    .disabled(!allowed || name.isEmpty)
+                    .disabled(!allowed || name.isEmpty || !nameAllowed)
                 }
             }
             .onChange(of: goal) {
@@ -154,6 +179,7 @@ struct HabitEditView: View {
                 }
             }
             .animation(.default, value: allowed)
+            .animation(.default, value: nameAllowed)
             .animation(.default, value: name.isEmpty)
             .animation(.default, value: repetition)
         }

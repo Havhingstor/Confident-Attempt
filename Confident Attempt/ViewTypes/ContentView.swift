@@ -29,6 +29,27 @@ struct ContentView: View {
         FloatingPointFormatStyle<Double>.Percent().precision(.fractionLength(0)).rounded(rule: .down)
     }
     
+    private func getNewName(_ habit: Habit) -> String {
+        var newName = habit.name + " - Copy"
+        
+        while true {
+            let descriptor = FetchDescriptor<Habit>(
+                predicate: #Predicate { habit in
+                    habit.name == newName
+                }
+            )
+            
+            if let existing = try? modelContext.fetch(descriptor),
+               !existing.isEmpty {
+                newName += " - Copy"
+                continue
+            }
+            
+            return newName
+        }
+        
+    }
+    
     var body: some View {
         NavigationStack {
             List(items) { item in
@@ -68,6 +89,13 @@ struct ContentView: View {
                 }
                 .onTapGesture {
                     editHabit = item
+                }
+                .contextMenu {
+                    Button("Duplicate"){
+                        let newElement = Habit(cloneof: item, newName: getNewName(item))
+                        modelContext.insert(newElement)
+                    }
+                    Button("Delete", role: .destructive){}
                 }
             }
             .navigationTitle("Confident Attempt")

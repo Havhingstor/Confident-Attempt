@@ -5,8 +5,8 @@ import Foundation
 public class Habit {
     public var name: String
     public var textDescription: String
-    public var repetition: UInt8?
-    public var goal: CompletionGoal
+    public private(set) var repetition: UInt8?
+    public private(set) var goal: CompletionGoal
     private var dayResults: [DateComponents: UInt8] = [:]
     
     public init?(name: String, textDescription: String, repetition: UInt8? = 1, goal: CompletionGoal = .daily(number: 1)) {
@@ -18,6 +18,14 @@ public class Habit {
         if !Self.testValues(repetition: repetition, goal: goal) {
             return nil
         }
+    }
+    
+    public init(cloneof from: Habit, newName: String) {
+        self.name = newName
+        self.textDescription = from.textDescription
+        self.repetition = from.repetition
+        self.goal = from.goal
+        self.dayResults = from.dayResults
     }
     
     public static func testValues(repetition: UInt8?, goal: CompletionGoal) -> Bool {
@@ -81,11 +89,17 @@ public class Habit {
         return totalEvaluation / Double(totalDays)
     }
     
-    public func copyDayResults(from other: Habit) {
-        dayResults.removeAll(keepingCapacity: true)
-        other.dayResults.forEach { (day, value) in
-            setDay(day, to: value)
+    public func setRepetitionAndGoal(rep repetition: UInt8?, goal: CompletionGoal) {
+        guard Self.testValues(repetition: repetition, goal: goal) else {return}
+        if let repetition,
+           self.repetition == nil || self.repetition ?? 0 > repetition {
+            dayResults = dayResults.mapValues { value in
+                min(value, repetition)
+            }
         }
+            
+        self.repetition = repetition
+        self.goal = goal
     }
 }
 
