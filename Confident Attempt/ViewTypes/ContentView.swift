@@ -12,6 +12,8 @@ struct ContentView: View {
     
     @State private var addHabitShown = false
     @State private var editHabit: Habit? = nil
+    @State private var deleteHabit: Habit? = nil
+    @State private var showDeletionDialog = false
     
     private var calculationPeriod: CalculationStart {
         periodScale.toCalculationStart(withNum: UInt(clamping: periodAmount))
@@ -87,15 +89,18 @@ struct ContentView: View {
                         }
                     }
                 }
-                .onTapGesture {
-                    editHabit = item
-                }
                 .contextMenu {
+                    Button("Edit") {
+                        editHabit = item
+                    }
                     Button("Duplicate"){
                         let newElement = Habit(cloneof: item, newName: getNewName(item))
                         modelContext.insert(newElement)
                     }
-                    Button("Delete", role: .destructive){}
+                    Button("Delete", role: .destructive){
+                        deleteHabit = item
+                        showDeletionDialog = true
+                    }
                 }
             }
             .navigationTitle("Confident Attempt")
@@ -115,6 +120,13 @@ struct ContentView: View {
             }
             .sheet(item: $editHabit) { habit in
                 HabitEditView(editedHabit: habit)
+            }
+            .alert("Delete Entry \"\(deleteHabit?.name ?? "")\"?", isPresented: $showDeletionDialog) {
+                Button("Cancel", role: .cancel) {}
+                Button("Delete", role: .destructive) {
+                    guard let deleteHabit else {return}
+                    modelContext.delete(deleteHabit)
+                }
             }
         }
     }
