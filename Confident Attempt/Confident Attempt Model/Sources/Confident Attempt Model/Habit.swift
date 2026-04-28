@@ -20,12 +20,14 @@ public class Habit {
         }
     }
     
-    public init(cloneof from: Habit, newName: String) {
+    public init(cloneof from: Habit, newName: String, copyData: Bool) {
         self.name = newName
         self.textDescription = from.textDescription
         self.repetition = from.repetition
         self.goal = from.goal
-        self.dayResults = from.dayResults
+        if copyData {
+            self.dayResults = from.dayResults
+        }
     }
     
     public static func testValues(repetition: UInt8?, goal: CompletionGoal) -> Bool {

@@ -13,6 +13,8 @@ struct ContentView: View {
     @State private var addHabitShown = false
     @State private var editHabit: Habit? = nil
     @State private var deleteHabit: Habit? = nil
+    @State private var duplicateHabit: Habit? = nil
+    @State private var showDuplicateDialog = false
     @State private var showDeletionDialog = false
     
     private var calculationPeriod: CalculationStart {
@@ -94,8 +96,8 @@ struct ContentView: View {
                         editHabit = item
                     }
                     Button("Duplicate"){
-                        let newElement = Habit(cloneof: item, newName: getNewName(item))
-                        modelContext.insert(newElement)
+                        duplicateHabit = item
+                        showDuplicateDialog = true
                     }
                     Button("Delete", role: .destructive){
                         deleteHabit = item
@@ -126,6 +128,19 @@ struct ContentView: View {
                 Button("Delete", role: .destructive) {
                     guard let deleteHabit else {return}
                     modelContext.delete(deleteHabit)
+                }
+            }
+            .alert("Copy with Data?", isPresented: $showDuplicateDialog) {
+                Button("Cancel", role: .cancel) {}
+                Button("Copy Data") {
+                    guard let duplicateHabit else {return}
+                    let newElement = Habit(cloneof: duplicateHabit, newName: getNewName(duplicateHabit), copyData: true)
+                    modelContext.insert(newElement)
+                }
+                Button("Without Data") {
+                    guard let duplicateHabit else {return}
+                    let newElement = Habit(cloneof: duplicateHabit, newName: getNewName(duplicateHabit), copyData: false)
+                    modelContext.insert(newElement)
                 }
             }
         }
