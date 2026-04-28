@@ -1,0 +1,67 @@
+{
+  "fill" : "system-dark",
+  "groups" : [
+    {
+      "blur-material" : 0.16,
+      "layers" : [
+        {
+          "image-name" : "Checkmark.svg",
+          "name" : "Checkmark",
+          "position" : {
+            "scale" : 0.53,
+            "translation-in-points" : [
+              56.26377995239909,
+              -25.30925044315734
+            ]
+          }
+        }
+      ],
+      "name" : "Group",
+      "shadow" : {
+        "kind" : "neutral",
+        "opacity" : 0.5
+      },
+      "specular" : true,
+      "translucency" : {
+        "enabled" : true,
+        "value" : 0.27
+      }
+    },
+    {
+      "blur-material" : null,
+      "layers" : [
+        {
+          "blend-mode" : "normal",
+          "fill" : "automatic",
+          "glass" : true,
+          "image-name" : "Successful Attempt Backdrop.svg",
+          "name" : "Successful Attempt Backdrop",
+          "opacity" : 1,
+          "position" : {
+            "scale" : 1,
+            "translation-in-points" : [
+              0,
+              0
+            ]
+          }
+        }
+      ],
+      "lighting" : "individual",
+      "shadow" : {
+        "kind" : "neutral",
+        "opacity" : 0.5
+      },
+      "specular" : true,
+      "translucency" : {
+        "enabled" : true,
+        "value" : 0.5
+      }
+    }
+  ],
+  "supported-platforms" : {
+    "circles" : [
+      "watchOS"
+    ],
+    "squares" : "shared"
+  }
+}
