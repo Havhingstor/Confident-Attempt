@@ -10,10 +10,10 @@ struct HabitEditView: View {
     
     @State private var name = ""
     @State private var description = ""
-    @State private var repetitionCustom = UInt8(2)
+    @State private var repetitionCustom = UInt(2)
     @State private var repetitionType = RepetitionType.normal
     @State private var goalScale = TimeScale.day
-    @State private var goalAmount = UInt8(1)
+    @State private var goalAmount = UInt(1)
     
     private var goal: CompletionGoal {
         goalScale.toCompletionGoal(withNum: goalAmount)
@@ -41,7 +41,7 @@ struct HabitEditView: View {
         return true
     }
     
-    private var repetition: UInt8? {
+    private var repetition: UInt? {
         switch repetitionType {
             case .normal:
                 1

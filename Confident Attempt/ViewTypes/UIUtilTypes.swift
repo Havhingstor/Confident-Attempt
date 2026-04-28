@@ -33,7 +33,7 @@ enum TimeScale: String {
         }
     }
     
-    func toCompletionGoal(withNum: UInt8) -> CompletionGoal {
+    func toCompletionGoal(withNum: UInt) -> CompletionGoal {
         switch self {
             case .day:
                     .daily(number: withNum)

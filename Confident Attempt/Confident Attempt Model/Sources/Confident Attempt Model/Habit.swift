@@ -5,11 +5,11 @@ import Foundation
 public class Habit {
     public var name: String
     public var textDescription: String
-    public private(set) var repetition: UInt8?
+    public private(set) var repetition: UInt?
     public private(set) var goal: CompletionGoal
-    private var dayResults: [DateComponents: UInt8] = [:]
+    private var dayResults: [DateComponents: UInt] = [:]
     
-    public init?(name: String, textDescription: String, repetition: UInt8? = 1, goal: CompletionGoal = .daily(number: 1)) {
+    public init?(name: String, textDescription: String, repetition: UInt? = 1, goal: CompletionGoal = .daily(number: 1)) {
         self.name = name
         self.textDescription = textDescription
         self.repetition = repetition
@@ -30,7 +30,7 @@ public class Habit {
         }
     }
     
-    public static func testValues(repetition: UInt8?, goal: CompletionGoal) -> Bool {
+    public static func testValues(repetition: UInt?, goal: CompletionGoal) -> Bool {
         guard goal.getNumber() > 0 else {return false}
         
         if let repetition {
@@ -44,11 +44,11 @@ public class Habit {
         return true
     }
     
-    public func getDay(_ day: DateComponents = Date.now.dc) -> UInt8 {
+    public func getDay(_ day: DateComponents = Date.now.dc) -> UInt {
         return dayResults[day] ?? 0
     }
     
-    public func setDay(_ day: DateComponents, to: UInt8) {
+    public func setDay(_ day: DateComponents, to: UInt) {
         switch repetition {
             case let .some(repetition) where to > repetition:
                 dayResults[day] = repetition
@@ -57,12 +57,12 @@ public class Habit {
         }
     }
     
-    public func increaseDay(_ day: DateComponents, by: UInt8) {
+    public func increaseDay(_ day: DateComponents, by: UInt) {
         let newVal = getDay(day).addWithoutOverflow(by)
         setDay(day, to: newVal)
     }
     
-    public func decreaseDay(_ day: DateComponents, by: UInt8) {
+    public func decreaseDay(_ day: DateComponents, by: UInt) {
         let newVal = getDay(day).subWithoutOverflow(by)
         
         setDay(day, to: newVal)
@@ -91,7 +91,7 @@ public class Habit {
         return totalEvaluation / Double(totalDays)
     }
     
-    public func setRepetitionAndGoal(rep repetition: UInt8?, goal: CompletionGoal) {
+    public func setRepetitionAndGoal(rep repetition: UInt?, goal: CompletionGoal) {
         guard Self.testValues(repetition: repetition, goal: goal) else {return}
         if let repetition,
            self.repetition == nil || self.repetition ?? 0 > repetition {
@@ -106,10 +106,10 @@ public class Habit {
 }
 
 public enum CompletionGoal: Codable, Equatable {
-    case daily(number: UInt8)
-    case weekly(number: UInt8)
-    case monthly(number: UInt8)
-    case yearly(number: UInt8)
+    case daily(number: UInt)
+    case weekly(number: UInt)
+    case monthly(number: UInt)
+    case yearly(number: UInt)
     
     public func getAsDaily(forDate: DateComponents) -> Double {
         switch self {
@@ -137,7 +137,7 @@ public enum CompletionGoal: Codable, Equatable {
         }
     }
     
-    public func getNumber() -> UInt8 {
+    public func getNumber() -> UInt {
         switch self {
             case .daily(let number):
                 number
@@ -150,7 +150,7 @@ public enum CompletionGoal: Codable, Equatable {
         }
     }
     
-    mutating public func setNumber(to: UInt8) {
+    mutating public func setNumber(to: UInt) {
         switch self {
             case .daily(_):
                 self = .daily(number: to)
