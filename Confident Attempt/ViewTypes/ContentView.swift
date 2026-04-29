@@ -111,6 +111,11 @@ struct ContentView: View {
                 } label: {
                     Label("Settings", systemImage: "gear")
                 }
+                NavigationLink {
+                    HelpView()
+                } label: {
+                    Label("Help", systemImage: "questionmark")
+                }
 
                 Button("New Habit", systemImage: "plus") {
                     addHabitShown = true

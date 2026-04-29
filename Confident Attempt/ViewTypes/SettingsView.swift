@@ -47,16 +47,6 @@ struct SettingsView: View {
                 DatePicker("Day Start", selection: dayStartDate, displayedComponents: .hourAndMinute)
                 Text("Any completions made before this time will be assigned to the previous day.")
             }
-            
-            Section {
-                Text("Made with ❤ by Paul")
-                Link(destination: URL(string: "https://github.com/Havhingstor/Confident-Attempt/issues")!, label: {
-                    Text("Issues")
-                })
-                Link(destination: URL(string: "https://github.com/Havhingstor/Confident-Attempt")!, label: {
-                    Text("GitHub")
-                })
-            }
         }
         .navigationTitle("Settings")
     }
