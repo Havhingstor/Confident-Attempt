@@ -1,6 +1,7 @@
 import SwiftUI
 import Confident_Attempt_Model
 import SwiftData
+import SFSymbolsPicker
 
 struct HabitEditView: View {
     private var editedHabit: Habit?
@@ -14,6 +15,8 @@ struct HabitEditView: View {
     @State private var repetitionType = RepetitionType.normal
     @State private var goalScale = TimeScale.day
     @State private var goalAmount = UInt(1)
+    @State private var symbol: String = ""
+    @State private var symbolPickerShown = false
     
     private var goal: CompletionGoal {
         goalScale.toCompletionGoal(withNum: goalAmount)
@@ -71,6 +74,7 @@ struct HabitEditView: View {
             _description = State(initialValue: editedHabit.textDescription)
             _goalScale = State(initialValue: .fromCompletionGoal(editedHabit.goal))
             _goalAmount = State(initialValue: editedHabit.goal.getNumber())
+            _symbol = State(initialValue: editedHabit.symbol ?? "")
             
             if editedHabit.repetition == 1 {
                 _repetitionType = State(initialValue: .normal)
@@ -91,12 +95,41 @@ struct HabitEditView: View {
         }
     }
     
+    private var actualSymbol: String {
+        if symbol.isEmpty {
+            return "book.pages"
+        } else {
+            return symbol
+        }
+    }
+    
     var body: some View {
         NavigationStack {
             Form {
                 Section {
                     CustomTextField(TextField("Name", text: $name))
                     CustomTextField(TextField("Description", text: $description))
+                    HStack {
+                        Image(systemName: actualSymbol)
+                            .font(.title)
+                            .frame(width: 28, height: 27)
+                            .foregroundStyle(.blue)
+                        
+                        Spacer()
+                        
+                        HStack(spacing: 12) {
+                            Button("Choose") {
+                                symbolPickerShown = true
+                            }
+                            
+                            Button("Reset", role: .destructive) {
+                                symbol = ""
+                            }
+                            .foregroundStyle(.red)
+                        }
+                    }
+                    .foregroundStyle(.tint)
+                    .buttonStyle(.borderless)
                 }
                 
                 Section("Goal") {
@@ -152,6 +185,9 @@ struct HabitEditView: View {
             }
             .navigationTitle("\(editedHabit == nil ? "Add" : "Edit") Habit")
             .navigationBarTitleDisplayMode(.inline)
+            .sheet(isPresented: $symbolPickerShown, content: {
+                SymbolsPicker(selection: $symbol, title: "Choose a symbol", autoDismiss: true)
+            })
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button("Cancel", role: .cancel) {
@@ -162,12 +198,19 @@ struct HabitEditView: View {
                      createConfirmButton("Save") {
                         guard nameAllowed else {return}
                         
+                         var storedSymbol: String? = nil
+                         
+                         if !symbol.isEmpty {
+                             storedSymbol = symbol
+                         }
+                         
                         if let editedHabit {
                             editedHabit.name = name
                             editedHabit.textDescription = description
+                            editedHabit.symbol = storedSymbol
                             editedHabit.setRepetitionAndGoal(rep: repetition, goal: goal)
                         } else {
-                            guard let newHabit = Habit(name: name, textDescription: description, repetition: repetition, goal: goal) else {return}
+                            guard let newHabit = Habit(name: name, textDescription: description, symbol: storedSymbol, repetition: repetition, goal: goal) else {return}
                             
                             modelContext.insert(newHabit)
                         }
