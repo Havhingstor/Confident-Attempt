@@ -34,8 +34,12 @@ extension DateComponents: @retroactive Comparable {
         return Calendar.current.range(of: .day, in: .year, for: date)?.count ?? 365
     }
     
-    var asDate: Date? {
+    public var asDate: Date? {
         Calendar.current.date(from: self)
+    }
+    
+    public var invertedTime: DateComponents {
+        DateComponents(hour: self.hour.inverted(), minute: self.minute.inverted(), second: self.second.inverted())
     }
 }
 
@@ -58,5 +62,13 @@ extension FixedWidthInteger {
         } else {
             return result.partialValue
         }
+    }
+}
+
+extension Int? {
+    func inverted() -> Int? {
+        guard let self else {return nil}
+        
+        return -self
     }
 }

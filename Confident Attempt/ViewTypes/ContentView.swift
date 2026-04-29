@@ -9,6 +9,7 @@ struct ContentView: View {
     @AppStorage("periodScale") private var periodScale = TimeScale.month
     @AppStorage("periodAmount") private var periodAmount = 1
     @AppStorage("redZone") private var redZone = 0.75
+    @AppStorage("dayStart") private var dayStart = RawDateComponents()
     
     @State private var addHabitShown = false
     @State private var editHabit: Habit? = nil
@@ -22,7 +23,7 @@ struct ContentView: View {
     }
     
     private var today: DateComponents {
-        Date.now.dc
+        (Calendar.current.date(byAdding: dayStart.val.invertedTime, to: Date.now) ?? .now).dc
     }
     
     private var floatStyle: FloatingPointFormatStyle<Double> {
@@ -106,7 +107,7 @@ struct ContentView: View {
             .navigationTitle("Confident Attempt")
             .toolbar {
                 NavigationLink {
-                    SettingsView(redZone: $redZone, periodScale: $periodScale, periodAmount: $periodAmount)
+                    SettingsView(redZone: $redZone, periodScale: $periodScale, periodAmount: $periodAmount, dayStart: $dayStart.val)
                 } label: {
                     Label("Settings", systemImage: "gear")
                 }

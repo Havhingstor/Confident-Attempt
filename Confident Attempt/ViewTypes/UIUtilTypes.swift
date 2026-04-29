@@ -60,6 +60,29 @@ enum TimeScale: String {
     }
 }
 
+struct RawDateComponents: RawRepresentable {
+    var val: DateComponents
+    
+    typealias RawValue = String
+    
+    var rawValue: RawValue {
+        (try? JSONEncoder().encode(val).base64EncodedString()) ?? ""
+    }
+    
+    init(val: DateComponents = DateComponents()) {
+        self.val = val
+    }
+    
+    init?(rawValue: String) {
+        if let data = Data(base64Encoded: rawValue),
+           let val = try? JSONDecoder().decode(DateComponents.self, from: data) {
+            self.val = val
+        } else {
+            return nil
+        }
+    }
+}
+
 struct CustomTextField<Label: View>: View {
     let textField: TextField<Label>
     

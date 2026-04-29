@@ -3,15 +3,18 @@ import Confident_Attempt_Model
 
 struct SettingsView: View {
     @Binding var redZone: Double
-    @Binding private var periodScale: TimeScale
-    @Binding private var periodAmount: Int
+    @Binding var periodScale: TimeScale
+    @Binding var periodAmount: Int
+    @Binding var dayStart: DateComponents
     
     @FocusState private var textFieldFocus: Bool
-
-    init(redZone: Binding<Double>, periodScale: Binding<TimeScale>, periodAmount: Binding<Int>) {
-        self._redZone = redZone
-        self._periodScale = periodScale
-        self._periodAmount = periodAmount
+    
+    var dayStartDate: Binding<Date> {
+        Binding {
+            dayStart.asDate ?? .now}
+        set: { newVal in
+            dayStart = Calendar.current.dateComponents([.hour, .minute, .second], from: newVal)
+        }
     }
     
     var body: some View {
@@ -41,6 +44,11 @@ struct SettingsView: View {
             }
             
             Section {
+                DatePicker("Day Start", selection: dayStartDate, displayedComponents: .hourAndMinute)
+                Text("Any completions made before this time will be assigned to the previous day.")
+            }
+            
+            Section {
                 Text("Made with ❤ by Paul")
                 Link(destination: URL(string: "https://github.com/Havhingstor/Confident-Attempt/issues")!, label: {
                     Text("Issues")
@@ -55,5 +63,5 @@ struct SettingsView: View {
 }
 
 #Preview {
-    SettingsView(redZone: .constant(0.75), periodScale: .constant(.month), periodAmount: .constant(1))
+    SettingsView(redZone: .constant(0.75), periodScale: .constant(.month), periodAmount: .constant(1), dayStart: .constant(DateComponents()))
 }
