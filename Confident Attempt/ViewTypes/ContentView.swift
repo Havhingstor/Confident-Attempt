@@ -22,7 +22,7 @@ struct ContentView: View {
         periodScale.toCalculationStart(withNum: UInt(clamping: periodAmount))
     }
 
-    @State private var setTimer = TimerStorage()
+    @State private var setTimer: Timer? = nil
     @State private var dateNow: Date = .now
     
     private var today: DateComponents {
@@ -107,6 +107,7 @@ struct ContentView: View {
                         showDeletionDialog = true
                     }
                 }
+                .animation(.default, value: today)
             }
             .navigationTitle("Confident Attempt")
             .toolbar {
@@ -156,6 +157,9 @@ struct ContentView: View {
             }
             .onChange(of: dayStart.val) {
                 addTimer()
+            }
+            .onReceive(NotificationCenter.default.publisher(for: UIApplication.significantTimeChangeNotification)) { _ in
+                dateNow = .now
             }
         }
     }
@@ -250,16 +254,16 @@ struct ContentView: View {
         guard let date = calculateNextTimerTrigger(dayStart.val) else {return}
         
         let timer = Timer(fire: date, interval: 0, repeats: false) { _ in
-            print("Triggered")
-            withAnimation {
-                dateNow = .now
-            }
-            
+            dateNow = .now
             addTimer()
         }
         
-        setTimer.overwrite(new: timer)
+        if let setTimer {
+            setTimer.invalidate()
+        }
         
+        setTimer = timer
+
         RunLoop.main.add(timer, forMode: .common)
     }
 }

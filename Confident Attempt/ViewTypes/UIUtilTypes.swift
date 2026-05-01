@@ -142,21 +142,6 @@ struct LabeledTextField<Label: View>: View {
     }
 }
 
-@Observable
-class TimerStorage {
-    var timer: Timer? = nil
-    
-    func overwrite(new newTimer: Timer) {
-        if let timer {
-            timer.invalidate()
-        } else {
-            print("Invalidated without previous timer")
-        }
-        
-        timer = newTimer
-    }
-}
-
 func calculateNextTimerTrigger(_ startOfDay: DateComponents) -> Date? {
     let offset = startOfDay.time
     let start = Calendar.current.startOfDay(for: .now)
