@@ -25,7 +25,7 @@ struct ContentView: View {
 
     @State private var setTimer: Timer? = nil
     @State private var dateNow: Date = .now
-    
+
     private var today: DateComponents {
         (Calendar.current.date(byAdding: dayStart.val.invertedTime, to: dateNow) ?? .now).dc
     }
@@ -163,9 +163,9 @@ struct ContentView: View {
             .onChange(of: dayStart.val) {
                 addTimer()
             }
-            .onChange(of: shouldBeBadging, {
+            .onChange(of: shouldBeBadging) {
                 setBadge()
-            })
+            }
             .onReceive(NotificationCenter.default.publisher(for: UIApplication.significantTimeChangeNotification)) { _ in
                 dateNow = .now
             }
@@ -257,40 +257,40 @@ struct ContentView: View {
             .primary
         }
     }
-    
+
     private func addTimer() {
-        guard let date = calculateNextTimerTrigger(dayStart.val) else {return}
-        
+        guard let date = calculateNextTimerTrigger(dayStart.val) else { return }
+
         let timer = Timer(fire: date, interval: 0, repeats: false) { _ in
             dateNow = .now
             addTimer()
         }
-        
+
         if let setTimer {
             setTimer.invalidate()
         }
-        
+
         setTimer = timer
 
         RunLoop.main.add(timer, forMode: .common)
     }
-    
+
     private func setBadge() {
         let notificationCentre = UNUserNotificationCenter.current()
-        
+
         Task {
             let authorizationStatus = await notificationCentre.notificationSettings().authorizationStatus
-            
-            guard authorizationStatus == .authorized else {return}
-            
+
+            guard authorizationStatus == .authorized else { return }
+
             var count = 0
-            
+
             if shouldBeBadging {
-                count = items.filter({ habit in
+                count = items.filter { habit in
                     habit.getEvaluationForDay(today) < 1.0
-                }).count
+                }.count
             }
-            
+
             do {
                 try await notificationCentre.setBadgeCount(count)
             }

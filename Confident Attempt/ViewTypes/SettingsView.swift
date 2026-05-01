@@ -49,7 +49,7 @@ struct SettingsView: View {
                 DatePicker("Day Start", selection: dayStartDate, displayedComponents: .hourAndMinute)
                 Text("Any completions made before this time will be assigned to the previous day.")
             }
-            
+
             Section {
                 Toggle("Show Badges", isOn: $shouldBeBadging)
                     .onChange(of: shouldBeBadging) {
@@ -58,7 +58,7 @@ struct SettingsView: View {
                     .onAppear {
                         checkAndSetBadges()
                     }
-                
+
                 if !badgingWarning.isEmpty {
                     Text(badgingWarning)
                 }
@@ -67,22 +67,22 @@ struct SettingsView: View {
         }
         .navigationTitle("Settings")
     }
-    
+
     private func checkAndSetBadges() {
-        guard shouldBeBadging else {return}
+        guard shouldBeBadging else { return }
         badgingWarning = ""
         let notificationCentre = UNUserNotificationCenter.current()
         Task {
             do {
                 let authorized = try await notificationCentre.requestAuthorization(options: [.badge])
-                
+
                 if !authorized {
                     shouldBeBadging = false
                 }
             } catch {
                 shouldBeBadging = false
             }
-            
+
             if !shouldBeBadging {
                 badgingWarning = "You need to allow Notifications to send you badges."
             }
