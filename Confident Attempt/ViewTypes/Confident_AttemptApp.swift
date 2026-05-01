@@ -1,6 +1,6 @@
-import SwiftUI
 import Confident_Attempt_Model
 import SwiftData
+import SwiftUI
 
 @main
 struct Confident_AttemptApp: App {

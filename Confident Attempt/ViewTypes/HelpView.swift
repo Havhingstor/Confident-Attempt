@@ -12,7 +12,7 @@ struct HelpView: View {
                     Text("GitHub")
                 })
             }
-            
+
             Section("Tips") {
                 Text("Swipe right or left to increase or decrease the number of times you have completed a habit.")
                 Text("A habit can be completed either once per day ('normal'), multiple times up to a certain limit ('repeated'), or as often as you like ('unlimited').")
