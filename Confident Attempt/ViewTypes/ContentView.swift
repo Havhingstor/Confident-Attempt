@@ -10,6 +10,7 @@ struct ContentView: View {
     @AppStorage("periodAmount") private var periodAmount = 1
     @AppStorage("redZone") private var redZone = 0.75
     @AppStorage("dayStart") private var dayStart = RawDateComponents()
+    @AppStorage("badging") private var shouldBeBadging = false
 
     @State private var addHabitShown = false
     @State private var editHabit: Habit? = nil
@@ -108,11 +109,14 @@ struct ContentView: View {
                     }
                 }
                 .animation(.default, value: today)
+                .onChange(of: item.getEvaluationForDay(today)) {
+                    setBadge()
+                }
             }
             .navigationTitle("Confident Attempt")
             .toolbar {
                 NavigationLink {
-                    SettingsView(redZone: $redZone, periodScale: $periodScale, periodAmount: $periodAmount, dayStart: $dayStart.val)
+                    SettingsView(redZone: $redZone, periodScale: $periodScale, periodAmount: $periodAmount, dayStart: $dayStart.val, shouldBeBadging: $shouldBeBadging)
                 } label: {
                     Label("Settings", systemImage: "gear")
                 }
@@ -154,10 +158,14 @@ struct ContentView: View {
             }
             .onAppear {
                 addTimer()
+                setBadge()
             }
             .onChange(of: dayStart.val) {
                 addTimer()
             }
+            .onChange(of: shouldBeBadging, {
+                setBadge()
+            })
             .onReceive(NotificationCenter.default.publisher(for: UIApplication.significantTimeChangeNotification)) { _ in
                 dateNow = .now
             }
@@ -265,6 +273,28 @@ struct ContentView: View {
         setTimer = timer
 
         RunLoop.main.add(timer, forMode: .common)
+    }
+    
+    private func setBadge() {
+        let notificationCentre = UNUserNotificationCenter.current()
+        
+        Task {
+            let authorizationStatus = await notificationCentre.notificationSettings().authorizationStatus
+            
+            guard authorizationStatus == .authorized else {return}
+            
+            var count = 0
+            
+            if shouldBeBadging {
+                count = items.filter({ habit in
+                    habit.getEvaluationForDay(today) < 1.0
+                }).count
+            }
+            
+            do {
+                try await notificationCentre.setBadgeCount(count)
+            }
+        }
     }
 }
 
