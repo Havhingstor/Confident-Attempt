@@ -196,6 +196,8 @@ struct HabitEditView: View {
                 }
                 ToolbarItem(placement: .confirmationAction) {
                      createConfirmButton("Save") {
+                         name = name.trimmingCharacters(in: .whitespacesAndNewlines)
+                         description = description.trimmingCharacters(in: .whitespacesAndNewlines)
                         guard nameAllowed else {return}
                         
                          var storedSymbol: String? = nil
