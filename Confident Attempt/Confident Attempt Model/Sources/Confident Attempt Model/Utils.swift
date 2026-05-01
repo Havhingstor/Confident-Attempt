@@ -39,7 +39,11 @@ extension DateComponents: @retroactive Comparable {
     }
 
     public var invertedTime: DateComponents {
-        DateComponents(hour: hour.inverted(), minute: minute.inverted(), second: second.inverted())
+        DateComponents(hour: hour.inverted(), minute: minute.inverted())
+    }
+    
+    public var time: DateComponents {
+        DateComponents(hour: hour, minute: minute)
     }
 }
 

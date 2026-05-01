@@ -141,3 +141,34 @@ struct LabeledTextField<Label: View>: View {
         }
     }
 }
+
+@Observable
+class TimerStorage {
+    var timer: Timer? = nil
+    
+    func overwrite(new newTimer: Timer) {
+        if let timer {
+            timer.invalidate()
+        } else {
+            print("Invalidated without previous timer")
+        }
+        
+        timer = newTimer
+    }
+}
+
+func calculateNextTimerTrigger(_ startOfDay: DateComponents) -> Date? {
+    let offset = startOfDay.time
+    let start = Calendar.current.startOfDay(for: .now)
+    
+    guard var date = Calendar.current.date(byAdding: offset, to: start) else {return nil}
+    
+    while date <= .now {
+        guard let newDate = Calendar.current.date(byAdding: .day, value: 1, to: date) else {return nil}
+        date = newDate
+    }
+    
+    date = date.addingTimeInterval(1)
+    
+    return date
+}

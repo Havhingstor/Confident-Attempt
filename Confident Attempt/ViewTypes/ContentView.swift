@@ -22,8 +22,11 @@ struct ContentView: View {
         periodScale.toCalculationStart(withNum: UInt(clamping: periodAmount))
     }
 
+    @State private var setTimer = TimerStorage()
+    @State private var dateNow: Date = .now
+    
     private var today: DateComponents {
-        (Calendar.current.date(byAdding: dayStart.val.invertedTime, to: Date.now) ?? .now).dc
+        (Calendar.current.date(byAdding: dayStart.val.invertedTime, to: dateNow) ?? .now).dc
     }
 
     private var floatStyle: FloatingPointFormatStyle<Double> {
@@ -148,6 +151,12 @@ struct ContentView: View {
                     modelContext.insert(newElement)
                 }
             }
+            .onAppear {
+                addTimer()
+            }
+            .onChange(of: dayStart.val) {
+                addTimer()
+            }
         }
     }
 
@@ -235,6 +244,23 @@ struct ContentView: View {
         } else {
             .primary
         }
+    }
+    
+    private func addTimer() {
+        guard let date = calculateNextTimerTrigger(dayStart.val) else {return}
+        
+        let timer = Timer(fire: date, interval: 0, repeats: false) { _ in
+            print("Triggered")
+            withAnimation {
+                dateNow = .now
+            }
+            
+            addTimer()
+        }
+        
+        setTimer.overwrite(new: timer)
+        
+        RunLoop.main.add(timer, forMode: .common)
     }
 }
 
