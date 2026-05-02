@@ -2,31 +2,22 @@ import Confident_Attempt_Model
 import SwiftUI
 
 struct SettingsView: View {
-    @Binding var redZone: Double
-    @Binding var periodScale: TimeScale
-    @Binding var periodAmount: Int
-    @Binding var dayStart: DateComponents
-    @Binding var shouldBeBadging: Bool
-    @State private var badgingWarning = ""
-
     @FocusState private var textFieldFocus: Bool
-
-    var dayStartDate: Binding<Date> {
-        Binding {
-            dayStart.asDate ?? .now
-        }
-        set: { newVal in
-            dayStart = Calendar.current.dateComponents([.hour, .minute, .second], from: newVal)
-        }
+    @State private var viewModel: ViewModel
+    
+    init(_ prefs: Preferences) {
+        let viewModel = ViewModel(prefs)
+        _viewModel = .init(initialValue: viewModel)
     }
+    
 
     var body: some View {
         Form {
             Section("Evaluation Period") {
-                LabeledTextField(label: "Amount", TextField("Amount", value: $periodAmount, format: .number))
+                LabeledTextField(label: "Amount", TextField("Amount", value: $viewModel.periodAmount, format: .number))
                     .keyboardType(.numberPad)
 
-                Picker("Scale", selection: $periodScale) {
+                Picker("Scale", selection: $viewModel.periodScale) {
                     Text("Days")
                         .tag(TimeScale.day)
                     Text("Weeks")
@@ -40,56 +31,35 @@ struct SettingsView: View {
 
             Section("Minimum Completion") {
                 VStack {
-                    Slider(value: $redZone, in: 0 ... 1, step: 0.01)
-                    Text("\(redZone.formatted(.percent))")
+                    Slider(value: $viewModel.redZone, in: 0 ... 1, step: 0.01)
+                    Text("\(viewModel.redZone.formatted(.percent))")
                 }
             }
 
             Section {
-                DatePicker("Day Start", selection: dayStartDate, displayedComponents: .hourAndMinute)
+                DatePicker("Day Start", selection: viewModel.dayStartDate, displayedComponents: .hourAndMinute)
                 Text("Any completions made before this time will be assigned to the previous day.")
             }
 
             Section {
-                Toggle("Show Badges", isOn: $shouldBeBadging)
-                    .onChange(of: shouldBeBadging) {
-                        checkAndSetBadges()
+                Toggle("Show Badges", isOn: $viewModel.shouldBeBadging)
+                    .onChange(of: viewModel.shouldBeBadging) {
+                        viewModel.checkAndSetBadges()
                     }
                     .onAppear {
-                        checkAndSetBadges()
+                        viewModel.checkAndSetBadges()
                     }
 
-                if !badgingWarning.isEmpty {
-                    Text(badgingWarning)
+                if !viewModel.badgingWarning.isEmpty {
+                    Text(viewModel.badgingWarning)
                 }
             }
-            .animation(.default, value: badgingWarning)
+            .animation(.default, value: viewModel.badgingWarning)
         }
         .navigationTitle("Settings")
     }
-
-    private func checkAndSetBadges() {
-        guard shouldBeBadging else { return }
-        badgingWarning = ""
-        let notificationCentre = UNUserNotificationCenter.current()
-        Task {
-            do {
-                let authorized = try await notificationCentre.requestAuthorization(options: [.badge])
-
-                if !authorized {
-                    shouldBeBadging = false
-                }
-            } catch {
-                shouldBeBadging = false
-            }
-
-            if !shouldBeBadging {
-                badgingWarning = "You need to allow Notifications to send you badges."
-            }
-        }
-    }
 }
 
-#Preview {
-    SettingsView(redZone: .constant(0.75), periodScale: .constant(.month), periodAmount: .constant(1), dayStart: .constant(DateComponents()), shouldBeBadging: .constant(false))
-}
+//#Preview {
+//    SettingsView(redZone: .constant(0.75), periodScale: .constant(.month), periodAmount: .constant(1), dayStart: .constant(DateComponents()), shouldBeBadging: .constant(false))
+//}

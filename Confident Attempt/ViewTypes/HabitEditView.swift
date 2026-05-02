@@ -250,4 +250,5 @@ private enum RepetitionType {
 
 #Preview {
     HabitEditView()
+        .modelContainer(getPreviewContainer())
 }
