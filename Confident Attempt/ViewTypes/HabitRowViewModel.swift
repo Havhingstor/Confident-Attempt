@@ -68,7 +68,7 @@ extension HabitRowView {
         }
         
         var text: String {
-            var result = "referenceDate: \(dayValue)"
+            var result = "Today: \(dayValue)"
             
             if let repetition = habit.repetition {
                 if repetition == 1 {
@@ -78,7 +78,7 @@ extension HabitRowView {
                         result = "Yet to do"
                     }
                     
-                    result += " referenceDate"
+                    result += " today"
                 } else {
                     result += " / \(repetition)"
                 }
