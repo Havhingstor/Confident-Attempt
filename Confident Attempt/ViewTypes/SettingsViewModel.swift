@@ -32,7 +32,7 @@ extension SettingsView {
         }
         
         func checkAndSetBadges() {
-            guard preferences.shouldBeBadging else { return }
+            guard preferences.notifications else { return }
             badgingWarning = ""
             let notificationCentre = UNUserNotificationCenter.current()
             Task {
@@ -40,13 +40,13 @@ extension SettingsView {
                     let authorized = try await notificationCentre.requestAuthorization(options: [.badge, .alert])
                     
                     if !authorized {
-                        preferences.shouldBeBadging = false
+                        preferences.notifications = false
                     }
                 } catch {
-                    preferences.shouldBeBadging = false
+                    preferences.notifications = false
                 }
                 
-                if !preferences.shouldBeBadging {
+                if preferences.notifications == false {
                     badgingWarning = "You need to allow Notifications to send you badges."
                 }
             }
@@ -79,12 +79,21 @@ extension SettingsView {
             }
         }
         
-        var shouldBeBadging: Bool {
+        var notifications: Bool {
             get {
-                preferences.shouldBeBadging
+                preferences.notifications
             }
             set {
-                preferences.shouldBeBadging = newValue
+                preferences.notifications = newValue
+            }
+        }
+        
+        var passiveNotifications: Bool {
+            get {
+                !preferences.activeNotifications
+            }
+            set {
+                preferences.activeNotifications = !newValue
             }
         }
     }

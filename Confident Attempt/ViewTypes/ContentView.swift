@@ -52,10 +52,13 @@ struct ContentView: View {
             .onChange(of: viewModel.dayStart) {
                 viewModel.addTimer(context: modelContext)
             }
-            .onChange(of: viewModel.shouldBeBadging) {
+            .onChange(of: viewModel.notifications) {
                 viewModel.addDayFlipNotification(context: modelContext)
                 viewModel.setBadge(context: modelContext)
             }
+            .onChange(of: viewModel.activeNotifications, {
+                viewModel.addDayFlipNotification(context: modelContext)
+            })
             .onChange(of: habits.count) {
                 viewModel.addDayFlipNotification(context: modelContext)
                 viewModel.setBadge(context: modelContext)

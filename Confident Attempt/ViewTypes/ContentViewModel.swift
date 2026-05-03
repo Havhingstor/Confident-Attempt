@@ -28,8 +28,12 @@ extension ContentView {
             preferences = prefs
         }
         
-        var shouldBeBadging: Bool {
-            preferences.shouldBeBadging
+        var notifications: Bool {
+            preferences.notifications
+        }
+        
+        var activeNotifications: Bool {
+            preferences.activeNotifications
         }
         
         var calculationPeriod: CalculationStart {
@@ -103,7 +107,7 @@ extension ContentView {
                 
                 var count = 0
                 
-                if preferences.shouldBeBadging {
+                if preferences.notifications {
                     let descriptor = FetchDescriptor<Habit>()
                     let habits = (try? context.fetch(descriptor)) ?? []
                     
@@ -122,7 +126,7 @@ extension ContentView {
             let notificationCentre = UNUserNotificationCenter.current()
             notificationCentre.removePendingNotificationRequests(withIdentifiers: ["DayFlip"])
             
-            guard shouldBeBadging, let date = at ?? calculateNextTimerTrigger(dayStart) else { return }
+            guard notifications, let date = at ?? calculateNextTimerTrigger(dayStart) else { return }
             
             let timing = Calendar.current.dateComponents([.hour, .minute], from: date)
             
@@ -137,7 +141,12 @@ extension ContentView {
                 let content = UNMutableNotificationContent()
                 content.title = "A new day has started"
                 content.body = "Complete all your habits to reach your goals"
-                content.interruptionLevel = .passive
+                
+                if preferences.activeNotifications {
+                    content.interruptionLevel = .active
+                } else {
+                    content.interruptionLevel = .passive
+                }
                 
                 content.badge = NSNumber(value: habits.count)
                 

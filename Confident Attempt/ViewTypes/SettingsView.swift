@@ -42,13 +42,16 @@ struct SettingsView: View {
             }
 
             Section {
-                Toggle("Basic Notifications & Badges", isOn: $viewModel.shouldBeBadging)
-                    .onChange(of: viewModel.shouldBeBadging) {
+                Toggle("Basic Notifications & Badges", isOn: $viewModel.notifications)
+                    .onChange(of: viewModel.notifications) {
                         viewModel.checkAndSetBadges()
                     }
                     .onAppear {
                         viewModel.checkAndSetBadges()
                     }
+                if viewModel.notifications {
+                    Toggle("Only in Notification Centre", isOn: $viewModel.passiveNotifications)
+                }
                 Text("Sends a notification at the start of a day and sets the badge to the number of habits which don't yet have enough completions to reach the long-term goal")
 
                 if !viewModel.badgingWarning.isEmpty {
@@ -56,11 +59,14 @@ struct SettingsView: View {
                 }
             }
             .animation(.default, value: viewModel.badgingWarning)
+            .animation(.default, value: viewModel.notifications)
         }
         .navigationTitle("Settings")
     }
 }
 
-//#Preview {
-//    SettingsView(redZone: .constant(0.75), periodScale: .constant(.month), periodAmount: .constant(1), dayStart: .constant(DateComponents()), shouldBeBadging: .constant(false))
-//}
+#Preview {
+    NavigationStack {
+        SettingsView(Preferences())
+    }
+}

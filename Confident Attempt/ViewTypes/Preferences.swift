@@ -7,7 +7,7 @@ class Preferences {
     var periodScale: TimeScale {
         didSet {
             guard oldValue != periodScale else { return }
-            UserDefaults().set(_periodScale, forKey: "periodScale")
+            UserDefaults().set(periodScale, forKey: "periodScale")
         }
     }
     var periodAmount: Int {
@@ -28,10 +28,16 @@ class Preferences {
             UserDefaults().set(dayStart.rawValue, forKey: "dayStart")
         }
     }
-    var shouldBeBadging: Bool {
+    var notifications: Bool {
         didSet {
-            guard oldValue != shouldBeBadging else { return }
-            UserDefaults().set(shouldBeBadging, forKey: "badging")
+            guard oldValue != notifications else { return }
+            UserDefaults().set(notifications, forKey: "notifications")
+        }
+    }
+    var activeNotifications: Bool {
+        didSet {
+            guard oldValue != activeNotifications else { return }
+            UserDefaults().set(activeNotifications, forKey: "activeNotifications")
         }
     }
     
@@ -40,6 +46,7 @@ class Preferences {
         periodAmount = defaults.value(forKey: "periodAmount") as? Int ?? 1
         redZone = defaults.value(forKey: "redZone") as? Double ?? 0.75
         dayStart = RawDateComponents(rawValue: defaults.string(forKey: "dayStart") ?? "") ?? RawDateComponents()
-        shouldBeBadging = defaults.value(forKey: "badging") as? Bool ?? false
+        notifications = defaults.value(forKey: "notifications") as? Bool ?? false
+        activeNotifications = defaults.value(forKey: "activeNotifications") as? Bool ?? true
     }
 }
