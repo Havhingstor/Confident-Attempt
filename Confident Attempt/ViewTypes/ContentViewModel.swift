@@ -69,12 +69,17 @@ extension ContentView {
             return date
         }
         
-        func addTimer() {
+        func runTimerAction(context: ModelContext) {
+            refreshDate()
+            setBadge(context: context)
+            addTimer(context: context)
+        }
+        
+        func addTimer(context: ModelContext) {
             guard let date = calculateNextTimerTrigger(dayStart) else { return }
             
             let timer = Timer(fire: date, interval: 0, repeats: false) { _ in
-                self.refreshDate()
-                self.addTimer()
+                self.runTimerAction(context: context)
             }
             
             if let setTimer {
@@ -84,6 +89,8 @@ extension ContentView {
             setTimer = timer
             
             RunLoop.main.add(timer, forMode: .common)
+            
+            addDayFlipNotification(context: context, at: date)
         }
         
         func setBadge(context: ModelContext) {
@@ -107,6 +114,39 @@ extension ContentView {
                 
                 do {
                     try await notificationCentre.setBadgeCount(count)
+                }
+            }
+        }
+        
+        func addDayFlipNotification(context: ModelContext, at: Date? = nil) {
+            let notificationCentre = UNUserNotificationCenter.current()
+            notificationCentre.removePendingNotificationRequests(withIdentifiers: ["DayFlip"])
+            
+            guard shouldBeBadging, let date = at ?? calculateNextTimerTrigger(dayStart) else { return }
+            
+            let timing = Calendar.current.dateComponents([.hour, .minute], from: date)
+            
+            Task {
+                let authorizationStatus = await notificationCentre.notificationSettings().authorizationStatus
+                
+                guard authorizationStatus == .authorized else { return }
+                
+                let descriptor = FetchDescriptor<Habit>()
+                let habits = (try? context.fetch(descriptor)) ?? []
+                
+                let content = UNMutableNotificationContent()
+                content.title = "A new day has started"
+                content.body = "Complete all your habits to reach your goals"
+                content.interruptionLevel = .passive
+                
+                content.badge = NSNumber(value: habits.count)
+                
+                let trigger = UNCalendarNotificationTrigger(dateMatching: timing, repeats: true)
+                
+                let request = UNNotificationRequest(identifier: "DayFlip", content: content, trigger: trigger)
+                
+                do {
+                    try await notificationCentre.add(request)
                 }
             }
         }

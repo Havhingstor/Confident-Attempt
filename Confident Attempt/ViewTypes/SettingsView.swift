@@ -42,13 +42,14 @@ struct SettingsView: View {
             }
 
             Section {
-                Toggle("Show Badges", isOn: $viewModel.shouldBeBadging)
+                Toggle("Basic Notifications & Badges", isOn: $viewModel.shouldBeBadging)
                     .onChange(of: viewModel.shouldBeBadging) {
                         viewModel.checkAndSetBadges()
                     }
                     .onAppear {
                         viewModel.checkAndSetBadges()
                     }
+                Text("Sends a notification at the start of a day and sets the badge to the number of habits which don't yet have enough completions to reach the long-term goal")
 
                 if !viewModel.badgingWarning.isEmpty {
                     Text(viewModel.badgingWarning)

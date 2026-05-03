@@ -44,17 +44,24 @@ struct ContentView: View {
                 HabitEditView()
             }
             .onAppear {
-                viewModel.addTimer()
-                viewModel.setBadge(context: modelContext)
+                if viewModel.setTimer == nil {
+                    viewModel.addTimer(context: modelContext)
+                    viewModel.setBadge(context: modelContext)
+                }
             }
             .onChange(of: viewModel.dayStart) {
-                viewModel.addTimer()
+                viewModel.addTimer(context: modelContext)
             }
             .onChange(of: viewModel.shouldBeBadging) {
+                viewModel.addDayFlipNotification(context: modelContext)
+                viewModel.setBadge(context: modelContext)
+            }
+            .onChange(of: habits.count) {
+                viewModel.addDayFlipNotification(context: modelContext)
                 viewModel.setBadge(context: modelContext)
             }
             .onReceive(NotificationCenter.default.publisher(for: UIApplication.significantTimeChangeNotification)) { _ in
-                viewModel.refreshDate()
+                viewModel.runTimerAction(context: modelContext)
             }
         }
     }

@@ -37,7 +37,7 @@ extension SettingsView {
             let notificationCentre = UNUserNotificationCenter.current()
             Task {
                 do {
-                    let authorized = try await notificationCentre.requestAuthorization(options: [.badge])
+                    let authorized = try await notificationCentre.requestAuthorization(options: [.badge, .alert])
                     
                     if !authorized {
                         preferences.shouldBeBadging = false
