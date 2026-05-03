@@ -7,7 +7,7 @@ class Preferences {
     var periodScale: TimeScale {
         didSet {
             guard oldValue != periodScale else { return }
-            UserDefaults().set(periodScale, forKey: "periodScale")
+            UserDefaults().set(periodScale.rawValue, forKey: "periodScale")
         }
     }
     var periodAmount: Int {
@@ -42,7 +42,7 @@ class Preferences {
     }
     
     init() {
-        periodScale = defaults.value(forKey: "periodScale") as? TimeScale ?? .month
+        periodScale = TimeScale(rawValue: defaults.string(forKey: "periodScale") ?? "") ?? .month
         periodAmount = defaults.value(forKey: "periodAmount") as? Int ?? 1
         redZone = defaults.value(forKey: "redZone") as? Double ?? 0.75
         dayStart = RawDateComponents(rawValue: defaults.string(forKey: "dayStart") ?? "") ?? RawDateComponents()
