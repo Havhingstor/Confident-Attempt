@@ -131,7 +131,7 @@ extension HabitRowView {
             } else if eval >= 1.0 {
                 .green
             } else {
-                .primary
+                .yellow
             }
         }
         
