@@ -52,6 +52,7 @@ func habitBasics() {
     #expect(clone2.getDay(firstDay) == 0)
     #expect(clone2.name == "NewTestName")
 
+    #expect(clone1.checkNewRepetition(2) == 1)
     clone1.setRepetitionAndGoal(rep: 2, goal: .daily(number: 2))
     #expect(clone1.getDay(firstDay) == 2)
     #expect(clone1.getDay(secondDay) == 2)

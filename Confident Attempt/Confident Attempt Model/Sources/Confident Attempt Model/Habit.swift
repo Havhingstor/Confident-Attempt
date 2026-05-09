@@ -116,5 +116,16 @@ public enum HabitsSchemaV1: VersionedSchema {
             self.repetition = repetition
             self.goal = goal
         }
+        
+        /// Returns the number of days which would need to be lowered to confine to the proposed repetition
+        public func checkNewRepetition(_ repetition: UInt) -> UInt {
+            if let oldRep = self.repetition,
+               repetition >= oldRep {
+                return 0
+            }
+            
+            let days = dayResults.filter({$0.value > repetition}).count
+            return UInt(days)
+        }
     }
 }
