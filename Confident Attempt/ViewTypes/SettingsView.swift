@@ -4,12 +4,11 @@ import SwiftUI
 struct SettingsView: View {
     @FocusState private var textFieldFocus: Bool
     @State private var viewModel: ViewModel
-    
+
     init(_ prefs: Preferences) {
         let viewModel = ViewModel(prefs)
         _viewModel = .init(initialValue: viewModel)
     }
-    
 
     var body: some View {
         Form {

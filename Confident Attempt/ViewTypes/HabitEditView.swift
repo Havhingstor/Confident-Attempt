@@ -191,7 +191,7 @@ struct HabitEditView: View {
             .sheet(isPresented: $symbolPickerShown, content: {
                 SymbolsPicker(selection: $symbol, title: "Choose a symbol", autoDismiss: true)
             })
-            .alert("Save Habit", isPresented: $saveConfirmationDialogShown, presenting: repetitionProblems) { problems in
+            .alert("Save Habit", isPresented: $saveConfirmationDialogShown, presenting: repetitionProblems) { _ in
                 Button("Save anyways", role: .destructive) {
                     save()
                 }
@@ -210,9 +210,10 @@ struct HabitEditView: View {
                 ToolbarItem(placement: .confirmationAction) {
                     createConfirmButton("Save") {
                         if let editedHabit,
-                           let repetition {
+                           let repetition
+                        {
                             let repetitionProblems = editedHabit.checkNewRepetition(repetition)
-                            
+
                             if repetitionProblems > 0 {
                                 self.repetitionProblems = repetitionProblems
                                 self.saveConfirmationDialogShown = true
@@ -241,18 +242,18 @@ struct HabitEditView: View {
         }
         .interactiveDismissDisabled()
     }
-    
+
     func save() {
         name = name.trimmingCharacters(in: .whitespacesAndNewlines)
         description = description.trimmingCharacters(in: .whitespacesAndNewlines)
         guard nameAllowed else { return }
-        
+
         var storedSymbol: String? = nil
-        
+
         if !symbol.isEmpty {
             storedSymbol = symbol
         }
-        
+
         if let editedHabit {
             editedHabit.name = name
             editedHabit.textDescription = description
@@ -260,10 +261,10 @@ struct HabitEditView: View {
             editedHabit.setRepetitionAndGoal(rep: repetition, goal: goal)
         } else {
             guard let newHabit = Habit(name: name, textDescription: description, symbol: storedSymbol, repetition: repetition, goal: goal) else { return }
-            
+
             modelContext.insert(newHabit)
         }
-        
+
         dismiss()
     }
 }

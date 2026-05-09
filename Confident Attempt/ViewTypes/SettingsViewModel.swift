@@ -1,18 +1,18 @@
-import SwiftUI
 import Confident_Attempt_Model
+import SwiftUI
 
 extension SettingsView {
     @Observable
     class ViewModel {
         var badgingWarning: String
-        
+
         var preferences: Preferences
-        
+
         init(_ prefs: Preferences) {
-            self.badgingWarning = ""
-            self.preferences = prefs
+            badgingWarning = ""
+            preferences = prefs
         }
-        
+
         private var dayStart: DateComponents {
             get {
                 preferences.dayStart.val
@@ -21,7 +21,7 @@ extension SettingsView {
                 preferences.dayStart.val = newValue
             }
         }
-        
+
         var dayStartDate: Binding<Date> {
             Binding {
                 self.dayStart.asDate ?? .now
@@ -30,7 +30,7 @@ extension SettingsView {
                 self.dayStart = Calendar.current.dateComponents([.hour, .minute, .second], from: newVal)
             }
         }
-        
+
         func checkAndSetBadges() {
             guard preferences.notifications else { return }
             badgingWarning = ""
@@ -38,20 +38,20 @@ extension SettingsView {
             Task {
                 do {
                     let authorized = try await notificationCentre.requestAuthorization(options: [.badge, .alert])
-                    
+
                     if !authorized {
                         preferences.notifications = false
                     }
                 } catch {
                     preferences.notifications = false
                 }
-                
+
                 if preferences.notifications == false {
                     badgingWarning = "You need to allow Notifications to send you badges."
                 }
             }
         }
-        
+
         var periodAmount: Int {
             get {
                 preferences.periodAmount
@@ -60,7 +60,7 @@ extension SettingsView {
                 preferences.periodAmount = newValue
             }
         }
-        
+
         var redZone: Double {
             get {
                 preferences.redZone
@@ -69,7 +69,7 @@ extension SettingsView {
                 preferences.redZone = newValue
             }
         }
-        
+
         var periodScale: TimeScale {
             get {
                 preferences.periodScale
@@ -78,7 +78,7 @@ extension SettingsView {
                 preferences.periodScale = newValue
             }
         }
-        
+
         var notifications: Bool {
             get {
                 preferences.notifications
@@ -87,7 +87,7 @@ extension SettingsView {
                 preferences.notifications = newValue
             }
         }
-        
+
         var passiveNotifications: Bool {
             get {
                 !preferences.activeNotifications

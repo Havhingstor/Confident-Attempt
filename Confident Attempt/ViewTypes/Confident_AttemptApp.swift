@@ -6,7 +6,7 @@ import SwiftUI
 struct Confident_AttemptApp: App {
     @State private var preferences = Preferences()
     let container: ModelContainer
-    
+
     init() {
         do {
             container = try ModelContainer(for: Habit.self, migrationPlan: HabitsMigrationPlan.self)
@@ -14,7 +14,7 @@ struct Confident_AttemptApp: App {
             fatalError("Failed to initialize model container.")
         }
     }
-    
+
     var body: some Scene {
         WindowGroup {
             ContentView(preferences)

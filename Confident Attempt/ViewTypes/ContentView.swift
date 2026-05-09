@@ -7,7 +7,7 @@ struct ContentView: View {
     @Query(sort: \Habit.name) private var habits: [Habit]
 
     @State private var viewModel: ViewModel
-    
+
     init(_ prefs: Preferences) {
         let viewModelWrapped = ViewModel(prefs)
         _viewModel = .init(initialValue: viewModelWrapped)
@@ -16,7 +16,6 @@ struct ContentView: View {
     private var floatStyle: FloatingPointFormatStyle<Double> {
         .number.precision(.fractionLength(0 ... 2))
     }
-
 
     var body: some View {
         NavigationStack {
@@ -56,9 +55,9 @@ struct ContentView: View {
                 viewModel.addDayFlipNotification(context: modelContext)
                 viewModel.setBadge(context: modelContext)
             }
-            .onChange(of: viewModel.activeNotifications, {
+            .onChange(of: viewModel.activeNotifications) {
                 viewModel.addDayFlipNotification(context: modelContext)
-            })
+            }
             .onChange(of: habits.count) {
                 viewModel.addDayFlipNotification(context: modelContext)
                 viewModel.setBadge(context: modelContext)
@@ -68,8 +67,6 @@ struct ContentView: View {
             }
         }
     }
-
-    
 }
 
 #Preview {

@@ -141,4 +141,3 @@ struct LabeledTextField<Label: View>: View {
         }
     }
 }
-

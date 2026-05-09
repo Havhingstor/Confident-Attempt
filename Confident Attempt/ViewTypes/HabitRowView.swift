@@ -1,16 +1,16 @@
-import SwiftUI
 import Confident_Attempt_Model
 import SwiftData
+import SwiftUI
 
 struct HabitRowView: View {
     @Environment(\.modelContext) private var modelContext
     @State private var viewModel: ViewModel
-    
+
     init(_ habit: Habit, _ model: ContentView.ViewModel) {
         let viewModel = ViewModel(habit, model)
         _viewModel = .init(initialValue: viewModel)
     }
-    
+
     var body: some View {
         HStack {
             viewModel.completionSymbol
@@ -21,9 +21,9 @@ struct HabitRowView: View {
             Spacer()
             VStack(alignment: .trailing) {
                 Text(viewModel.goal)
-                
+
                 Text(viewModel.text)
-                
+
                 Text(viewModel.completionText)
             }
         }
@@ -73,8 +73,6 @@ struct HabitRowView: View {
             }
         }
     }
-    
-    
 }
 
 #Preview {
