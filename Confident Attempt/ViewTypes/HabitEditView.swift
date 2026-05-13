@@ -28,24 +28,6 @@ struct HabitEditView: View {
         Habit.testValues(repetition: repetition, goal: goal)
     }
 
-    private var nameAllowed: Bool {
-        if let editedHabit, editedHabit.name == name {
-            return true
-        }
-        let descriptor = FetchDescriptor<Habit>(
-            predicate: #Predicate { habit in
-                habit.name == name
-            }
-        )
-
-        if let existing = try? modelContext.fetch(descriptor),
-           !existing.isEmpty
-        {
-            return false
-        }
-
-        return true
-    }
 
     private var repetition: UInt? {
         switch repetitionType {
@@ -179,12 +161,6 @@ struct HabitEditView: View {
                         .listRowBackground(Color.red)
                         .font(.title3)
                 }
-
-                if !nameAllowed {
-                    Text("The name of the habit must be unique!")
-                        .listRowBackground(Color.red)
-                        .font(.title3)
-                }
             }
             .navigationTitle("\(editedHabit == nil ? "Add" : "Edit") Habit")
             .navigationBarTitleDisplayMode(.inline)
@@ -222,7 +198,7 @@ struct HabitEditView: View {
                         }
                         save()
                     }
-                    .disabled(!allowed || name.isEmpty || !nameAllowed)
+                    .disabled(!allowed || name.isEmpty)
                 }
             }
             .onChange(of: goal) {
@@ -236,7 +212,6 @@ struct HabitEditView: View {
                 }
             }
             .animation(.default, value: allowed)
-            .animation(.default, value: nameAllowed)
             .animation(.default, value: name.isEmpty)
             .animation(.default, value: repetition)
         }
@@ -246,7 +221,6 @@ struct HabitEditView: View {
     func save() {
         name = name.trimmingCharacters(in: .whitespacesAndNewlines)
         description = description.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard nameAllowed else { return }
 
         var storedSymbol: String? = nil
 

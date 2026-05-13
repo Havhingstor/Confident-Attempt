@@ -11,7 +11,7 @@ public enum HabitsSchemaV1: VersionedSchema {
     }
 
     @Model
-    public class Habit {
+    public class Habit: Codable {
         public var name: String
         public var textDescription: String
         public var symbol: String?
@@ -40,6 +40,28 @@ public enum HabitsSchemaV1: VersionedSchema {
             if copyData {
                 dayResults = from.dayResults
             }
+        }
+        
+        public required init(from decoder: any Decoder) throws {
+            let container = try decoder.container(keyedBy: HabitCodingKeys.self)
+            
+            name = try container.decode(String.self, forKey: .name)
+            textDescription = try container.decode(String.self, forKey: .textDescription)
+            symbol = try container.decode(String?.self, forKey: .symbol)
+            repetition = try container.decode(UInt?.self, forKey: .repetition)
+            goal = try container.decode(CompletionGoal.self, forKey: .goal)
+            dayResults = try container.decode([DateComponents: UInt].self, forKey: .dayResults)
+        }
+        
+        public func encode(to encoder: any Encoder) throws {
+            var container = encoder.container(keyedBy: HabitCodingKeys.self)
+            
+            try container.encode(name, forKey: .name)
+            try container.encode(textDescription, forKey: .textDescription)
+            try container.encode(symbol, forKey: .symbol)
+            try container.encode(repetition, forKey: .repetition)
+            try container.encode(goal, forKey: .goal)
+            try container.encode(dayResults, forKey: .dayResults)
         }
 
         public static func testValues(repetition: UInt?, goal: CompletionGoal) -> Bool {
@@ -129,4 +151,13 @@ public enum HabitsSchemaV1: VersionedSchema {
             return UInt(days)
         }
     }
+}
+
+enum HabitCodingKeys: CodingKey {
+    case name
+    case textDescription
+    case symbol
+    case repetition
+    case goal
+    case dayResults
 }

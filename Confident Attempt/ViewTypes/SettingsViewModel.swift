@@ -1,5 +1,7 @@
 import Confident_Attempt_Model
 import SwiftUI
+import SwiftData
+import UniformTypeIdentifiers
 
 extension SettingsView {
     @Observable
@@ -96,5 +98,58 @@ extension SettingsView {
                 preferences.activeNotifications = !newValue
             }
         }
+        
+        func getAsFile(context: ModelContext) -> HabitListFile? {
+            let descriptor = FetchDescriptor<Habit>()
+            
+            do {
+                let habits = try context.fetch(descriptor)
+                return HabitListFile(values: habits)
+            } catch (let e) {
+                print("Error when loading habits: \(e)")
+                return nil
+            }
+        }
+        
+        func loadFromFile(_ url: URL, context: ModelContext) {
+            do {
+                let data = try Data(contentsOf: url)
+                let habits = try JSONDecoder().decode([Habit].self, from: data)
+                
+                for habit in habits {
+                    habit.name += " (Imported)"
+                    context.insert(habit)
+                }
+            } catch (let e) {
+                print("Can't load habits: \(e)")
+            }
+        }
     }
+    
+    struct HabitListFile: FileDocument {
+        static var readableContentTypes = [UTType.json]
+        let data: Data
+        
+        init?(values: [Habit]) {
+            do {
+                data = try JSONEncoder().encode(values)
+            } catch (let e) {
+                print("Error when converting habits to JSON: \(e)")
+                return nil
+            }
+        }
+        
+        init(configuration: ReadConfiguration) throws {
+            if let data = configuration.file.regularFileContents {
+                self.data = data
+            } else {
+                data = Data()
+            }
+        }
+        
+        func fileWrapper(configuration: WriteConfiguration) throws -> FileWrapper {
+            return FileWrapper(regularFileWithContents: data)
+        }
+    }
+
 }
