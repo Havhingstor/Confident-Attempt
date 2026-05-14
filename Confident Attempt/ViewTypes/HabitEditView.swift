@@ -28,7 +28,6 @@ struct HabitEditView: View {
         Habit.testValues(repetition: repetition, goal: goal)
     }
 
-
     private var repetition: UInt? {
         switch repetitionType {
         case .normal:

@@ -1,11 +1,11 @@
 import Confident_Attempt_Model
-import SwiftUI
 import SwiftData
+import SwiftUI
 import UniformTypeIdentifiers
 
 struct SettingsView: View {
     @Environment(\.modelContext) private var modelContext
-    
+
     @FocusState private var textFieldFocus: Bool
     @State private var viewModel: ViewModel
     @State private var showExportDialog = false
@@ -15,8 +15,6 @@ struct SettingsView: View {
         let viewModel = ViewModel(prefs)
         _viewModel = .init(initialValue: viewModel)
     }
-    
-    
 
     var body: some View {
         Form {
@@ -67,12 +65,12 @@ struct SettingsView: View {
             }
             .animation(.default, value: viewModel.badgingWarning)
             .animation(.default, value: viewModel.notifications)
-            
+
             Section {
                 Button("Export Data") {
                     showExportDialog = true
                 }
-                
+
                 Button("Import Data") {
                     showImportDialog = true
                 }
@@ -82,19 +80,18 @@ struct SettingsView: View {
             }
             .fileImporter(isPresented: $showImportDialog, allowedContentTypes: [.json]) { result in
                 switch result {
-                    case .success(let directory):
-                        let gotAccess = directory.startAccessingSecurityScopedResource()
-                        if !gotAccess {
-                            print("Can't get access to import directory")
-                            return
-                        }
-                        
-                        viewModel.loadFromFile(directory, context: modelContext)
-                        
-                        directory.stopAccessingSecurityScopedResource()
-                    case .failure(let error):
-                        
-                        print(error)
+                case let .success(directory):
+                    let gotAccess = directory.startAccessingSecurityScopedResource()
+                    if !gotAccess {
+                        print("Can't get access to import directory")
+                        return
+                    }
+
+                    viewModel.loadFromFile(directory, context: modelContext)
+
+                    directory.stopAccessingSecurityScopedResource()
+                case let .failure(error):
+                    print(error)
                 }
             }
         }

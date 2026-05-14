@@ -41,10 +41,10 @@ public enum HabitsSchemaV1: VersionedSchema {
                 dayResults = from.dayResults
             }
         }
-        
+
         public required init(from decoder: any Decoder) throws {
             let container = try decoder.container(keyedBy: HabitCodingKeys.self)
-            
+
             name = try container.decode(String.self, forKey: .name)
             textDescription = try container.decode(String.self, forKey: .textDescription)
             symbol = try container.decode(String?.self, forKey: .symbol)
@@ -52,10 +52,10 @@ public enum HabitsSchemaV1: VersionedSchema {
             goal = try container.decode(CompletionGoal.self, forKey: .goal)
             dayResults = try container.decode([DateComponents: UInt].self, forKey: .dayResults)
         }
-        
+
         public func encode(to encoder: any Encoder) throws {
             var container = encoder.container(keyedBy: HabitCodingKeys.self)
-            
+
             try container.encode(name, forKey: .name)
             try container.encode(textDescription, forKey: .textDescription)
             try container.encode(symbol, forKey: .symbol)

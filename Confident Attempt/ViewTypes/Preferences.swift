@@ -1,5 +1,5 @@
-import SwiftUI
 import Foundation
+import SwiftUI
 
 @Observable
 class Preferences {
@@ -59,13 +59,13 @@ class Preferences {
         dayStart = RawDateComponents()
         notifications = false
         activeNotifications = true
-        
+
         deleteKeys()
-        
+
         loadValues()
         NotificationCenter.default.addObserver(self, selector: #selector(receiveNotification), name: NSUbiquitousKeyValueStore.didChangeExternallyNotification, object: defaults)
     }
-    
+
     private func loadValues() {
         if let periodScale = TimeScale(rawValue: defaults.string(forKey: "periodScale") ?? "") {
             self.periodScale = periodScale
@@ -86,11 +86,11 @@ class Preferences {
             self.activeNotifications = activeNotifications
         }
     }
-    
-    @objc private func receiveNotification(_ notification: NSNotification) {
+
+    @objc private func receiveNotification(_: NSNotification) {
         loadValues()
     }
-    
+
     private func deleteKeys() {
         localDefaults.removeObject(forKey: "periodScale")
         localDefaults.removeObject(forKey: "periodAmount")
