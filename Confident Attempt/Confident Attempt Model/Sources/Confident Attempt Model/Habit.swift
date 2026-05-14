@@ -12,11 +12,11 @@ public enum HabitsSchemaV1: VersionedSchema {
 
     @Model
     public class Habit: Codable {
-        public var name: String
-        public var textDescription: String
+        public var name: String = ""
+        public var textDescription: String = ""
         public var symbol: String?
         public private(set) var repetition: UInt?
-        public private(set) var goal: CompletionGoal
+        public private(set) var goal: CompletionGoal = CompletionGoal.daily(number: 1)
         private var dayResults: [DateComponents: UInt] = [:]
 
         public init?(name: String, textDescription: String, symbol: String? = nil, repetition: UInt? = 1, goal: CompletionGoal = .daily(number: 1)) {

@@ -46,6 +46,7 @@ struct ContentView: View {
                 if viewModel.setTimer == nil {
                     viewModel.addTimer(context: modelContext)
                     viewModel.setBadge(context: modelContext)
+                    viewModel.setBadge(context: modelContext)
                 }
             }
             .onChange(of: viewModel.dayStart) {
