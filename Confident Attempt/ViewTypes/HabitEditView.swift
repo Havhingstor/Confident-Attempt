@@ -233,7 +233,7 @@ struct HabitEditView: View {
             editedHabit.symbol = storedSymbol
             editedHabit.setRepetitionAndGoal(rep: repetition, goal: goal)
         } else {
-            guard let newHabit = Habit(name: name, textDescription: description, symbol: storedSymbol, repetition: repetition, goal: goal) else { return }
+            guard let newHabit = Habit.new(name: name, textDescription: description, symbol: storedSymbol, repetition: repetition, goal: goal) else { return }
 
             modelContext.insert(newHabit)
         }

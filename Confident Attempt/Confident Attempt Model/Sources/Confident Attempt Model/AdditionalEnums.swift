@@ -6,7 +6,7 @@ public enum CompletionGoal: Codable, Equatable {
     case monthly(number: UInt)
     case yearly(number: UInt)
 
-    public func getAsDaily(forDate: DateComponents) -> Double {
+    public func getAsDaily(forDate: MyDate) -> Double {
         switch self {
         case let .daily(number):
             Double(number)

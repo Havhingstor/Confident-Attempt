@@ -1,4 +1,4 @@
-import Confident_Attempt_Model
+@testable import Confident_Attempt_Model
 import Foundation
 import Testing
 
@@ -9,7 +9,7 @@ func testGoal() {
     let thriceMonthly = CompletionGoal.monthly(number: 3)
     let fourTimesAYear = CompletionGoal.yearly(number: 4)
 
-    let date = DateComponents(year: 2026, month: 3, day: 17)
+    let date = MyDate(day: 17, month: 3, year: 2026)
 
     #expect(onceDaily.getAsDaily(forDate: date) == 1.0)
     #expect(twiceWeekly.getAsDaily(forDate: date) * 7.0 == 2)
@@ -19,11 +19,11 @@ func testGoal() {
 
 @Test
 func habitBasics() {
-    let firstDay = DateComponents(year: 2026, month: 3, day: 17)
-    let secondDay = DateComponents(year: 2026, month: 3, day: 18)
-    let thirdDay = DateComponents(year: 2026, month: 3, day: 19)
-    let baseHabit = Habit(name: "Habit", textDescription: "Some habit", repetition: 3, goal: .daily(number: 2))!
-
+    let firstDay = MyDate(day: 17, month: 3, year: 2026)
+    let secondDay = MyDate(day: 18, month: 3, year: 2026)
+    let thirdDay = MyDate(day: 19, month: 3, year: 2026)
+    let baseHabit = Habit(name: "Habit", textDescription: "Some habit", repetition: 3, goal: .daily(number: 2), firstDay: firstDay)!
+    
     baseHabit.increaseDay(firstDay, by: 2)
     #expect(baseHabit.getDay(firstDay) == 2)
 
@@ -41,12 +41,30 @@ func habitBasics() {
     let oneMonthEvaluation = CalculationStart.months(number: 1)
     #expect(baseHabit.getTotal(from: twoDayEvaluation, to: thirdDay) == 3)
     #expect(baseHabit.getEvaluation(from: twoDayEvaluation, to: thirdDay) == 0.75)
-    #expect(baseHabit.getEvaluation(from: oneMonthEvaluation, to: thirdDay) > 0)
-    #expect(baseHabit.getEvaluation(from: oneMonthEvaluation, to: thirdDay) < 0.25)
+    #expect(baseHabit.getEvaluation(from: oneMonthEvaluation, to: thirdDay) > 0.83)
+    #expect(baseHabit.getEvaluation(from: oneMonthEvaluation, to: thirdDay) < 0.84)
+
+    let beforeFirstDay = MyDate(day: 16, month: 3, year: 2026)
+    baseHabit.setDay(beforeFirstDay, to: 0)
+    #expect(baseHabit.firstDay == firstDay)
+    #expect(baseHabit.getEvaluation(from: oneMonthEvaluation, to: thirdDay) == 0.625)
+    baseHabit.setFirstDay()
+    #expect(baseHabit.firstDay == beforeFirstDay)
+    #expect(baseHabit.getEvaluation(from: oneMonthEvaluation, to: thirdDay) == 0.625)
+    
 
     let clone1 = Habit(cloneof: baseHabit, newName: "TestName", copyData: true)
+    
     #expect(clone1.getDay(firstDay) == 2)
     #expect(clone1.name == "TestName")
+    
+    clone1.setDay(firstDay, to: 1)
+    #expect(clone1.getDay(firstDay) == 1)
+    #expect(baseHabit.getDay(firstDay) == 2)
+    
+    clone1.firstDay.day = 1
+    #expect(clone1.firstDay.day == 1)
+    #expect(baseHabit.firstDay.day == 16)
 
     let clone2 = Habit(cloneof: baseHabit, newName: "NewTestName", copyData: false)
     #expect(clone2.getDay(firstDay) == 0)
@@ -54,7 +72,7 @@ func habitBasics() {
 
     #expect(clone1.checkNewRepetition(2) == 1)
     clone1.setRepetitionAndGoal(rep: 2, goal: .daily(number: 2))
-    #expect(clone1.getDay(firstDay) == 2)
+    #expect(clone1.getDay(firstDay) == 1)
     #expect(clone1.getDay(secondDay) == 2)
     #expect(clone1.getDay(thirdDay) == 0)
 }

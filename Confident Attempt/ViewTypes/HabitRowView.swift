@@ -77,7 +77,7 @@ struct HabitRowView: View {
 
 #Preview {
     let model = ContentView.ViewModel(Preferences())
-    let habit = Habit(name: "Test", textDescription: "Test")!
+    let habit = Habit.new(name: "Test", textDescription: "Test")!
     HabitRowView(habit, model)
         .modelContainer(getPreviewContainer())
 }
