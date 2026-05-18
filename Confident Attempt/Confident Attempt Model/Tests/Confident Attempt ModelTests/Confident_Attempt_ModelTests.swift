@@ -78,7 +78,7 @@ func habitBasics() {
 
 @Test
 func illegalHabit() {
-    #expect(Habit(name: "A", textDescription: "", repetition: 0) == nil)
-    #expect(Habit(name: "A", textDescription: "", goal: .daily(number: 0)) == nil)
-    #expect(Habit(name: "A", textDescription: "", repetition: 1, goal: .daily(number: 2)) == nil)
+    #expect(Habit(name: "A", textDescription: "", repetition: 0, firstDay: .now) == nil)
+    #expect(Habit(name: "A", textDescription: "", goal: .daily(number: 0), firstDay: .now) == nil)
+    #expect(Habit(name: "A", textDescription: "", repetition: 1, goal: .daily(number: 2), firstDay: .now) == nil)
 }

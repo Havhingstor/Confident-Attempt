@@ -19,6 +19,8 @@ struct HabitEditView: View {
     @State private var symbolPickerShown = false
     @State private var saveConfirmationDialogShown = false
     @State private var repetitionProblems: UInt? = nil
+    
+    private var referenceDate: () -> DateComponents
 
     private var goal: CompletionGoal {
         goalScale.toCompletionGoal(withNum: goalAmount)
@@ -50,8 +52,9 @@ struct HabitEditView: View {
         }
     }
 
-    init(editedHabit: Habit? = nil) {
+    init(editedHabit: Habit? = nil, referenceDate: @escaping () -> DateComponents) {
         self.editedHabit = editedHabit
+        self.referenceDate = referenceDate
 
         if let editedHabit {
             _name = State(initialValue: editedHabit.name)
@@ -233,7 +236,8 @@ struct HabitEditView: View {
             editedHabit.symbol = storedSymbol
             editedHabit.setRepetitionAndGoal(rep: repetition, goal: goal)
         } else {
-            guard let newHabit = Habit(name: name, textDescription: description, symbol: storedSymbol, repetition: repetition, goal: goal) else { return }
+            guard let newHabit = Habit(name: name, textDescription: description, symbol: storedSymbol, repetition: repetition,
+                                       goal: goal, firstDay: referenceDate()) else { return }
 
             modelContext.insert(newHabit)
         }
@@ -249,6 +253,6 @@ private enum RepetitionType {
 }
 
 #Preview {
-    HabitEditView()
+    HabitEditView(referenceDate: {.now})
         .modelContainer(getPreviewContainer())
 }

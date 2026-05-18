@@ -54,7 +54,11 @@ public enum HabitsSchemaV2: VersionedSchema {
             repetition = try container.decode(UInt?.self, forKey: .repetition)
             goal = try container.decode(CompletionGoal.self, forKey: .goal)
             dayResults = try container.decode([DateComponents: UInt].self, forKey: .dayResults)
-            firstDay = (try? container.decode(DateComponents.self, forKey: .firstDay)) ?? .now
+            if let firstDay = try? container.decode(DateComponents.self, forKey: .firstDay) {
+                self.firstDay = firstDay
+            } else {
+                setFirstDay()
+            }
         }
     }
 }
@@ -71,7 +75,7 @@ fileprivate enum HabitCodingKeys: CodingKey {
 
 extension HabitsSchemaV2.Habit: Codable {
     public convenience init?(name: String, textDescription: String, symbol: String? = nil, repetition: UInt? = 1,
-                             goal: CompletionGoal = .daily(number: 1), firstDay: DateComponents = .now) {
+                             goal: CompletionGoal = .daily(number: 1), firstDay: DateComponents) {
         if !Self.testValues(repetition: repetition, goal: goal) {
             return nil
         }
