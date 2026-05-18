@@ -10,8 +10,8 @@ struct Confident_AttemptApp: App {
     init() {
         do {
             container = try ModelContainer(for: Habit.self, migrationPlan: HabitsMigrationPlan.self)
-        } catch {
-            fatalError("Failed to initialize model container.")
+        } catch (let err) {
+            fatalError("Failed to initialize model container: \(err)")
         }
     }
 

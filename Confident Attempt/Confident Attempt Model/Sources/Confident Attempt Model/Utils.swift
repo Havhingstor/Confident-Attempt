@@ -45,6 +45,10 @@ extension DateComponents: @retroactive Comparable {
     public var time: DateComponents {
         DateComponents(hour: hour, minute: minute)
     }
+    
+    public static var now: DateComponents {
+        Date.now.dc
+    }
 }
 
 extension FixedWidthInteger {

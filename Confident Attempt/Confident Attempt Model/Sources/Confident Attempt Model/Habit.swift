@@ -1,10 +1,8 @@
 import Foundation
 import SwiftData
 
-public typealias Habit = HabitsSchemaV1.Habit
-
-public enum HabitsSchemaV1: VersionedSchema {
-    public static let versionIdentifier = Schema.Version(1, 0, 0)
+public enum HabitsSchemaV2: VersionedSchema {
+    public static let versionIdentifier = Schema.Version(2, 0, 0)
 
     public static var models: [any PersistentModel.Type] {
         [Habit.self]
@@ -19,14 +17,32 @@ public enum HabitsSchemaV1: VersionedSchema {
         public private(set) var goal: CompletionGoal = CompletionGoal.daily(number: 1)
         fileprivate var dayResults: [DateComponents: UInt] = [:]
         
-        public init(name: String, textDescription: String, symbol: String?,
-                    repetition: UInt?, goal: CompletionGoal, dayResults: [DateComponents: UInt]) {
+        private var firstDayData: Data = Data()
+        
+        public internal(set) var firstDay: DateComponents {
+            get {
+                if let result = try? JSONDecoder().decode(DateComponents.self, from: firstDayData) {
+                    return result
+                }
+                
+                setFirstDay()
+                
+                return (try? JSONDecoder().decode(DateComponents.self, from: firstDayData)) ?? .now
+            }
+            set {
+                firstDayData = (try? JSONEncoder().encode(newValue)) ?? Data()
+            }
+        }
+        
+        fileprivate init(name: String, textDescription: String, symbol: String?, repetition: UInt?,
+                    goal: CompletionGoal, dayResults: [DateComponents: UInt], firstDay: DateComponents) {
             self.name = name
             self.textDescription = textDescription
             self.repetition = repetition
             self.goal = goal
             self.symbol = symbol
             self.dayResults = dayResults
+            self.firstDay = firstDay
         }
         
         public required init(from decoder: any Decoder) throws {
@@ -38,30 +54,33 @@ public enum HabitsSchemaV1: VersionedSchema {
             repetition = try container.decode(UInt?.self, forKey: .repetition)
             goal = try container.decode(CompletionGoal.self, forKey: .goal)
             dayResults = try container.decode([DateComponents: UInt].self, forKey: .dayResults)
+            firstDay = (try? container.decode(DateComponents.self, forKey: .firstDay)) ?? .now
         }
     }
 }
 
-enum HabitCodingKeys: CodingKey {
+fileprivate enum HabitCodingKeys: CodingKey {
     case name
     case textDescription
     case symbol
     case repetition
     case goal
     case dayResults
+    case firstDay
 }
 
-extension Habit: Codable {
-    public convenience init?(name: String, textDescription: String, symbol: String? = nil,
-                             repetition: UInt? = 1, goal: CompletionGoal = .daily(number: 1)) {
+extension HabitsSchemaV2.Habit: Codable {
+    public convenience init?(name: String, textDescription: String, symbol: String? = nil, repetition: UInt? = 1,
+                             goal: CompletionGoal = .daily(number: 1), firstDay: DateComponents = .now) {
         if !Self.testValues(repetition: repetition, goal: goal) {
             return nil
         }
         
-        self.init(name: name, textDescription: textDescription, symbol: symbol, repetition: repetition, goal: goal, dayResults: [:])
+        self.init(name: name, textDescription: textDescription, symbol: symbol, repetition: repetition,
+                  goal: goal, dayResults: [:], firstDay: firstDay)
     }
     
-    public convenience init(cloneof from: Habit, newName: String, copyData: Bool) {
+    public convenience init(cloneof from: HabitsSchemaV2.Habit, newName: String, copyData: Bool) {
         let dayResults = if copyData {
             from.dayResults
         } else {
@@ -69,7 +88,7 @@ extension Habit: Codable {
         }
         
         self.init(name: newName, textDescription: from.textDescription, symbol: from.symbol,
-                  repetition: from.repetition, goal: from.goal, dayResults: dayResults)
+                  repetition: from.repetition, goal: from.goal, dayResults: dayResults, firstDay: from.firstDay)
     }
     
     public func encode(to encoder: any Encoder) throws {
@@ -97,7 +116,23 @@ extension Habit: Codable {
         return true
     }
     
-    public func getDay(_ day: DateComponents = Date.now.dc) -> UInt {
+    func setFirstDay() {
+        if let fromData = dayResults.map({ $0.key }).sorted().first {
+            firstDay = fromData
+        } else {
+            firstDay = .now
+        }
+    }
+    
+    public var calculatedFirstDay: DateComponents {
+        if let fromData = dayResults.map({ $0.key }).sorted().first {
+            return min(fromData, firstDay)
+        } else {
+            return firstDay
+        }
+    }
+    
+    public func getDay(_ day: DateComponents = .now) -> UInt {
         return dayResults[day] ?? 0
     }
     
@@ -127,14 +162,20 @@ extension Habit: Codable {
     
     public func getTotal(from: CalculationStart, to: DateComponents) -> UInt {
         guard let lastDate = to.asDate,
-              let beforeStart = Calendar.current.date(byAdding: from.getAsDateComponents(), to: lastDate)?.dc else { return 0 }
+              let beforeFirst = calculatedFirstDay.addingDays(-1),
+              var beforeStart = Calendar.current.date(byAdding: from.getAsDateComponents(), to: lastDate)?.dc else { return 0 }
+        
+        beforeStart = max(beforeFirst, beforeStart)
         
         return dayResults.filter { $0.key > beforeStart && $0.key <= to }.reduce(0) { $0 + UInt($1.value) }
     }
     
     public func getEvaluation(from: CalculationStart, to: DateComponents) -> Double {
         guard let lastDate = to.asDate,
-              let beforeStart = Calendar.current.date(byAdding: from.getAsDateComponents(), to: lastDate)?.dc else { return 0 }
+              let beforeFirst = calculatedFirstDay.addingDays(-1),
+              var beforeStart = Calendar.current.date(byAdding: from.getAsDateComponents(), to: lastDate)?.dc else { return 0 }
+        
+        beforeStart = max(beforeFirst, beforeStart)
         
         let totalEvaluation = dayResults.filter { $0.key > beforeStart && $0.key <= to }.reduce(0) { $0 + getEvaluationForDay($1.key) }
         

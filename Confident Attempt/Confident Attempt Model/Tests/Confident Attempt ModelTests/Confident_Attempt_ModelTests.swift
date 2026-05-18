@@ -1,4 +1,4 @@
-import Confident_Attempt_Model
+@testable import Confident_Attempt_Model
 import Foundation
 import Testing
 
@@ -22,7 +22,7 @@ func habitBasics() {
     let firstDay = DateComponents(year: 2026, month: 3, day: 17)
     let secondDay = DateComponents(year: 2026, month: 3, day: 18)
     let thirdDay = DateComponents(year: 2026, month: 3, day: 19)
-    let baseHabit = Habit(name: "Habit", textDescription: "Some habit", repetition: 3, goal: .daily(number: 2))!
+    let baseHabit = Habit(name: "Habit", textDescription: "Some habit", repetition: 3, goal: .daily(number: 2), firstDay: firstDay  )!
 
     baseHabit.increaseDay(firstDay, by: 2)
     #expect(baseHabit.getDay(firstDay) == 2)
@@ -41,8 +41,16 @@ func habitBasics() {
     let oneMonthEvaluation = CalculationStart.months(number: 1)
     #expect(baseHabit.getTotal(from: twoDayEvaluation, to: thirdDay) == 3)
     #expect(baseHabit.getEvaluation(from: twoDayEvaluation, to: thirdDay) == 0.75)
-    #expect(baseHabit.getEvaluation(from: oneMonthEvaluation, to: thirdDay) > 0)
-    #expect(baseHabit.getEvaluation(from: oneMonthEvaluation, to: thirdDay) < 0.25)
+    #expect(baseHabit.getEvaluation(from: oneMonthEvaluation, to: thirdDay) > 0.83)
+    #expect(baseHabit.getEvaluation(from: oneMonthEvaluation, to: thirdDay) < 0.84)
+    
+    let beforeFirstDay = DateComponents(year: 2026, month: 3, day: 16)
+    baseHabit.setDay(beforeFirstDay, to: 0)
+    #expect(baseHabit.firstDay == firstDay)
+    #expect(baseHabit.getEvaluation(from: oneMonthEvaluation, to: thirdDay) == 0.625)
+    baseHabit.setFirstDay()
+    #expect(baseHabit.firstDay == beforeFirstDay)
+    #expect(baseHabit.getEvaluation(from: oneMonthEvaluation, to: thirdDay) == 0.625)
 
     let clone1 = Habit(cloneof: baseHabit, newName: "TestName", copyData: true)
     
@@ -52,6 +60,10 @@ func habitBasics() {
     clone1.setDay(firstDay, to: 1)
     #expect(clone1.getDay(firstDay) == 1)
     #expect(baseHabit.getDay(firstDay) == 2)
+    
+    clone1.firstDay.day = 1
+    #expect(clone1.firstDay.day == 1)
+    #expect(baseHabit.firstDay.day == 16)
 
     let clone2 = Habit(cloneof: baseHabit, newName: "NewTestName", copyData: false)
     #expect(clone2.getDay(firstDay) == 0)
