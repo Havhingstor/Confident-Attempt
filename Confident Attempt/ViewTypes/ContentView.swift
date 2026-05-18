@@ -40,7 +40,7 @@ struct ContentView: View {
                 }
             }
             .sheet(isPresented: $viewModel.addHabitShown) {
-                HabitEditView(referenceDate: {viewModel.referenceDate})
+                HabitEditView(referenceDate: { viewModel.referenceDate })
             }
             .onAppear {
                 if viewModel.setTimer == nil {

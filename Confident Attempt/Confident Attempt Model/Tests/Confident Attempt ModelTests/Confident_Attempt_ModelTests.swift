@@ -22,7 +22,7 @@ func habitBasics() {
     let firstDay = DateComponents(year: 2026, month: 3, day: 17)
     let secondDay = DateComponents(year: 2026, month: 3, day: 18)
     let thirdDay = DateComponents(year: 2026, month: 3, day: 19)
-    let baseHabit = Habit(name: "Habit", textDescription: "Some habit", repetition: 3, goal: .daily(number: 2), firstDay: firstDay  )!
+    let baseHabit = Habit(name: "Habit", textDescription: "Some habit", repetition: 3, goal: .daily(number: 2), firstDay: firstDay)!
 
     baseHabit.increaseDay(firstDay, by: 2)
     #expect(baseHabit.getDay(firstDay) == 2)
@@ -43,7 +43,7 @@ func habitBasics() {
     #expect(baseHabit.getEvaluation(from: twoDayEvaluation, to: thirdDay) == 0.75)
     #expect(baseHabit.getEvaluation(from: oneMonthEvaluation, to: thirdDay) > 0.83)
     #expect(baseHabit.getEvaluation(from: oneMonthEvaluation, to: thirdDay) < 0.84)
-    
+
     let beforeFirstDay = DateComponents(year: 2026, month: 3, day: 16)
     baseHabit.setDay(beforeFirstDay, to: 0)
     #expect(baseHabit.firstDay == firstDay)
@@ -53,14 +53,14 @@ func habitBasics() {
     #expect(baseHabit.getEvaluation(from: oneMonthEvaluation, to: thirdDay) == 0.625)
 
     let clone1 = Habit(cloneof: baseHabit, newName: "TestName", copyData: true)
-    
+
     #expect(clone1.getDay(firstDay) == 2)
     #expect(clone1.name == "TestName")
-    
+
     clone1.setDay(firstDay, to: 1)
     #expect(clone1.getDay(firstDay) == 1)
     #expect(baseHabit.getDay(firstDay) == 2)
-    
+
     clone1.firstDay.day = 1
     #expect(clone1.firstDay.day == 1)
     #expect(baseHabit.firstDay.day == 16)

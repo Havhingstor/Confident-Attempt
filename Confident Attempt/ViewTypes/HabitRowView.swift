@@ -55,7 +55,7 @@ struct HabitRowView: View {
             viewModel.setBadge(context: modelContext)
         }
         .sheet(isPresented: $viewModel.showEditor) {
-            HabitEditView(editedHabit: viewModel.habit, referenceDate: {viewModel.referenceDate})
+            HabitEditView(editedHabit: viewModel.habit, referenceDate: { viewModel.referenceDate })
         }
         .alert("Delete Entry \"\(viewModel.name)\"?", isPresented: $viewModel.showDeletionAlert) {
             Button("Cancel", role: .cancel) {}

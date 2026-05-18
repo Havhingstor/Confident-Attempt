@@ -16,9 +16,10 @@ public enum HabitsSchemaV1: VersionedSchema {
         public var repetition: UInt?
         public var goal: CompletionGoal = CompletionGoal.daily(number: 1)
         public var dayResults: [DateComponents: UInt] = [:]
-        
+
         public init(name: String, textDescription: String, symbol: String?,
-                    repetition: UInt?, goal: CompletionGoal, dayResults: [DateComponents: UInt]) {
+                    repetition: UInt?, goal: CompletionGoal, dayResults: [DateComponents: UInt])
+        {
             self.name = name
             self.textDescription = textDescription
             self.repetition = repetition

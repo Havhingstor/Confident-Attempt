@@ -19,7 +19,7 @@ struct HabitEditView: View {
     @State private var symbolPickerShown = false
     @State private var saveConfirmationDialogShown = false
     @State private var repetitionProblems: UInt? = nil
-    
+
     private var referenceDate: () -> DateComponents
 
     private var goal: CompletionGoal {
@@ -253,6 +253,6 @@ private enum RepetitionType {
 }
 
 #Preview {
-    HabitEditView(referenceDate: {.now})
+    HabitEditView(referenceDate: { .now })
         .modelContainer(getPreviewContainer())
 }
