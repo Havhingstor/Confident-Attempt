@@ -106,6 +106,7 @@ extension HabitsSchemaV2.Habit: Codable {
         try container.encode(repetition, forKey: .repetition)
         try container.encode(goal, forKey: .goal)
         try container.encode(dayResults, forKey: .dayResults)
+        try container.encode(firstDay, forKey: .firstDay)
     }
 
     public static func testValues(repetition: UInt?, goal: CompletionGoal) -> Bool {
