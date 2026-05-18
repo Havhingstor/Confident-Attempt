@@ -1,6 +1,8 @@
 import Foundation
 import SwiftData
 
+///////////////////////////////////////// Schema /////////////////////////////////////////
+
 public typealias Habit = HabitsSchemaV3.Habit
 public typealias MyDate = HabitsSchemaV3.MyDate
 public typealias DayCompletion = HabitsSchemaV3.DayCompletion
@@ -13,48 +15,33 @@ public enum HabitsSchemaV3: VersionedSchema {
     }
 
     @Model
-    public class Habit: Codable {
+    public class Habit {
         public var name: String = ""
         public var textDescription: String = ""
         public var symbol: String?
         public private(set) var repetition: UInt?
         public private(set) var goal: CompletionGoal = CompletionGoal.daily(number: 1)
 
-        @Relationship(deleteRule: .cascade, originalName: "newDayResults")
-        var dayResults: [DayCompletion]
-
         @Relationship(deleteRule: .cascade)
         public private(set) var firstDay: MyDate
 
-        public init?(name: String, textDescription: String, symbol: String? = nil, repetition: UInt? = 1, goal: CompletionGoal = .daily(number: 1), firstDay: MyDate = MyDate()) {
-            if !Self.testValues(repetition: repetition, goal: goal) {return nil}
-            
+        @Relationship(deleteRule: .cascade, originalName: "newDayResults")
+        fileprivate var dayResults: [DayCompletion]
+        
+        fileprivate init(name: String, textDescription: String, symbol: String?, repetition: UInt?,
+                         goal: CompletionGoal, firstDay: MyDate, dayResults: [DayCompletion]) {
             self.name = name
             self.textDescription = textDescription
             self.repetition = repetition
             self.goal = goal
             self.symbol = symbol
             self.firstDay = firstDay
-            self.dayResults = []
+            self.dayResults = dayResults
         }
-
-        public init(cloneof from: Habit, newName: String, copyData: Bool) {
-            name = newName
-            textDescription = from.textDescription
-            repetition = from.repetition
-            goal = from.goal
-            symbol = from.symbol
-            firstDay = from.firstDay.clone
-            if copyData {
-                dayResults = from.dayResults.map({$0.clone})
-            } else {
-                dayResults = []
-            }
-        }
-
+        
         public required init(from decoder: any Decoder) throws {
             let container = try decoder.container(keyedBy: HabitCodingKeys.self)
-
+            
             name = try container.decode(String.self, forKey: .name)
             textDescription = try container.decode(String.self, forKey: .textDescription)
             symbol = try container.decode(String?.self, forKey: .symbol)
@@ -63,52 +50,10 @@ public enum HabitsSchemaV3: VersionedSchema {
             dayResults = try container.decode([DayCompletion].self, forKey: .dayResults)
             firstDay = try container.decode(MyDate.self, forKey: .firstDay)
         }
-
-        public func encode(to encoder: any Encoder) throws {
-            var container = encoder.container(keyedBy: HabitCodingKeys.self)
-
-            try container.encode(name, forKey: .name)
-            try container.encode(textDescription, forKey: .textDescription)
-            try container.encode(symbol, forKey: .symbol)
-            try container.encode(repetition, forKey: .repetition)
-            try container.encode(goal, forKey: .goal)
-            try container.encode(dayResults, forKey: .dayResults)
-            try container.encode(firstDay, forKey: .firstDay)
-        }
-
-        public func setFirstDay() {
-            if let fromData = dayResults.map({ $0.date }).sorted().first {
-                firstDay = fromData
-            } else {
-                firstDay = MyDate()
-            }
-        }
-
-        public var calculatedFirstDay: MyDate {
-            if let fromData = dayResults.map({ $0.date }).sorted().first {
-                return min(fromData, firstDay)
-            } else {
-                return firstDay
-            }
-        }
-
-        public static func testValues(repetition: UInt?, goal: CompletionGoal) -> Bool {
-            guard goal.getNumber() > 0 else { return false }
-
-            if let repetition {
-                guard repetition > 0 else { return false }
-
-                if let daily = goal.getAsDailyAlways(), daily > Double(repetition) {
-                    return false
-                }
-            }
-
-            return true
-        }
     }
 
     @Model
-    public class MyDate: Codable, Comparable, Equatable {
+    public class MyDate {
         public var day: UInt8
         public var month: UInt8
         public var year: UInt
@@ -119,20 +64,6 @@ public enum HabitsSchemaV3: VersionedSchema {
             self.year = year
         }
 
-        public init(_ dc: DateComponents) {
-            day = UInt8(clamping: dc.day ?? 1)
-            month = UInt8(clamping: dc.month ?? 1)
-            year = UInt(clamping: dc.year ?? 2026)
-        }
-
-        public convenience init(_ date: Date) {
-            self.init(Calendar.current.dateComponents([.year, .month, .day], from: date))
-        }
-
-        public convenience init() {
-            self.init(Date.now)
-        }
-
         public required init(from decoder: any Decoder) throws {
             let container = try decoder.container(keyedBy: MyDateCodingKeys.self)
 
@@ -140,37 +71,10 @@ public enum HabitsSchemaV3: VersionedSchema {
             month = try container.decode(UInt8.self, forKey: .month)
             year = try container.decode(UInt.self, forKey: .year)
         }
-
-        public func encode(to encoder: any Encoder) throws {
-            var container = encoder.container(keyedBy: MyDateCodingKeys.self)
-
-            try container.encode(day, forKey: .day)
-            try container.encode(month, forKey: .month)
-            try container.encode(year, forKey: .year)
-        }
-
-        public static func < (lhs: MyDate, rhs: MyDate) -> Bool {
-            guard lhs.year == rhs.year else {
-                return lhs.year < rhs.year
-            }
-
-            guard lhs.month == rhs.month else {
-                return lhs.month < rhs.month
-            }
-
-            return lhs.day < rhs.day
-        }
-        
-        public static func == (lhs: MyDate, rhs: MyDate) -> Bool {
-            return lhs.year == rhs.year
-            && lhs.month == rhs.month
-            && lhs.day == rhs.day
-        }
-
     }
 
     @Model
-    public class DayCompletion: Codable {
+    public class DayCompletion {
         public var date: MyDate
         public var value: UInt
 
@@ -184,13 +88,6 @@ public enum HabitsSchemaV3: VersionedSchema {
 
             date = try container.decode(MyDate.self, forKey: .date)
             value = try container.decode(UInt.self, forKey: .value)
-        }
-
-        public func encode(to encoder: any Encoder) throws {
-            var container = encoder.container(keyedBy: DayCompletionCodingKeys.self)
-
-            try container.encode(date, forKey: .date)
-            try container.encode(value, forKey: .value)
         }
     }
 }
@@ -216,7 +113,66 @@ enum DayCompletionCodingKeys: CodingKey {
     case value
 }
 
-public extension Habit {
+///////////////////////////////////////// Habit Functions /////////////////////////////////////////
+
+extension Habit: Codable {
+    public convenience init?(name: String, textDescription: String, symbol: String? = nil, repetition: UInt? = 1,
+                             goal: CompletionGoal = .daily(number: 1), firstDay: MyDate = MyDate()) {
+        if !Self.testValues(repetition: repetition, goal: goal) {return nil}
+        
+        self.init(name: name, textDescription: textDescription, symbol: symbol, repetition: repetition,
+                  goal: goal, firstDay: firstDay, dayResults: [])
+    }
+    
+    public convenience init(cloneof from: Habit, newName: String, copyData: Bool) {
+        let dayResults = copyData ? from.dayResults.map({$0.clone}) : []
+        
+        self.init(name: newName, textDescription: from.textDescription, symbol: from.symbol, repetition: from.repetition,
+                  goal: from.goal, firstDay: from.firstDay.clone, dayResults: dayResults)
+    }
+    
+    public func encode(to encoder: any Encoder) throws {
+        var container = encoder.container(keyedBy: HabitCodingKeys.self)
+        
+        try container.encode(name, forKey: .name)
+        try container.encode(textDescription, forKey: .textDescription)
+        try container.encode(symbol, forKey: .symbol)
+        try container.encode(repetition, forKey: .repetition)
+        try container.encode(goal, forKey: .goal)
+        try container.encode(dayResults, forKey: .dayResults)
+        try container.encode(firstDay, forKey: .firstDay)
+    }
+    
+    public func setFirstDay() {
+        if let fromData = dayResults.map({ $0.date }).sorted().first {
+            firstDay = fromData
+        } else {
+            firstDay = MyDate()
+        }
+    }
+    
+    public var calculatedFirstDay: MyDate {
+        if let fromData = dayResults.map({ $0.date }).sorted().first {
+            return min(fromData, firstDay)
+        } else {
+            return firstDay
+        }
+    }
+    
+    public static func testValues(repetition: UInt?, goal: CompletionGoal) -> Bool {
+        guard goal.getNumber() > 0 else { return false }
+        
+        if let repetition {
+            guard repetition > 0 else { return false }
+            
+            if let daily = goal.getAsDailyAlways(), daily > Double(repetition) {
+                return false
+            }
+        }
+        
+        return true
+    }
+    
     func getDay(_ day: MyDate = MyDate()) -> UInt {
         return dayResults.filter { $0.date == day }.reduce(0) { $0 + $1.value }
     }
@@ -332,7 +288,50 @@ public extension Habit {
     }
 }
 
-extension MyDate {
+///////////////////////////////////////// MyDate Functions /////////////////////////////////////////
+
+extension MyDate: Codable, Comparable, Equatable {
+    public convenience init(_ dc: DateComponents) {
+        let day = UInt8(clamping: dc.day ?? 1)
+        let month = UInt8(clamping: dc.month ?? 1)
+        let year = UInt(clamping: dc.year ?? 2026)
+        self.init(day: day, month: month, year: year)
+    }
+    
+    public convenience init(_ date: Date) {
+        self.init(Calendar.current.dateComponents([.year, .month, .day], from: date))
+    }
+    
+    public convenience init() {
+        self.init(Date.now)
+    }
+    
+    public func encode(to encoder: any Encoder) throws {
+        var container = encoder.container(keyedBy: MyDateCodingKeys.self)
+        
+        try container.encode(day, forKey: .day)
+        try container.encode(month, forKey: .month)
+        try container.encode(year, forKey: .year)
+    }
+    
+    public static func < (lhs: MyDate, rhs: MyDate) -> Bool {
+        guard lhs.year == rhs.year else {
+            return lhs.year < rhs.year
+        }
+        
+        guard lhs.month == rhs.month else {
+            return lhs.month < rhs.month
+        }
+        
+        return lhs.day < rhs.day
+    }
+    
+    public static func == (lhs: MyDate, rhs: MyDate) -> Bool {
+        return lhs.year == rhs.year
+        && lhs.month == rhs.month
+        && lhs.day == rhs.day
+    }
+    
     func daysInMonth() -> Int {
         guard let date = asDate else { return 30 }
         return Calendar.current.range(of: .day, in: .month, for: date)?.count ?? 30
@@ -379,7 +378,16 @@ extension MyDate {
     }
 }
 
-extension DayCompletion {
+///////////////////////////////////////// DayCompletion Functions /////////////////////////////////////////
+
+extension DayCompletion: Codable {
+    public func encode(to encoder: any Encoder) throws {
+        var container = encoder.container(keyedBy: DayCompletionCodingKeys.self)
+        
+        try container.encode(date, forKey: .date)
+        try container.encode(value, forKey: .value)
+    }
+    
     public var clone: DayCompletion {
         DayCompletion(date: date.clone, value: value)
     }
