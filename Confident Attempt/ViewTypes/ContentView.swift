@@ -43,6 +43,7 @@ struct ContentView: View {
                 HabitEditView(referenceDate: { viewModel.referenceDate })
             }
             .onAppear {
+                viewModel.refreshDate()
                 if viewModel.setTimer == nil {
                     viewModel.addTimer(context: modelContext)
                     viewModel.setBadge(context: modelContext)
