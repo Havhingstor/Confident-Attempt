@@ -2,6 +2,7 @@ import Confident_Attempt_Model
 import SwiftData
 import SwiftUI
 import UniformTypeIdentifiers
+import OSLog
 
 struct SettingsView: View {
     @Environment(\.modelContext) private var modelContext
@@ -10,6 +11,8 @@ struct SettingsView: View {
     @State private var viewModel: ViewModel
     @State private var showExportDialog = false
     @State private var showImportDialog = false
+    @State private var showIOAlert = false
+    @State private var ioTitle = ""
 
     init(_ prefs: Preferences) {
         let viewModel = ViewModel(prefs)
@@ -76,14 +79,25 @@ struct SettingsView: View {
                 }
             }
             .fileExporter(isPresented: $showExportDialog, document: viewModel.getAsFile(context: modelContext), contentType: .json, defaultFilename: "ConfidentAttemptExport.json") { result in
-                print("Saving Result: \(result)")
+                switch result {
+                    case .success(let success):
+                        logger().info("Saving Success: Saved to \(success.absoluteString)")
+                        ioTitle = "Successfully exported habits"
+                        showIOAlert = true
+                    case .failure(let failure):
+                        logger().error("Couldn't save: \(failure)")
+                        ioTitle = "Couldn't export habits: \(failure.localizedDescription)"
+                        showIOAlert = true
+                }
             }
             .fileImporter(isPresented: $showImportDialog, allowedContentTypes: [.json]) { result in
                 switch result {
                 case let .success(directory):
                     let gotAccess = directory.startAccessingSecurityScopedResource()
                     if !gotAccess {
-                        print("Can't get access to import directory")
+                        logger().error("Can't get access to import directory")
+                        ioTitle = "Habits can't be imported: App can't get access to directory"
+                        showIOAlert = true
                         return
                     }
 
@@ -91,9 +105,13 @@ struct SettingsView: View {
 
                     directory.stopAccessingSecurityScopedResource()
                 case let .failure(error):
-                    print(error)
+                    logger().error("Can't import file: \(error)")
+                        ioTitle = "Habits can't be imported: \(error)"
+                        showIOAlert = true
                 }
             }
+            .alert(ioTitle, isPresented: $showIOAlert) {}
+            .alert(viewModel.ioError, isPresented: $viewModel.ioErrorShown) {}
         }
         .navigationTitle("Settings")
     }

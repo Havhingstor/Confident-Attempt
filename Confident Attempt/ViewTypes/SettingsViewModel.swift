@@ -2,6 +2,7 @@ import Confident_Attempt_Model
 import SwiftData
 import SwiftUI
 import UniformTypeIdentifiers
+import OSLog
 
 extension SettingsView {
     @Observable
@@ -9,6 +10,8 @@ extension SettingsView {
         var badgingWarning: String
 
         var preferences: Preferences
+        var ioErrorShown = false
+        var ioError = ""
 
         init(_ prefs: Preferences) {
             badgingWarning = ""
@@ -104,9 +107,11 @@ extension SettingsView {
 
             do {
                 let habits = try context.fetch(descriptor)
-                return HabitListFile(values: habits)
+                return try HabitListFile(values: habits)
             } catch let e {
-                print("Error when loading habits: \(e)")
+                logger().error("Error when converting habits to JSON: \(e)")
+                ioError = "Habits can't be exported: \(e)"
+                ioErrorShown = true
                 return nil
             }
         }
@@ -121,7 +126,9 @@ extension SettingsView {
                     context.insert(habit)
                 }
             } catch let e {
-                print("Can't load habits: \(e)")
+                logger().error("Can't load habits: \(e)")
+                ioError = "Habits can't be imported: \(e)"
+                ioErrorShown = true
             }
         }
     }
@@ -130,13 +137,8 @@ extension SettingsView {
         static var readableContentTypes = [UTType.json]
         let data: Data
 
-        init?(values: [Habit]) {
-            do {
-                data = try JSONEncoder().encode(values)
-            } catch let e {
-                print("Error when converting habits to JSON: \(e)")
-                return nil
-            }
+        init(values: [Habit]) throws {
+            data = try JSONEncoder().encode(values)
         }
 
         init(configuration: ReadConfiguration) throws {

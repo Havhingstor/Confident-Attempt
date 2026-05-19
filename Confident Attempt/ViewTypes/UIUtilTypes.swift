@@ -1,5 +1,6 @@
 import Confident_Attempt_Model
 import SwiftUI
+import OSLog
 
 enum TimeScale: String {
     case day
@@ -140,4 +141,8 @@ struct LabeledTextField<Label: View>: View {
             focussed = true
         }
     }
+}
+
+func logger(_ category: String = "UI") -> Logger {
+    Logger(subsystem: "de.pschuetz.ConfidentAttempt", category: category)
 }
