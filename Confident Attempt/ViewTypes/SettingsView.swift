@@ -1,8 +1,8 @@
 import Confident_Attempt_Model
+import OSLog
 import SwiftData
 import SwiftUI
 import UniformTypeIdentifiers
-import OSLog
 
 struct SettingsView: View {
     @Environment(\.modelContext) private var modelContext
@@ -80,14 +80,14 @@ struct SettingsView: View {
             }
             .fileExporter(isPresented: $showExportDialog, document: viewModel.getAsFile(context: modelContext), contentType: .json, defaultFilename: "ConfidentAttemptExport.json") { result in
                 switch result {
-                    case .success(let success):
-                        logger().info("Saving Success: Saved to \(success.absoluteString)")
-                        ioTitle = "Successfully exported habits"
-                        showIOAlert = true
-                    case .failure(let failure):
-                        logger().error("Couldn't save: \(failure)")
-                        ioTitle = "Couldn't export habits: \(failure.localizedDescription)"
-                        showIOAlert = true
+                case let .success(success):
+                    logger().info("Saving Success: Saved to \(success.absoluteString)")
+                    ioTitle = "Successfully exported habits"
+                    showIOAlert = true
+                case let .failure(failure):
+                    logger().error("Couldn't save: \(failure)")
+                    ioTitle = "Couldn't export habits: \(failure.localizedDescription)"
+                    showIOAlert = true
                 }
             }
             .fileImporter(isPresented: $showImportDialog, allowedContentTypes: [.json]) { result in
@@ -106,8 +106,8 @@ struct SettingsView: View {
                     directory.stopAccessingSecurityScopedResource()
                 case let .failure(error):
                     logger().error("Can't import file: \(error)")
-                        ioTitle = "Habits can't be imported: \(error)"
-                        showIOAlert = true
+                    ioTitle = "Habits can't be imported: \(error)"
+                    showIOAlert = true
                 }
             }
             .alert(ioTitle, isPresented: $showIOAlert) {}

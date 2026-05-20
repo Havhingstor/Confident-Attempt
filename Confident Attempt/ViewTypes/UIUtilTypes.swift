@@ -1,6 +1,6 @@
 import Confident_Attempt_Model
-import SwiftUI
 import OSLog
+import SwiftUI
 
 enum TimeScale: String {
     case day

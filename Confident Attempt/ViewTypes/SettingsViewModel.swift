@@ -1,8 +1,8 @@
 import Confident_Attempt_Model
+import OSLog
 import SwiftData
 import SwiftUI
 import UniformTypeIdentifiers
-import OSLog
 
 extension SettingsView {
     @Observable
