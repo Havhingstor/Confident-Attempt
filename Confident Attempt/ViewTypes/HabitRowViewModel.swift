@@ -1,4 +1,5 @@
 import Confident_Attempt_Model
+import OSLog
 import SwiftData
 import SwiftUI
 
@@ -162,16 +163,34 @@ extension HabitRowView {
 
         func delete(context: ModelContext) {
             context.delete(habit)
+
+            do {
+                try context.save()
+            } catch let err {
+                logger().error("Can't save model context at the moment: \(err.localizedDescription)")
+            }
         }
 
         func duplicateWithCopy(context: ModelContext) {
             let newElement = Habit(cloneof: habit, newName: getNewName(habit, context: context), copyData: true)
             context.insert(newElement)
+
+            do {
+                try context.save()
+            } catch let err {
+                logger().error("Can't save model context at the moment: \(err.localizedDescription)")
+            }
         }
 
         func duplicateWithoutCopy(context: ModelContext) {
             let newElement = Habit(cloneof: habit, newName: getNewName(habit, context: context), copyData: false)
             context.insert(newElement)
+
+            do {
+                try context.save()
+            } catch let err {
+                logger().error("Can't save model context at the moment: \(err.localizedDescription)")
+            }
         }
 
         func increase() {

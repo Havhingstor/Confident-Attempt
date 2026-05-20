@@ -194,6 +194,12 @@ extension ContentView {
             for habit in toDelete {
                 modelContext.delete(habit)
             }
+
+            do {
+                try modelContext.save()
+            } catch let err {
+                logger().error("Can't save model context at the moment: \(err.localizedDescription)")
+            }
         }
     }
 }

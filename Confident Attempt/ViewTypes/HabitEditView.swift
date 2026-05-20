@@ -240,11 +240,17 @@ struct HabitEditView: View {
             guard let newHabit = Habit(name: name, textDescription: description, symbol: storedSymbol, repetition: repetition,
                                        goal: goal, firstDay: referenceDate())
             else {
-                logger().error("Couldn't create habit! That should never happen.")
+                logger().error("Couldn't create habit! This should never happen.")
                 return
             }
 
             modelContext.insert(newHabit)
+        }
+
+        do {
+            try modelContext.save()
+        } catch let err {
+            logger().error("Can't save model context at the moment: \(err.localizedDescription)")
         }
 
         dismiss()
