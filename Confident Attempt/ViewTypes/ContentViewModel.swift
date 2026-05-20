@@ -7,11 +7,6 @@ extension ContentView {
     @Observable
     class ViewModel {
         var addHabitShown: Bool
-        var editHabit: Habit?
-        var deleteHabit: Habit?
-        var duplicateHabit: Habit?
-        var showDuplicateDialog: Bool
-        var showDeletionDialog: Bool
         var setTimer: Timer?
         var dateNow: Date
 
@@ -22,11 +17,6 @@ extension ContentView {
 
         init(_ prefs: Preferences) {
             addHabitShown = false
-            editHabit = nil
-            deleteHabit = nil
-            duplicateHabit = nil
-            showDuplicateDialog = false
-            showDeletionDialog = false
             setTimer = nil
             dateNow = .now
             preferences = prefs
@@ -53,6 +43,7 @@ extension ContentView {
 
         var referenceDate: DateComponents {
             let invertedTime = dayStart.invertedTime
+            let dateNow = dateNow
             let earlier = Calendar.current.date(byAdding: invertedTime, to: dateNow)
 
             if earlier == nil {
@@ -192,6 +183,16 @@ extension ContentView {
                 do {
                     try await notificationCentre.add(request)
                 }
+            }
+        }
+
+        func delete(_ indices: IndexSet, list: [Habit], modelContext: ModelContext) {
+            let toDelete = indices.map { index in
+                list[index]
+            }
+
+            for habit in toDelete {
+                modelContext.delete(habit)
             }
         }
     }

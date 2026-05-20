@@ -4,6 +4,7 @@ import SwiftUI
 
 struct HabitRowView: View {
     @Environment(\.modelContext) private var modelContext
+    @Environment(\.editMode) private var editMode
     @State private var viewModel: ViewModel
 
     init(_ habit: Habit, _ model: ContentView.ViewModel) {
@@ -29,13 +30,22 @@ struct HabitRowView: View {
         }
         .foregroundStyle(viewModel.foregroundColour)
         .swipeActions(edge: .trailing) {
-            Button("Decrease", systemImage: "minus.circle") {
-                viewModel.decrease()
+            if editMode?.wrappedValue.isEditing != true {
+                Button("Decrease", systemImage: "minus.circle") {
+                    viewModel.decrease()
+                }
             }
         }
         .swipeActions(edge: .leading) {
-            Button("Increase", systemImage: "plus.circle") {
-                viewModel.increase()
+            if editMode?.wrappedValue.isEditing != true {
+                Button("Increase", systemImage: "plus.circle") {
+                    viewModel.increase()
+                }
+            }
+        }
+        .onTapGesture {
+            if editMode?.wrappedValue.isEditing == true {
+                viewModel.showEditor = true
             }
         }
         .contextMenu {
@@ -51,6 +61,7 @@ struct HabitRowView: View {
         }
         .animation(.default, value: viewModel.referenceDate)
         .animation(.default, value: viewModel.dayValue)
+        .animation(.default, value: editMode?.wrappedValue)
         .onChange(of: viewModel.evaluationToday) {
             viewModel.setBadge(context: modelContext)
         }

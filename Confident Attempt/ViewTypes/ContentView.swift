@@ -19,11 +19,17 @@ struct ContentView: View {
 
     var body: some View {
         NavigationStack {
-            List(habits) { habit in
-                HabitRowView(habit, viewModel)
+            List {
+                ForEach(habits) { habit in
+                    HabitRowView(habit, viewModel)
+                }
+                .onDelete { indices in
+                    viewModel.delete(indices, list: habits, modelContext: modelContext)
+                }
             }
             .navigationTitle("Confident Attempt")
             .toolbar {
+                EditButton()
                 NavigationLink {
                     SettingsView(viewModel.preferences)
                 } label: {
