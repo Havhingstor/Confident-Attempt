@@ -67,6 +67,7 @@ struct ContentView: View {
             .onReceive(NotificationCenter.default.publisher(for: UIApplication.significantTimeChangeNotification)) { _ in
                 viewModel.runTimerAction(context: modelContext)
             }
+            .alert(viewModel.alertText, isPresented: $viewModel.alertShown, actions: {})
         }
     }
 }

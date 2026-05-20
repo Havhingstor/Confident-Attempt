@@ -1,4 +1,5 @@
 import Foundation
+import OSLog
 import SwiftData
 
 public enum HabitsSchemaV2: VersionedSchema {
@@ -58,6 +59,7 @@ public enum HabitsSchemaV2: VersionedSchema {
             if let firstDay = try? container.decode(DateComponents.self, forKey: .firstDay) {
                 self.firstDay = firstDay
             } else {
+                logger().info("Manually creating first day since it isn't included in the decoder.")
                 setFirstDay()
             }
         }
@@ -79,6 +81,7 @@ extension HabitsSchemaV2.Habit: Codable {
                              goal: CompletionGoal = .daily(number: 1), firstDay: DateComponents)
     {
         if !Self.testValues(repetition: repetition, goal: goal) {
+            logger().info("Habit with repetition \(String(describing: repetition)) and goal \(String(describing: goal)) won't be created!")
             return nil
         }
 
@@ -127,6 +130,7 @@ extension HabitsSchemaV2.Habit: Codable {
         if let fromData = dayResults.map({ $0.key }).sorted().first {
             firstDay = fromData
         } else {
+            logger().info("No completions set for any days, first day is set to today.")
             firstDay = .now
         }
     }
@@ -146,6 +150,7 @@ extension HabitsSchemaV2.Habit: Codable {
     public func setDay(_ day: DateComponents, to: UInt) {
         switch repetition {
         case let .some(repetition) where to > repetition:
+            logger().info("New day value of \(to) is bigger than maximum value (\(repetition)), so this is the new value set.")
             dayResults[day] = repetition
         default:
             dayResults[day] = to

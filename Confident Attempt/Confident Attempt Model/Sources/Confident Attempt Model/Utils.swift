@@ -1,4 +1,5 @@
 import Foundation
+import OSLog
 
 public extension Date {
     var dc: DateComponents {
@@ -16,12 +17,24 @@ extension DateComponents: @retroactive Comparable {
     }
 
     func daysSince(_ other: DateComponents) -> Int? {
-        Calendar.current.dateComponents([.day], from: other, to: self).day
+        let result = Calendar.current.dateComponents([.day], from: other, to: self).day
+
+        if result == nil {
+            logger("Util").error("Can't calculate days between \(other) and \(self)!")
+        }
+
+        return result
     }
 
     func addingDays(_ number: Int) -> DateComponents? {
         guard let date = asDate else { return .none }
-        return Calendar.current.date(byAdding: .day, value: number, to: date)?.dc
+        let result = Calendar.current.date(byAdding: .day, value: number, to: date)?.dc
+
+        if result == nil {
+            logger("Util").error("Can't adds \(number) days to \(self)!")
+        }
+
+        return result
     }
 
     func daysInMonth() -> Int {
@@ -35,7 +48,13 @@ extension DateComponents: @retroactive Comparable {
     }
 
     public var asDate: Date? {
-        Calendar.current.date(from: self)
+        let result = Calendar.current.date(from: self)
+
+        if result == nil {
+            logger("Util").error("Can't convert \(self) to Date!")
+        }
+
+        return result
     }
 
     public var invertedTime: DateComponents {
@@ -79,4 +98,8 @@ extension Int? {
 
         return -self
     }
+}
+
+func logger(_ category: String = "Habit") -> Logger {
+    Logger(subsystem: "de.pschuetz.ConfidentAttempt", category: category)
 }

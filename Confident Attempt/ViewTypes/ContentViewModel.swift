@@ -1,4 +1,5 @@
 import Confident_Attempt_Model
+import OSLog
 import SwiftData
 import SwiftUI
 
@@ -15,6 +16,9 @@ extension ContentView {
         var dateNow: Date
 
         let preferences: Preferences
+
+        var alertShown = false
+        var alertText = ""
 
         init(_ prefs: Preferences) {
             addHabitShown = false
@@ -48,9 +52,14 @@ extension ContentView {
         }
 
         var referenceDate: DateComponents {
-            let earlier = Calendar.current.date(byAdding: dayStart.invertedTime, to: dateNow) ?? .now
+            let invertedTime = dayStart.invertedTime
+            let earlier = Calendar.current.date(byAdding: invertedTime, to: dateNow)
 
-            return earlier.dc
+            if earlier == nil {
+                logger().error("Can't add \(invertedTime) to \(dateNow), therefore the reference date is just now.")
+            }
+
+            return (earlier ?? .now).dc
         }
 
         func refreshDate() {
@@ -61,10 +70,16 @@ extension ContentView {
             let offset = startOfDay.time
             let start = Calendar.current.startOfDay(for: .now)
 
-            guard var date = Calendar.current.date(byAdding: offset, to: start) else { return nil }
+            guard var date = Calendar.current.date(byAdding: offset, to: start) else {
+                logger().error("Can't add \(offset) to \(start), therefore the next timer can't be created.")
+                return nil
+            }
 
             while date <= .now {
-                guard let newDate = Calendar.current.date(byAdding: .day, value: 1, to: date) else { return nil }
+                guard let newDate = Calendar.current.date(byAdding: .day, value: 1, to: date) else {
+                    logger().error("Can't add one day to to \(date), therefore the next timer can't be created.")
+                    return nil
+                }
                 date = newDate
             }
 
@@ -80,7 +95,11 @@ extension ContentView {
         }
 
         func addTimer(context: ModelContext) {
-            guard let date = calculateNextTimerTrigger(dayStart) else { return }
+            guard let date = calculateNextTimerTrigger(dayStart) else {
+                alertText = "Currently unable to update the values on day start, please reload app then."
+                alertShown = true
+                return
+            }
 
             let timer = Timer(fire: date, interval: 0, repeats: false) { _ in
                 self.runTimerAction(context: context)
@@ -103,7 +122,15 @@ extension ContentView {
             Task {
                 let authorizationStatus = await notificationCentre.notificationSettings().authorizationStatus
 
-                guard authorizationStatus == .authorized else { return }
+                guard authorizationStatus == .authorized else {
+                    if preferences.notifications {
+                        logger().error("Can't set badge, notifications aren't authorised!")
+                        alertText = "Can't set the application's badge, please enable notifications in the iOS and app settings"
+                        alertShown = true
+                        preferences.notifications = false
+                    }
+                    return
+                }
 
                 var count = 0
 
@@ -133,7 +160,15 @@ extension ContentView {
             Task {
                 let authorizationStatus = await notificationCentre.notificationSettings().authorizationStatus
 
-                guard authorizationStatus == .authorized else { return }
+                guard authorizationStatus == .authorized else {
+                    if preferences.notifications {
+                        logger().error("Can't add notification, notifications aren't authorised!")
+                        alertText = "Can't show day start notifications, please enable notifications in the iOS and app settings"
+                        alertShown = true
+                        preferences.notifications = false
+                    }
+                    return
+                }
 
                 let descriptor = FetchDescriptor<Habit>()
                 let habits = (try? context.fetch(descriptor)) ?? []

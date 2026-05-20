@@ -1,4 +1,5 @@
 import Confident_Attempt_Model
+import OSLog
 import SFSymbolsPicker
 import SwiftData
 import SwiftUI
@@ -237,7 +238,11 @@ struct HabitEditView: View {
             editedHabit.setRepetitionAndGoal(rep: repetition, goal: goal)
         } else {
             guard let newHabit = Habit(name: name, textDescription: description, symbol: storedSymbol, repetition: repetition,
-                                       goal: goal, firstDay: referenceDate()) else { return }
+                                       goal: goal, firstDay: referenceDate())
+            else {
+                logger().error("Couldn't create habit! That should never happen.")
+                return
+            }
 
             modelContext.insert(newHabit)
         }

@@ -154,8 +154,6 @@ extension HabitRowView {
 
                 return newName
             }
-
-            return ""
         }
 
         func setBadge(context: ModelContext) {
