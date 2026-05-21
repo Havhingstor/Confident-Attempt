@@ -19,6 +19,7 @@ struct HabitRowView: View {
                 viewModel.habitSymbol
                 Text(viewModel.habit.name)
             }
+            .multilineTextAlignment(.leading)
             Spacer()
             VStack(alignment: .trailing) {
                 Text(viewModel.goal)
@@ -27,6 +28,7 @@ struct HabitRowView: View {
 
                 Text(viewModel.completionText)
             }
+            .multilineTextAlignment(.trailing)
         }
         .foregroundStyle(viewModel.foregroundColour)
         .swipeActions(edge: .trailing) {
