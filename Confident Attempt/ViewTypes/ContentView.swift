@@ -27,6 +27,7 @@ struct ContentView: View {
                     viewModel.delete(indices, list: habits, modelContext: modelContext)
                 }
             }
+            .animation(.default, value: habits)
             .navigationTitle("Confident Attempt")
             .toolbar {
                 EditButton()
