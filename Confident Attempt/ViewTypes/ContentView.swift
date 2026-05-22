@@ -8,6 +8,10 @@ struct ContentView: View {
 
     @State private var viewModel: ViewModel
 
+    var undoManager: UndoManager? {
+        modelContext.undoManager
+    }
+
     init(_ prefs: Preferences) {
         let viewModelWrapped = ViewModel(prefs)
         _viewModel = .init(initialValue: viewModelWrapped)
@@ -28,22 +32,50 @@ struct ContentView: View {
                 }
             }
             .animation(.default, value: habits)
+            .animation(.default, value: undoManager?.canUndo)
+            .animation(.default, value: undoManager?.canRedo)
             .navigationTitle("Confident Attempt")
             .toolbar {
-                EditButton()
-                NavigationLink {
-                    SettingsView(viewModel.preferences)
-                } label: {
-                    Label("Settings", systemImage: "gear")
-                }
-                NavigationLink {
-                    HelpView()
-                } label: {
-                    Label("Help", systemImage: "questionmark")
+                ToolbarItem(placement: .topBarTrailing) {
+                    EditButton()
                 }
 
-                Button("New Habit", systemImage: "plus") {
-                    viewModel.addHabitShown = true
+                if let undoManager {
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Button("Undo", systemImage: "arrow.uturn.backward.circle") {
+                            undoManager.undo()
+                        }
+                        .disabled(!undoManager.canUndo)
+                    }
+
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Button("Redo", systemImage: "arrow.uturn.forward.circle") {
+                            undoManager.redo()
+                        }
+                        .disabled(!undoManager.canRedo)
+                    }
+                }
+
+                ToolbarItem(placement: .bottomBar) {
+                    NavigationLink {
+                        SettingsView(viewModel.preferences)
+                    } label: {
+                        Label("Settings", systemImage: "gear")
+                    }
+                }
+
+                ToolbarItem(placement: .bottomBar) {
+                    NavigationLink {
+                        HelpView()
+                    } label: {
+                        Label("Help", systemImage: "questionmark")
+                    }
+                }
+
+                ToolbarItem(placement: .bottomBar) {
+                    Button("New Habit", systemImage: "plus") {
+                        viewModel.addHabitShown = true
+                    }
                 }
             }
             .sheet(isPresented: $viewModel.addHabitShown) {

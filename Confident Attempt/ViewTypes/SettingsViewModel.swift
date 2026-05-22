@@ -125,6 +125,8 @@ extension SettingsView {
                     habit.name += " (Imported)"
                     context.insert(habit)
                 }
+                
+                try context.save()
             } catch let e {
                 logger().error("Can't load habits: \(e)")
                 ioError = "Habits can't be imported: \(e)"

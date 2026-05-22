@@ -10,6 +10,7 @@ struct Confident_AttemptApp: App {
     init() {
         do {
             container = try ModelContainer(for: Habit.self, migrationPlan: HabitsMigrationPlan.self)
+            container.mainContext.undoManager = UndoManager()
         } catch let err {
             fatalError("Failed to initialize model container: \(err)")
         }
@@ -26,6 +27,7 @@ struct Confident_AttemptApp: App {
 func getPreviewContainer() -> ModelContainer {
     let config = ModelConfiguration(isStoredInMemoryOnly: true)
     let container = try! ModelContainer(for: Habit.self, configurations: config)
+    container.mainContext.undoManager = UndoManager()
 
     let habit1 = Habit(name: "Test 1", textDescription: "Test", firstDay: .now)
     let habit2 = Habit(name: "Test 2", textDescription: "Test", repetition: .none, firstDay: .now)
