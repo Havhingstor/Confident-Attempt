@@ -172,7 +172,7 @@ extension HabitRowView {
         }
 
         func duplicateWithCopy(context: ModelContext) {
-            let newElement = Habit(cloneof: habit, newName: getNewName(habit, context: context), copyData: true)
+            let newElement = Habit(cloneof: habit, newName: getNewName(habit, context: context), copyData: true, firstDay: referenceDate)
             context.insert(newElement)
 
             do {
@@ -183,7 +183,7 @@ extension HabitRowView {
         }
 
         func duplicateWithoutCopy(context: ModelContext) {
-            let newElement = Habit(cloneof: habit, newName: getNewName(habit, context: context), copyData: false)
+            let newElement = Habit(cloneof: habit, newName: getNewName(habit, context: context), copyData: false, firstDay: referenceDate)
             context.insert(newElement)
 
             do {

@@ -120,15 +120,15 @@ extension Habit: Codable {
                   goal: goal, dayResults: [:], firstDay: firstDay, dayDefault: dayDefault)
     }
 
-    public convenience init(cloneof from: Habit, newName: String, copyData: Bool) {
-        let dayResults = if copyData {
-            from.dayResults
+    public convenience init(cloneof from: Habit, newName: String, copyData: Bool, firstDay: DateComponents) {
+        let (dayResults, firstDay) = if copyData {
+            (from.dayResults, from.firstDay)
         } else {
-            [DateComponents: UInt]()
+            ([DateComponents: UInt](), firstDay)
         }
 
         self.init(name: newName, textDescription: from.textDescription, symbol: from.symbol, repetition: from.repetition,
-                  goal: from.goal, dayResults: dayResults, firstDay: from.firstDay, dayDefault: from.dayDefault)
+                  goal: from.goal, dayResults: dayResults, firstDay: firstDay, dayDefault: from.dayDefault)
     }
 
     public func encode(to encoder: any Encoder) throws {
@@ -166,16 +166,16 @@ extension Habit: Codable {
     }
 
     public func getDay(_ day: DateComponents = .now) -> UInt {
-        return dayResults[day] ?? dayDefault
+        return dayResults[day.cleaned] ?? dayDefault
     }
 
     public func setDay(_ day: DateComponents, to: UInt) {
         switch repetition {
         case let .some(repetition) where to > repetition:
             logger().info("New day value of \(to) is bigger than maximum value (\(repetition)), so this is the new value set.")
-            dayResults[day] = repetition
+                dayResults[day.cleaned] = repetition
         default:
-            dayResults[day] = to
+                dayResults[day.cleaned] = to
         }
     }
 

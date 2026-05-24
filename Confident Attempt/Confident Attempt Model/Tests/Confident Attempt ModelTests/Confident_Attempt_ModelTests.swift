@@ -52,7 +52,7 @@ func habitBasics() {
     #expect(baseHabit.firstDay == beforeFirstDay)
     #expect(baseHabit.getEvaluation(from: oneMonthEvaluation, to: thirdDay) == 0.625)
 
-    let clone1 = Habit(cloneof: baseHabit, newName: "TestName", copyData: true)
+    let clone1 = Habit(cloneof: baseHabit, newName: "TestName", copyData: true, firstDay: firstDay)
 
     #expect(clone1.getDay(firstDay) == 2)
     #expect(clone1.name == "TestName")
@@ -65,10 +65,11 @@ func habitBasics() {
     #expect(clone1.firstDay.day == 1)
     #expect(baseHabit.firstDay.day == 16)
 
-    let clone2 = Habit(cloneof: baseHabit, newName: "NewTestName", copyData: false)
+    let clone2 = Habit(cloneof: baseHabit, newName: "NewTestName", copyData: false, firstDay: firstDay)
     clone2.dayDefault = 3
     #expect(clone2.getDay(firstDay) == 3)
     #expect(clone2.name == "NewTestName")
+    #expect(clone2.getEvaluation(from: twoDayEvaluation, to: thirdDay) == 1.5)
 
     #expect(clone1.checkNewRepetition(2) == 1)
     clone1.setRepetitionAndGoal(rep: 2, goal: .daily(number: 2))
