@@ -174,7 +174,11 @@ extension ContentView {
                     content.interruptionLevel = .passive
                 }
 
-                content.badge = NSNumber(value: habits.count)
+                let count = habits.map({ habit in
+                    Double(habit.dayDefault) < habit.goal.getAsDaily(forDate: date.dc) ? 1 : 0
+                }).reduce(UInt(0), {$0 + $1})
+                
+                content.badge = NSNumber(value: count)
 
                 let trigger = UNCalendarNotificationTrigger(dateMatching: timing, repeats: true)
 

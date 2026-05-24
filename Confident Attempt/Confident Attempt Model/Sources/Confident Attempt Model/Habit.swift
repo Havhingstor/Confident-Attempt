@@ -80,6 +80,13 @@ public enum HabitsSchemaV3: VersionedSchema {
                 dayDefaultInternal ?? 0
             }
             set {
+                if let repetition,
+                   repetition < newValue
+                {
+                    logger().warning("Won't set new day default: higher than daily maximum!")
+                    return
+                }
+
                 dayDefaultInternal = if newValue == 0 {
                     nil
                 } else {
@@ -121,7 +128,7 @@ extension Habit: Codable {
         }
 
         self.init(name: newName, textDescription: from.textDescription, symbol: from.symbol, repetition: from.repetition,
-                goal: from.goal, dayResults: dayResults, firstDay: from.firstDay, dayDefault: from.dayDefault)
+                  goal: from.goal, dayResults: dayResults, firstDay: from.firstDay, dayDefault: from.dayDefault)
     }
 
     public func encode(to encoder: any Encoder) throws {
@@ -194,7 +201,12 @@ extension Habit: Codable {
 
         beforeStart = max(beforeFirst, beforeStart)
 
-        return dayResults.filter { $0.key > beforeStart && $0.key <= to }.reduce(0) { $0 + UInt($1.value) }
+        let filteredDays = dayResults.filter { $0.key > beforeStart && $0.key <= to }
+        let count = filteredDays.count
+        let directlySetValue = filteredDays.reduce(0) { $0 + UInt($1.value) }
+        let totalDays = to.daysSince(beforeStart) ?? 0
+
+        return directlySetValue + UInt(clamping: totalDays - count) * dayDefault
     }
 
     public func getEvaluation(from: CalculationStart, to: DateComponents) -> Double {
@@ -204,10 +216,23 @@ extension Habit: Codable {
 
         beforeStart = max(beforeFirst, beforeStart)
 
-        let totalEvaluation = dayResults.filter { $0.key > beforeStart && $0.key <= to }.reduce(0) { $0 + getEvaluationForDay($1.key) }
+        guard beforeStart < to else { return 0.0 }
 
-        let totalDays = to.daysSince(beforeStart)
-        guard let totalDays, totalDays > 0 else { return 0 }
+        var currentlyVisitedDate = to
+        var totalEvaluation = 0.0
+
+        while currentlyVisitedDate > beforeStart {
+            totalEvaluation += getEvaluationForDay(currentlyVisitedDate)
+
+            if let newDate = currentlyVisitedDate.addingDays(-1) {
+                currentlyVisitedDate = newDate
+            } else {
+                break
+            }
+        }
+
+        guard let totalDays = to.daysSince(beforeStart),
+              totalDays > 0 else { return 0 }
 
         return totalEvaluation / Double(totalDays)
     }

@@ -16,6 +16,7 @@ struct HabitEditView: View {
     @State private var repetitionType = RepetitionType.normal
     @State private var goalScale = TimeScale.day
     @State private var goalAmount = UInt(1)
+    @State private var dayDefault = UInt(0)
     @State private var symbol: String = ""
     @State private var symbolPickerShown = false
     @State private var saveConfirmationDialogShown = false
@@ -29,6 +30,12 @@ struct HabitEditView: View {
 
     private var allowed: Bool {
         Habit.testValues(repetition: repetition, goal: goal)
+    }
+    
+    private var defaultProblem: Bool {
+        guard let repetition else {return false}
+        
+        return repetition < dayDefault
     }
 
     private var repetition: UInt? {
@@ -63,6 +70,7 @@ struct HabitEditView: View {
             _goalScale = State(initialValue: .fromCompletionGoal(editedHabit.goal))
             _goalAmount = State(initialValue: editedHabit.goal.getNumber())
             _symbol = State(initialValue: editedHabit.symbol ?? "")
+            _dayDefault = State(initialValue: editedHabit.dayDefault)
 
             if editedHabit.repetition == 1 {
                 _repetitionType = State(initialValue: .normal)
@@ -152,9 +160,20 @@ struct HabitEditView: View {
                             .keyboardType(.numberPad)
                     }
                 }
+                
+                Section("Default Completion Number") {
+                    CustomTextField(TextField("Default Completion Number", value: $dayDefault, format: .number))
+                        .keyboardType(.numberPad)
+                }
 
                 if !allowed {
                     Text("The current goal cannot be reached with the current repetition!")
+                        .listRowBackground(Color.red)
+                        .font(.title3)
+                }
+                
+                if defaultProblem {
+                    Text("The default completions for a day must be below the daily limit!")
                         .listRowBackground(Color.red)
                         .font(.title3)
                 }
@@ -201,7 +220,7 @@ struct HabitEditView: View {
                         }
                         save()
                     }
-                    .disabled(!allowed || name.isEmpty)
+                    .disabled(!allowed || defaultProblem || name.isEmpty)
                 }
             }
             .onChange(of: goal) {
@@ -215,6 +234,7 @@ struct HabitEditView: View {
                 }
             }
             .animation(.default, value: allowed)
+            .animation(.default, value: defaultProblem)
             .animation(.default, value: name.isEmpty)
             .animation(.default, value: repetition)
         }
@@ -236,9 +256,10 @@ struct HabitEditView: View {
             editedHabit.textDescription = description
             editedHabit.symbol = storedSymbol
             editedHabit.setRepetitionAndGoal(rep: repetition, goal: goal)
+            editedHabit.dayDefault = dayDefault
         } else {
             guard let newHabit = Habit(name: name, textDescription: description, symbol: storedSymbol, repetition: repetition,
-                                       goal: goal, firstDay: referenceDate())
+                                       goal: goal, firstDay: referenceDate(), dayDefault: dayDefault)
             else {
                 logger().error("Couldn't create habit! This should never happen.")
                 return
