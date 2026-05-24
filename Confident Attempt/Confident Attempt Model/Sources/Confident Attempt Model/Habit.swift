@@ -2,8 +2,8 @@ import Foundation
 import OSLog
 import SwiftData
 
-public enum HabitsSchemaV2: VersionedSchema {
-    public static let versionIdentifier = Schema.Version(2, 0, 0)
+public enum HabitsSchemaV3: VersionedSchema {
+    public static let versionIdentifier = Schema.Version(3, 0, 0)
 
     public static var models: [any PersistentModel.Type] {
         [Habit.self]
@@ -17,26 +17,12 @@ public enum HabitsSchemaV2: VersionedSchema {
         public private(set) var repetition: UInt?
         public private(set) var goal: CompletionGoal = CompletionGoal.daily(number: 1)
         fileprivate var dayResults: [DateComponents: UInt] = [:]
+        private var dayDefaultInternal: UInt?
 
         private var firstDayData: Data = Data()
 
-        public internal(set) var firstDay: DateComponents {
-            get {
-                if let result = try? JSONDecoder().decode(DateComponents.self, from: firstDayData) {
-                    return result
-                }
-
-                setFirstDay()
-
-                return (try? JSONDecoder().decode(DateComponents.self, from: firstDayData)) ?? .now
-            }
-            set {
-                firstDayData = (try? JSONEncoder().encode(newValue)) ?? Data()
-            }
-        }
-
-        fileprivate init(name: String, textDescription: String, symbol: String?, repetition: UInt?,
-                         goal: CompletionGoal, dayResults: [DateComponents: UInt], firstDay: DateComponents)
+        fileprivate init(name: String, textDescription: String, symbol: String?, repetition: UInt?, goal: CompletionGoal,
+                         dayResults: [DateComponents: UInt], firstDay: DateComponents, dayDefault: UInt)
         {
             self.name = name
             self.textDescription = textDescription
@@ -45,6 +31,7 @@ public enum HabitsSchemaV2: VersionedSchema {
             self.symbol = symbol
             self.dayResults = dayResults
             self.firstDay = firstDay
+            self.dayDefault = dayDefault
         }
 
         public required init(from decoder: any Decoder) throws {
@@ -63,6 +50,43 @@ public enum HabitsSchemaV2: VersionedSchema {
                 setFirstDay()
             }
         }
+
+        public internal(set) var firstDay: DateComponents {
+            get {
+                if let result = try? JSONDecoder().decode(DateComponents.self, from: firstDayData) {
+                    return result
+                }
+
+                setFirstDay()
+
+                return (try? JSONDecoder().decode(DateComponents.self, from: firstDayData)) ?? .now
+            }
+            set {
+                firstDayData = (try? JSONEncoder().encode(newValue)) ?? Data()
+            }
+        }
+
+        func setFirstDay() {
+            if let fromData = dayResults.map({ $0.key }).sorted().first {
+                firstDay = fromData
+            } else {
+                logger().info("No completions set for any days, first day is set to today.")
+                firstDay = .now
+            }
+        }
+
+        public var dayDefault: UInt {
+            get {
+                dayDefaultInternal ?? 0
+            }
+            set {
+                dayDefaultInternal = if newValue == 0 {
+                    nil
+                } else {
+                    newValue
+                }
+            }
+        }
     }
 }
 
@@ -76,9 +100,9 @@ private enum HabitCodingKeys: CodingKey {
     case firstDay
 }
 
-extension HabitsSchemaV2.Habit: Codable {
+extension Habit: Codable {
     public convenience init?(name: String, textDescription: String, symbol: String? = nil, repetition: UInt? = 1,
-                             goal: CompletionGoal = .daily(number: 1), firstDay: DateComponents)
+                             goal: CompletionGoal = .daily(number: 1), firstDay: DateComponents, dayDefault: UInt = 0)
     {
         if !Self.testValues(repetition: repetition, goal: goal) {
             logger().info("Habit with repetition \(String(describing: repetition)) and goal \(String(describing: goal)) won't be created!")
@@ -86,18 +110,18 @@ extension HabitsSchemaV2.Habit: Codable {
         }
 
         self.init(name: name, textDescription: textDescription, symbol: symbol, repetition: repetition,
-                  goal: goal, dayResults: [:], firstDay: firstDay)
+                  goal: goal, dayResults: [:], firstDay: firstDay, dayDefault: dayDefault)
     }
 
-    public convenience init(cloneof from: HabitsSchemaV2.Habit, newName: String, copyData: Bool) {
+    public convenience init(cloneof from: Habit, newName: String, copyData: Bool) {
         let dayResults = if copyData {
             from.dayResults
         } else {
             [DateComponents: UInt]()
         }
 
-        self.init(name: newName, textDescription: from.textDescription, symbol: from.symbol,
-                  repetition: from.repetition, goal: from.goal, dayResults: dayResults, firstDay: from.firstDay)
+        self.init(name: newName, textDescription: from.textDescription, symbol: from.symbol, repetition: from.repetition,
+                goal: from.goal, dayResults: dayResults, firstDay: from.firstDay, dayDefault: from.dayDefault)
     }
 
     public func encode(to encoder: any Encoder) throws {
@@ -126,15 +150,6 @@ extension HabitsSchemaV2.Habit: Codable {
         return true
     }
 
-    func setFirstDay() {
-        if let fromData = dayResults.map({ $0.key }).sorted().first {
-            firstDay = fromData
-        } else {
-            logger().info("No completions set for any days, first day is set to today.")
-            firstDay = .now
-        }
-    }
-
     public var calculatedFirstDay: DateComponents {
         if let fromData = dayResults.map({ $0.key }).sorted().first {
             return min(fromData, firstDay)
@@ -144,7 +159,7 @@ extension HabitsSchemaV2.Habit: Codable {
     }
 
     public func getDay(_ day: DateComponents = .now) -> UInt {
-        return dayResults[day] ?? 0
+        return dayResults[day] ?? dayDefault
     }
 
     public func setDay(_ day: DateComponents, to: UInt) {

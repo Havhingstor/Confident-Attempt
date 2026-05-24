@@ -66,7 +66,8 @@ func habitBasics() {
     #expect(baseHabit.firstDay.day == 16)
 
     let clone2 = Habit(cloneof: baseHabit, newName: "NewTestName", copyData: false)
-    #expect(clone2.getDay(firstDay) == 0)
+    clone2.dayDefault = 3
+    #expect(clone2.getDay(firstDay) == 3)
     #expect(clone2.name == "NewTestName")
 
     #expect(clone1.checkNewRepetition(2) == 1)

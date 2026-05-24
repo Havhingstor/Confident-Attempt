@@ -2,11 +2,11 @@ import SwiftData
 
 public enum HabitsMigrationPlan: SchemaMigrationPlan {
     public static var schemas: [any VersionedSchema.Type] {
-        [HabitsSchemaV1.self, HabitsSchemaV2.self]
+        [HabitsSchemaV1.self, HabitsSchemaV2.self, HabitsSchemaV3.self]
     }
 
     public static var stages: [MigrationStage] {
-        [migrateV1toV2]
+        [migrateV1toV2, MigrationStage.lightweight(fromVersion: HabitsSchemaV2.self, toVersion: HabitsSchemaV3.self)]
     }
 
     private static let migrateV1toV2 = MigrationStage.custom(fromVersion: HabitsSchemaV1.self, toVersion: HabitsSchemaV2.self, willMigrate: nil) { context in
@@ -20,4 +20,4 @@ public enum HabitsMigrationPlan: SchemaMigrationPlan {
     }
 }
 
-public typealias Habit = HabitsSchemaV2.Habit
+public typealias Habit = HabitsSchemaV3.Habit
