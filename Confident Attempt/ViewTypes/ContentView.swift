@@ -5,6 +5,7 @@ import SwiftUI
 struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
     @Query(sort: \Habit.name) private var habits: [Habit]
+    @Environment(\.scenePhase) var scenePhase
 
     @State private var viewModel: ViewModel
 
@@ -81,13 +82,8 @@ struct ContentView: View {
             .sheet(isPresented: $viewModel.addHabitShown) {
                 HabitEditView(referenceDate: { viewModel.referenceDate })
             }
-            .onAppear {
-                viewModel.refreshDate()
-                if viewModel.setTimer == nil {
-                    viewModel.addTimer(context: modelContext)
-                    viewModel.setBadge(context: modelContext)
-                    viewModel.setBadge(context: modelContext)
-                }
+            .onChange(of: scenePhase) {
+                viewModel.runTimerAction(context: modelContext)
             }
             .onChange(of: viewModel.dayStart) {
                 viewModel.addTimer(context: modelContext)
