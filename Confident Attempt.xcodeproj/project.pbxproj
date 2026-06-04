@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		DA0FA12E2FA0FC4900284ADF /* SFSymbolsPicker in Frameworks */ = {isa = PBXBuildFile; productRef = DA0FA12D2FA0FC4900284ADF /* SFSymbolsPicker */; };
+		DABB432D2FD1DC5900FFE4A2 /* CalendarView in Frameworks */ = {isa = PBXBuildFile; productRef = DABB432C2FD1DC5900FFE4A2 /* CalendarView */; };
 		DAC67E932F8F7A07005AFFB7 /* Confident Attempt Model in Frameworks */ = {isa = PBXBuildFile; productRef = DAC67E922F8F7A07005AFFB7 /* Confident Attempt Model */; };
 /* End PBXBuildFile section */
 
@@ -43,6 +44,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DAC67E932F8F7A07005AFFB7 /* Confident Attempt Model in Frameworks */,
+				DABB432D2FD1DC5900FFE4A2 /* CalendarView in Frameworks */,
 				DA0FA12E2FA0FC4900284ADF /* SFSymbolsPicker in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -97,6 +99,7 @@
 			packageProductDependencies = (
 				DAC67E922F8F7A07005AFFB7 /* Confident Attempt Model */,
 				DA0FA12D2FA0FC4900284ADF /* SFSymbolsPicker */,
+				DABB432C2FD1DC5900FFE4A2 /* CalendarView */,
 			);
 			productName = "Confident Attempt";
 			productReference = DA3C98D72F8E9E4F00E5C79B /* Confident Attempt.app */;
@@ -128,6 +131,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				DA0FA12C2FA0FC4900284ADF /* XCRemoteSwiftPackageReference "SFSymbolsPicker" */,
+				DABB432B2FD1DC5900FFE4A2 /* XCRemoteSwiftPackageReference "CalendarView" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = DA3C98D82F8E9E4F00E5C79B /* Products */;
@@ -194,7 +198,7 @@
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
+				IPHONEOS_DEPLOYMENT_TARGET = 18;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 26.5;
@@ -243,7 +247,7 @@
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
+				IPHONEOS_DEPLOYMENT_TARGET = 18;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 26.5;
@@ -413,6 +417,14 @@
 				minimumVersion = 1.0.9;
 			};
 		};
+		DABB432B2FD1DC5900FFE4A2 /* XCRemoteSwiftPackageReference "CalendarView" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/AllanJuenemann/CalendarView";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.2.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -420,6 +432,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = DA0FA12C2FA0FC4900284ADF /* XCRemoteSwiftPackageReference "SFSymbolsPicker" */;
 			productName = SFSymbolsPicker;
+		};
+		DABB432C2FD1DC5900FFE4A2 /* CalendarView */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DABB432B2FD1DC5900FFE4A2 /* XCRemoteSwiftPackageReference "CalendarView" */;
+			productName = CalendarView;
 		};
 		DAC67E8F2F8F79FE005AFFB7 /* Confident Attempt Model */ = {
 			isa = XCSwiftPackageProductDependency;

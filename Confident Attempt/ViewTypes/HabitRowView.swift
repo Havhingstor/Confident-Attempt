@@ -48,6 +48,8 @@ struct HabitRowView: View {
         .onTapGesture {
             if editMode?.wrappedValue.isEditing == true {
                 viewModel.showEditor = true
+            } else {
+                viewModel.showDetails = true
             }
         }
         .contextMenu {
@@ -69,6 +71,9 @@ struct HabitRowView: View {
         }
         .sheet(isPresented: $viewModel.showEditor) {
             HabitEditView(editedHabit: viewModel.habit, referenceDate: { viewModel.referenceDate })
+        }
+        .sheet(isPresented: $viewModel.showDetails) {
+            DetailsView(viewModel)
         }
         .alert("Delete Entry \"\(viewModel.name)\"?", isPresented: $viewModel.showDeletionAlert) {
             Button("Cancel", role: .cancel) {}

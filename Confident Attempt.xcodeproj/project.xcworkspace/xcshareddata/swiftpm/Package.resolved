@@ -1,6 +1,15 @@
 {
-  "originHash" : "18f91dc6485dbd6077104795d8ab8bdab397e2476f72ea35cd2cea4ca79de92f",
+  "originHash" : "34bf208eb345516fbdadf774c12e0e4eaada23b25d40d510e006d7901378ede7",
   "pins" : [
+    {
+      "identity" : "calendarview",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/AllanJuenemann/CalendarView",
+      "state" : {
+        "revision" : "903e6061d2230c698373feb2816133fb33eb505f",
+        "version" : "2.2.0"
+      }
+    },
     {
       "identity" : "sfsafesymbols",
       "kind" : "remoteSourceControl",

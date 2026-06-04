@@ -193,13 +193,17 @@ extension Habit: Codable {
     public func getEvaluationForDay(_ day: DateComponents) -> Double {
         return Double(getDay(day)) / goal.getAsDaily(forDate: day)
     }
-
-    public func getTotal(from: CalculationStart, to: DateComponents) -> UInt {
+    
+    public func getBeforeStart(from: CalculationStart, to: DateComponents) -> DateComponents? {
         guard let lastDate = to.asDate,
               let beforeFirst = calculatedFirstDay.addingDays(-1),
-              var beforeStart = Calendar.current.date(byAdding: from.getAsDateComponents(), to: lastDate)?.dc else { return 0 }
+              let beforeStart = Calendar.current.date(byAdding: from.getAsDateComponents(), to: lastDate)?.dc else { return nil }
+        
+        return max(beforeFirst, beforeStart)
+    }
 
-        beforeStart = max(beforeFirst, beforeStart)
+    public func getTotal(from: CalculationStart, to: DateComponents) -> UInt {
+        guard let beforeStart = getBeforeStart(from: from, to: to) else {return 0}
 
         let filteredDays = dayResults.filter { $0.key > beforeStart && $0.key <= to }
         let count = filteredDays.count
@@ -210,13 +214,9 @@ extension Habit: Codable {
     }
 
     public func getEvaluation(from: CalculationStart, to: DateComponents) -> Double {
-        guard let lastDate = to.asDate,
-              let beforeFirst = calculatedFirstDay.addingDays(-1),
-              var beforeStart = Calendar.current.date(byAdding: from.getAsDateComponents(), to: lastDate)?.dc else { return 0 }
+        guard let beforeStart = getBeforeStart(from: from, to: to) else {return 0}
 
-        beforeStart = max(beforeFirst, beforeStart)
-
-        guard beforeStart < to else { return 0.0 }
+        guard beforeStart < to else { return 0 }
 
         var currentlyVisitedDate = to
         var totalEvaluation = 0.0

@@ -21,7 +21,7 @@ extension DateComponents: @retroactive Comparable {
         }
     }
 
-    func daysSince(_ other: DateComponents) -> Int? {
+    public func daysSince(_ other: DateComponents) -> Int? {
         let result = Calendar.current.dateComponents([.day], from: other, to: self).day
 
         if result == nil {
@@ -31,12 +31,12 @@ extension DateComponents: @retroactive Comparable {
         return result
     }
 
-    func addingDays(_ number: Int) -> DateComponents? {
+    public func addingDays(_ number: Int) -> DateComponents? {
         guard let date = asDate else { return .none }
         let result = Calendar.current.date(byAdding: .day, value: number, to: date)?.dc
 
         if result == nil {
-            logger("Util").error("Can't adds \(number) days to \(self)!")
+            logger("Util").error("Can't add \(number) days to \(self)!")
         }
 
         return result

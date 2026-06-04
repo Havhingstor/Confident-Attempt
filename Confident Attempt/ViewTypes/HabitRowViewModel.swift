@@ -9,6 +9,7 @@ extension HabitRowView {
         var habit: Habit
         var superViewModel: ContentView.ViewModel
         var showEditor = false
+        var showDetails = false
         var showDeletionAlert = false
         var showDuplicateAlert = false
 
@@ -17,7 +18,7 @@ extension HabitRowView {
             self.superViewModel = superViewModel
         }
 
-        private var percentStyle: FloatingPointFormatStyle<Double>.Percent {
+        var percentStyle: FloatingPointFormatStyle<Double>.Percent {
             FloatingPointFormatStyle<Double>.Percent().precision(.fractionLength(0)).rounded(rule: .down)
         }
 
@@ -121,7 +122,7 @@ extension HabitRowView {
         }
 
         var completionText: String {
-            "Completion: \(habit.getEvaluation(from: calculationPeriod, to: referenceDate).formatted(percentStyle))"
+            "Achieved: \(habit.getEvaluation(from: calculationPeriod, to: referenceDate).formatted(percentStyle))"
         }
 
         var foregroundColour: Color {
