@@ -53,9 +53,9 @@ struct DetailsView: View {
                                     Text(viewModel.maximumString)
                                 }
                             } onIncrement: {
-                                viewModel.increaseSelected()
+                                viewModel.increaseSelected(modelContext: modelContext)
                             } onDecrement: {
-                                viewModel.decreaseSelected()
+                                viewModel.decreaseSelected(modelContext: modelContext)
                             }
                             .padding(.bottom, 20)
                         }

@@ -1,5 +1,6 @@
 import Confident_Attempt_Model
 import SwiftUI
+import SwiftData
 
 extension DetailsView {
     @Observable
@@ -121,16 +122,18 @@ extension DetailsView {
             visibleComponentsCalendar = referenceDate
         }
         
-        func increaseSelected() {
+        func increaseSelected(modelContext: ModelContext) {
             guard let selectedDate else {return}
             
             habit.increaseDay(selectedDate, by: 1)
+            try? modelContext.save()
         }
         
-        func decreaseSelected() {
+        func decreaseSelected(modelContext: ModelContext) {
             guard let selectedDate else {return}
             
             habit.decreaseDay(selectedDate, by: 1)
+            try? modelContext.save()
         }
         
         func loadDatesCorrectly() {
