@@ -45,6 +45,7 @@ struct HabitRowView: View {
                 }
             }
         }
+        .contentShape(.rect)
         .onTapGesture {
             if editMode?.wrappedValue.isEditing == true {
                 viewModel.showEditor = true

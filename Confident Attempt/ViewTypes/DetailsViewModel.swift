@@ -38,8 +38,8 @@ extension DetailsView {
 
         init(_ superViewModel: HabitRowView.ViewModel) {
             self.superViewModel = superViewModel
-            self.selectedDate = superViewModel.referenceDate
-            self.visibleComponentsCalendar = superViewModel.referenceDate
+            self.selectedDate = nil
+            self.visibleComponentsCalendar = .now
         }
 
         var total: UInt {
@@ -69,8 +69,20 @@ extension DetailsView {
             return "Completions: \(habit.getDay(selectedDate))"
         }
         
+        var maximumString: String {
+            if let max = habit.repetition {
+                return "Maximum: \(max) per day"
+            } else {
+                return ""
+            }
+        }
+        
         var dateSelected: Bool {
             selectedDate != nil
+        }
+        
+        var hasMax: Bool {
+            habit.repetition != nil
         }
         
         /// The first returned list is of days where the user has done enough, the second are the remaining days
@@ -107,6 +119,23 @@ extension DetailsView {
         
         func showToday() {
             visibleComponentsCalendar = referenceDate
+        }
+        
+        func increaseSelected() {
+            guard let selectedDate else {return}
+            
+            habit.increaseDay(selectedDate, by: 1)
+        }
+        
+        func decreaseSelected() {
+            guard let selectedDate else {return}
+            
+            habit.decreaseDay(selectedDate, by: 1)
+        }
+        
+        func loadDatesCorrectly() {
+            selectedDate = referenceDate
+            showSelection()
         }
     }
 }

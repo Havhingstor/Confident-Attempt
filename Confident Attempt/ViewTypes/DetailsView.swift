@@ -47,8 +47,17 @@ struct DetailsView: View {
                             .font(.title3)
                             .padding(.bottom, 5)
                         Group {
-                            Text(viewModel.selectedDayCompletionsString)
-                                .padding(.bottom, 20)
+                            Stepper {
+                                Text(viewModel.selectedDayCompletionsString)
+                                if viewModel.hasMax {
+                                    Text(viewModel.maximumString)
+                                }
+                            } onIncrement: {
+                                viewModel.increaseSelected()
+                            } onDecrement: {
+                                viewModel.decreaseSelected()
+                            }
+                            .padding(.bottom, 20)
                         }
                         .padding(.leading)
                     }
@@ -81,9 +90,14 @@ struct DetailsView: View {
                     Spacer()
                 }
             }
-            .animation(.default, value: viewModel.selectedDate)
-            .animation(.default, value: viewModel.visibleComponentsCalendar)
             .padding(30)
+        }
+        .animation(.default, value: viewModel.selectedDate)
+        .animation(.default, value: viewModel.visibleComponentsCalendar)
+        .animation(.default, value: viewModel.maximumString)
+        .animation(.default, value: viewModel.selectedDayCompletionsString)
+        .onAppear {
+            viewModel.loadDatesCorrectly()
         }
     }
 }
