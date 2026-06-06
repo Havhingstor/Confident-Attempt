@@ -47,7 +47,8 @@ extension DetailsView {
         }
 
         var timePeriodString: String {
-            guard let firstDay = habit.getBeforeStart(from: calculationPeriod, to: referenceDate)?.addingDays(1),
+            guard let (dayBefore, _) = habit.getDayBeforeEvalStart(from: calculationPeriod, to: referenceDate),
+                  let firstDay = dayBefore.addingDays(1),
                   let daysInBetween = referenceDate.daysSince(firstDay),
                   let firstDayDate = firstDay.asDate else { return "" }
 

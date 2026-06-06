@@ -103,4 +103,18 @@ public enum CalculationStart: Codable {
             self = .years(number: to)
         }
     }
+    
+    func typeEq(rhs: CompletionGoal) -> Bool {
+        let rhsNum = rhs.getNumber()
+        return switch self {
+            case .days(_):
+                rhs == .daily(number: rhsNum)
+            case .weeks(_):
+                rhs == .weekly(number: rhsNum)
+            case .months(_):
+                rhs == .monthly(number: rhsNum)
+            case .years(_):
+                rhs == .yearly(number: rhsNum)
+        }
+    }
 }

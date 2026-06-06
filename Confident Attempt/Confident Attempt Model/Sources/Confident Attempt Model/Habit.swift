@@ -194,47 +194,101 @@ extension Habit: Codable {
         return Double(getDay(day)) / goal.getAsDaily(forDate: day)
     }
 
-    public func getBeforeStart(from: CalculationStart, to: DateComponents) -> DateComponents? {
+    /// Returns the day before the evaluation in question starts and a flag indicating if this was changed by the calculated first day
+    public func getDayBeforeEvalStart(from: CalculationStart, to: DateComponents) -> (DateComponents, Bool)? {
         guard let lastDate = to.asDate,
               let beforeFirst = calculatedFirstDay.addingDays(-1),
               let beforeStart = Calendar.current.date(byAdding: from.getAsDateComponents(), to: lastDate)?.dc else { return nil }
 
-        return max(beforeFirst, beforeStart)
+        if beforeFirst > beforeStart {
+            return (beforeFirst, true)
+        } else {
+            return (beforeStart, false)
+        }
     }
 
-    public func getTotal(from: CalculationStart, to: DateComponents) -> UInt {
-        guard let beforeStart = getBeforeStart(from: from, to: to) else { return 0 }
-
+    private func getTotal(beforeStart: DateComponents, to: DateComponents) -> UInt {
         let filteredDays = dayResults.filter { $0.key > beforeStart && $0.key <= to }
         let count = filteredDays.count
         let directlySetValue = filteredDays.reduce(0) { $0 + UInt($1.value) }
         let totalDays = to.daysSince(beforeStart) ?? 0
-
+        
         return directlySetValue + UInt(clamping: totalDays - count) * dayDefault
+    }
+    
+    public func getTotal(from: CalculationStart, to: DateComponents) -> UInt {
+        guard let (beforeStart, _) = getDayBeforeEvalStart(from: from, to: to) else { return 0 }
+
+        return getTotal(beforeStart: beforeStart, to: to)
     }
 
     public func getEvaluation(from: CalculationStart, to: DateComponents) -> Double {
-        guard let beforeStart = getBeforeStart(from: from, to: to) else { return 0 }
+        guard let (beforeStart, fdEffect) = getDayBeforeEvalStart(from: from, to: to) else { return 0 }
 
-        guard beforeStart < to else { return 0 }
+        let encompassedGoalPeriods = getProportionOfGoalPeriod(beforeStart: beforeStart, to: to, from: from, fdEffect: fdEffect)
 
-        var currentlyVisitedDate = to
-        var totalEvaluation = 0.0
-
-        while currentlyVisitedDate > beforeStart {
-            totalEvaluation += getEvaluationForDay(currentlyVisitedDate)
-
-            if let newDate = currentlyVisitedDate.addingDays(-1) {
-                currentlyVisitedDate = newDate
-            } else {
-                break
-            }
+        let totalGoal = Double(goal.getNumber()) * encompassedGoalPeriods
+        
+        guard totalGoal > 0 else {
+            logger().error("Couldn't calculate goal. Returning Evaluation 0")
+            return 0
         }
-
-        guard let totalDays = to.daysSince(beforeStart),
-              totalDays > 0 else { return 0 }
-
-        return totalEvaluation / Double(totalDays)
+        
+        let total = getTotal(beforeStart: beforeStart, to: to)
+        
+        return Double(total) / totalGoal
+    }
+    
+    private func getProportionOfGoalPeriod(beforeStart: DateComponents, to: DateComponents,
+                                           from calcPeriod: CalculationStart, fdEffect influencedByFirstDay: Bool) -> Double {
+        if !influencedByFirstDay && calcPeriod.typeEq(rhs: goal) {
+            return Double(calcPeriod.getNumber())
+        }
+        
+        guard var totalRemainingDays = to.daysSince(beforeStart) else {
+            logger().error("Can't calculate the days between \(to) and \(beforeStart)")
+            return 0
+        }
+        guard var currentStartDate = to.asDate else {
+            logger().error("Can't convert \(to) to a date")
+            return 0
+        }
+        
+        let oneGoalPeriod: DateComponents!
+        var result = 0.0
+        
+        switch goal {
+            case .daily(number: _):
+                return Double(totalRemainingDays)
+            case .weekly(number: _):
+                return Double(totalRemainingDays) / 7.0
+            case .monthly(number: _):
+                oneGoalPeriod = DateComponents(month: -1)
+            case .yearly(number: _):
+                oneGoalPeriod = DateComponents(year: -1)
+        }
+        
+        while totalRemainingDays > 0 {
+            guard let nextStartDate = Calendar.current.date(byAdding: oneGoalPeriod, to: currentStartDate) else {
+                logger().error("Can't calculate a new date adding \(oneGoalPeriod) to \(currentStartDate)")
+                return 0
+            }
+            guard let daysInPeriod = currentStartDate.dc.daysSince(nextStartDate.dc) else {
+                logger().error("Can't calculate the number of days between \(currentStartDate) and \(nextStartDate)")
+                return 0
+            }
+            
+            if totalRemainingDays >= daysInPeriod {
+                result += 1.0
+            } else {
+                result += Double(totalRemainingDays) / Double(daysInPeriod)
+            }
+            
+            totalRemainingDays -= daysInPeriod
+            currentStartDate = nextStartDate
+        }
+        
+        return result
     }
 
     public func setRepetitionAndGoal(rep repetition: UInt?, goal: CompletionGoal) {
