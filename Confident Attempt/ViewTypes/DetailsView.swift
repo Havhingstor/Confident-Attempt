@@ -34,7 +34,7 @@ struct DetailsView: View {
                     Group {
                         Text("Total: \(viewModel.total) Completions")
                         Text(viewModel.goal)
-                        Text(viewModel.completionText)
+                        Text(viewModel.evaluationText)
                             .padding(.bottom, 20)
                     }
                     .padding(.leading)
@@ -53,9 +53,9 @@ struct DetailsView: View {
                                     Text(viewModel.maximumString)
                                 }
                             } onIncrement: {
-                                viewModel.increaseSelected(modelContext: modelContext)
+                                viewModel.increaseSelected()
                             } onDecrement: {
-                                viewModel.decreaseSelected(modelContext: modelContext)
+                                viewModel.decreaseSelected()
                             }
                             .padding(.bottom, 20)
                         }
@@ -94,10 +94,11 @@ struct DetailsView: View {
         }
         .animation(.default, value: viewModel.selectedDate)
         .animation(.default, value: viewModel.visibleComponentsCalendar)
-        .animation(.default, value: viewModel.maximumString)
-        .animation(.default, value: viewModel.selectedDayCompletionsString)
         .onAppear {
             viewModel.loadDatesCorrectly()
+        }
+        .onDisappear {
+            try? modelContext.save()
         }
     }
 }

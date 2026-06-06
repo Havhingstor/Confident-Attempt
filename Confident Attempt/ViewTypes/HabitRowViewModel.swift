@@ -121,7 +121,7 @@ extension HabitRowView {
             return "Goal: \(period)"
         }
 
-        var completionText: String {
+        var evaluationText: String {
             "Achieved: \(habit.getEvaluation(from: calculationPeriod, to: referenceDate).formatted(percentStyle))"
         }
 

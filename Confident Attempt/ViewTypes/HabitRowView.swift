@@ -26,7 +26,7 @@ struct HabitRowView: View {
 
                 Text(viewModel.text)
 
-                Text(viewModel.completionText)
+                Text(viewModel.evaluationText)
             }
             .multilineTextAlignment(.trailing)
         }

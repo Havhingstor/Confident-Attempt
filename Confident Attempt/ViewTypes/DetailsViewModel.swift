@@ -1,6 +1,5 @@
 import Confident_Attempt_Model
 import SwiftUI
-import SwiftData
 
 extension DetailsView {
     @Observable
@@ -25,8 +24,8 @@ extension DetailsView {
             superViewModel.goal
         }
         
-        var completionText: String {
-            superViewModel.completionText
+        var evaluationText: String {
+            superViewModel.evaluationText
         }
         
         var evaluationColour: Color {
@@ -122,18 +121,16 @@ extension DetailsView {
             visibleComponentsCalendar = referenceDate
         }
         
-        func increaseSelected(modelContext: ModelContext) {
+        func increaseSelected() {
             guard let selectedDate else {return}
             
             habit.increaseDay(selectedDate, by: 1)
-            try? modelContext.save()
         }
         
-        func decreaseSelected(modelContext: ModelContext) {
+        func decreaseSelected() {
             guard let selectedDate else {return}
             
             habit.decreaseDay(selectedDate, by: 1)
-            try? modelContext.save()
         }
         
         func loadDatesCorrectly() {
