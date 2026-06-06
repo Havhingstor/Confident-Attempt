@@ -91,7 +91,7 @@ func specialEvaluation() {
     let currentDay = DateComponents(year: 2026, month: 6, day: 19)
     let habit = Habit(name: "Test", textDescription: "", repetition: nil, goal: .monthly(number: 5), firstDay: firstDay)!
     habit.setDay(currentDay, to: 5)
-    
+
     #expect(habit.getEvaluation(from: .months(number: 1), to: currentDay) == 1.0)
     #expect(habit.getEvaluation(from: .months(number: 2), to: currentDay) == 1.0)
     let shortEval = habit.getEvaluation(from: .days(number: 15), to: currentDay)
