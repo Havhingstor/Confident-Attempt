@@ -34,15 +34,19 @@ func habitBasics() {
     #expect(baseHabit.getDay(thirdDay) == 0)
 
     #expect(baseHabit.getEvaluationForDay(firstDay) == 1)
+    #expect(baseHabit.getEvaluationForDay(firstDay) == 1) // Test caching
     #expect(baseHabit.getEvaluationForDay(secondDay) == 1.5)
     #expect(baseHabit.getEvaluationForDay(thirdDay) == 0)
+    #expect(baseHabit.getEvaluationForDay(firstDay) == 1) // Test caching
 
     let twoDayEvaluation = CalculationStart.days(number: 2)
     let oneMonthEvaluation = CalculationStart.months(number: 1)
     #expect(baseHabit.getTotal(from: twoDayEvaluation, to: thirdDay) == 3)
     #expect(baseHabit.getEvaluation(from: twoDayEvaluation, to: thirdDay) == 0.75)
+    #expect(baseHabit.getEvaluation(from: twoDayEvaluation, to: thirdDay) == 0.75) // Test caching
     #expect(baseHabit.getEvaluation(from: oneMonthEvaluation, to: thirdDay) > 0.83)
     #expect(baseHabit.getEvaluation(from: oneMonthEvaluation, to: thirdDay) < 0.84)
+    #expect(baseHabit.getEvaluation(from: twoDayEvaluation, to: thirdDay) == 0.75) // Test caching
 
     let beforeFirstDay = DateComponents(year: 2026, month: 3, day: 16)
     baseHabit.setDay(beforeFirstDay, to: 0)

@@ -59,7 +59,7 @@ public enum CompletionGoal: Codable, Equatable {
     }
 }
 
-public enum CalculationStart: Codable {
+public enum CalculationStart: Codable, Equatable {
     case days(number: UInt)
     case weeks(number: UInt)
     case months(number: UInt)
@@ -117,4 +117,15 @@ public enum CalculationStart: Codable {
             rhs == .yearly(number: rhsNum)
         }
     }
+}
+
+struct StoredEval {
+    var from: CalculationStart
+    var to: DateComponents
+    var value: Double
+}
+
+struct StoredDayEval {
+    var day: DateComponents
+    var value: Double
 }

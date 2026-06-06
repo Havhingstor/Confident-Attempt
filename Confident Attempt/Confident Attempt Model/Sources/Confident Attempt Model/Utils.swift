@@ -73,6 +73,10 @@ extension DateComponents: @retroactive Comparable {
     public static var now: DateComponents {
         Date.now.dc
     }
+    
+    func cleanEq(_ other: DateComponents) -> Bool {
+        self.cleaned == other.cleaned
+    }
 }
 
 extension FixedWidthInteger {

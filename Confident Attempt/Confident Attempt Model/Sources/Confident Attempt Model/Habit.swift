@@ -16,10 +16,17 @@ public enum HabitsSchemaV3: VersionedSchema {
         public var symbol: String?
         public private(set) var repetition: UInt?
         public private(set) var goal: CompletionGoal = CompletionGoal.daily(number: 1)
+
         fileprivate var dayResults: [DateComponents: UInt] = [:]
+
         private var dayDefaultInternal: UInt?
 
         private var firstDayData: Data = Data()
+
+        @Transient
+        private var storedEval: StoredEval? = nil
+        @Transient
+        private var storedDayEval: StoredDayEval? = nil
 
         fileprivate init(name: String, textDescription: String, symbol: String?, repetition: UInt?, goal: CompletionGoal,
                          dayResults: [DateComponents: UInt], firstDay: DateComponents, dayDefault: UInt)
@@ -63,6 +70,7 @@ public enum HabitsSchemaV3: VersionedSchema {
             }
             set {
                 firstDayData = (try? JSONEncoder().encode(newValue)) ?? Data()
+                storedEval = nil
             }
         }
 
@@ -92,7 +100,14 @@ public enum HabitsSchemaV3: VersionedSchema {
                 } else {
                     newValue
                 }
+
+                resetStoredEvals()
             }
+        }
+
+        private func resetStoredEvals() {
+            storedEval = nil
+            storedDayEval = nil
         }
     }
 }
@@ -177,6 +192,11 @@ extension Habit: Codable {
         default:
             dayResults[day.cleaned] = to
         }
+        
+        storedEval = nil
+        if let storedDayEval, storedDayEval.day.cleanEq(day) {
+            self.storedDayEval = nil
+        }
     }
 
     public func increaseDay(_ day: DateComponents, by: UInt) {
@@ -190,8 +210,20 @@ extension Habit: Codable {
         setDay(day, to: newVal)
     }
 
+    private func getDayEvalIfUsable(day: DateComponents) -> Double? {
+        guard let storedDayEval else { return nil }
+
+        if storedDayEval.day.cleanEq(day) {
+            return storedDayEval.value
+        } else {
+            self.storedDayEval = nil
+            return nil
+        }
+    }
+
     public func getEvaluationForDay(_ day: DateComponents) -> Double {
-        return Double(getDay(day)) / goal.getAsDaily(forDate: day)
+        return getDayEvalIfUsable(day: day) ??
+            Double(getDay(day)) / goal.getAsDaily(forDate: day)
     }
 
     /// Returns the day before the evaluation in question starts and a flag indicating if this was changed by the calculated first day
@@ -222,7 +254,21 @@ extension Habit: Codable {
         return getTotal(beforeStart: beforeStart, to: to)
     }
 
+    private func getEvalIfUsable(from: CalculationStart, to: DateComponents) -> Double? {
+        guard let storedEval else { return nil }
+
+        if storedEval.from == from, storedEval.to.cleanEq(to) {
+            return storedEval.value
+        } else {
+            self.storedEval = nil
+            return nil
+        }
+    }
+
     public func getEvaluation(from: CalculationStart, to: DateComponents) -> Double {
+        if let result = getEvalIfUsable(from: from, to: to) {
+            return result
+        }
         guard let (beforeStart, fdEffect) = getDayBeforeEvalStart(from: from, to: to) else { return 0 }
 
         let encompassedGoalPeriods = getProportionOfGoalPeriod(beforeStart: beforeStart, to: to, from: from, fdEffect: fdEffect)
@@ -236,7 +282,11 @@ extension Habit: Codable {
 
         let total = getTotal(beforeStart: beforeStart, to: to)
 
-        return Double(total) / totalGoal
+        let result = Double(total) / totalGoal
+
+        storedEval = StoredEval(from: from, to: to, value: result)
+
+        return result
     }
 
     private func getProportionOfGoalPeriod(beforeStart: DateComponents, to: DateComponents,
@@ -304,6 +354,8 @@ extension Habit: Codable {
 
         self.repetition = repetition
         self.goal = goal
+        
+        resetStoredEvals()
     }
 
     /// Returns the number of days which would need to be lowered to confine to the proposed repetition
