@@ -31,10 +31,10 @@ struct HabitEditView: View {
     private var allowed: Bool {
         Habit.testValues(repetition: repetition, goal: goal)
     }
-    
+
     private var defaultProblem: Bool {
-        guard let repetition else {return false}
-        
+        guard let repetition else { return false }
+
         return repetition < dayDefault
     }
 
@@ -160,7 +160,7 @@ struct HabitEditView: View {
                             .keyboardType(.numberPad)
                     }
                 }
-                
+
                 Section("Default Completion Number") {
                     CustomTextField(TextField("Default Completion Number", value: $dayDefault, format: .number))
                         .keyboardType(.numberPad)
@@ -171,7 +171,7 @@ struct HabitEditView: View {
                         .listRowBackground(Color.red)
                         .font(.title3)
                 }
-                
+
                 if defaultProblem {
                     Text("The default completions for a day must be below the daily limit!")
                         .listRowBackground(Color.red)

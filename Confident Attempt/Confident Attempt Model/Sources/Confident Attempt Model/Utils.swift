@@ -10,9 +10,9 @@ public extension Date {
 extension DateComponents: @retroactive Comparable {
     /// Cleans the date components to be used in the date components dict
     public var cleaned: DateComponents {
-        DateComponents(year: self.year, month: self.month, day: self.day)
+        DateComponents(year: year, month: month, day: day)
     }
-    
+
     public static func < (lhs: DateComponents, rhs: DateComponents) -> Bool {
         if let distance = lhs.daysSince(rhs), distance < 0 {
             return true

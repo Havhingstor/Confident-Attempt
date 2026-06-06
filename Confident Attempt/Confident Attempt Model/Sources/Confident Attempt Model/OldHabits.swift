@@ -32,11 +32,11 @@ public enum HabitsSchemaV1: VersionedSchema {
 
 public enum HabitsSchemaV2: VersionedSchema {
     public static let versionIdentifier = Schema.Version(2, 0, 0)
-    
+
     public static var models: [any PersistentModel.Type] {
         [Habit.self]
     }
-    
+
     @Model
     public class Habit {
         public var name: String = ""
@@ -45,11 +45,11 @@ public enum HabitsSchemaV2: VersionedSchema {
         public private(set) var repetition: UInt?
         public private(set) var goal: CompletionGoal = CompletionGoal.daily(number: 1)
         public var dayResults: [DateComponents: UInt] = [:]
-        
+
         private var firstDayData: Data = Data()
-        
+
         public init(name: String, textDescription: String, symbol: String?, repetition: UInt?,
-                         goal: CompletionGoal, dayResults: [DateComponents: UInt], firstDay: DateComponents)
+                    goal: CompletionGoal, dayResults: [DateComponents: UInt], firstDay: DateComponents)
         {
             self.name = name
             self.textDescription = textDescription
@@ -59,22 +59,22 @@ public enum HabitsSchemaV2: VersionedSchema {
             self.dayResults = dayResults
             self.firstDay = firstDay
         }
-        
+
         public internal(set) var firstDay: DateComponents {
             get {
                 if let result = try? JSONDecoder().decode(DateComponents.self, from: firstDayData) {
                     return result
                 }
-                
+
                 setFirstDay()
-                
+
                 return (try? JSONDecoder().decode(DateComponents.self, from: firstDayData)) ?? .now
             }
             set {
                 firstDayData = (try? JSONEncoder().encode(newValue)) ?? Data()
             }
         }
-        
+
         public func setFirstDay() {
             if let fromData = dayResults.map({ $0.key }).sorted().first {
                 firstDay = fromData

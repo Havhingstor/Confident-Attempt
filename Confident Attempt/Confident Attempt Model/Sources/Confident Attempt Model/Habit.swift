@@ -173,9 +173,9 @@ extension Habit: Codable {
         switch repetition {
         case let .some(repetition) where to > repetition:
             logger().info("New day value of \(to) is bigger than maximum value (\(repetition)), so this is the new value set.")
-                dayResults[day.cleaned] = repetition
+            dayResults[day.cleaned] = repetition
         default:
-                dayResults[day.cleaned] = to
+            dayResults[day.cleaned] = to
         }
     }
 
@@ -193,17 +193,17 @@ extension Habit: Codable {
     public func getEvaluationForDay(_ day: DateComponents) -> Double {
         return Double(getDay(day)) / goal.getAsDaily(forDate: day)
     }
-    
+
     public func getBeforeStart(from: CalculationStart, to: DateComponents) -> DateComponents? {
         guard let lastDate = to.asDate,
               let beforeFirst = calculatedFirstDay.addingDays(-1),
               let beforeStart = Calendar.current.date(byAdding: from.getAsDateComponents(), to: lastDate)?.dc else { return nil }
-        
+
         return max(beforeFirst, beforeStart)
     }
 
     public func getTotal(from: CalculationStart, to: DateComponents) -> UInt {
-        guard let beforeStart = getBeforeStart(from: from, to: to) else {return 0}
+        guard let beforeStart = getBeforeStart(from: from, to: to) else { return 0 }
 
         let filteredDays = dayResults.filter { $0.key > beforeStart && $0.key <= to }
         let count = filteredDays.count
@@ -214,7 +214,7 @@ extension Habit: Codable {
     }
 
     public func getEvaluation(from: CalculationStart, to: DateComponents) -> Double {
-        guard let beforeStart = getBeforeStart(from: from, to: to) else {return 0}
+        guard let beforeStart = getBeforeStart(from: from, to: to) else { return 0 }
 
         guard beforeStart < to else { return 0 }
 
