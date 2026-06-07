@@ -101,6 +101,15 @@ extension SettingsView {
                 preferences.activeNotifications = !newValue
             }
         }
+        
+        var achievedHabitsInBadge: Bool {
+            get {
+                preferences.achievedHabitsInBadge
+            }
+            set {
+                preferences.achievedHabitsInBadge = newValue
+            }
+        }
 
         func getAsFile(context: ModelContext) -> HabitListFile? {
             let descriptor = FetchDescriptor<Habit>()

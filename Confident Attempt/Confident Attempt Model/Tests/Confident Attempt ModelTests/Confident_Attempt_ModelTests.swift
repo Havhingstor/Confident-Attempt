@@ -49,12 +49,14 @@ func habitBasics() {
     #expect(baseHabit.getEvaluation(from: twoDayEvaluation, to: thirdDay) == 0.75) // Test caching
 
     let beforeFirstDay = DateComponents(year: 2026, month: 3, day: 16)
-    baseHabit.setDay(beforeFirstDay, to: 0)
+    let twoDaysBefore = DateComponents(year: 2026, month: 3, day: 15)
+    baseHabit.setDay(beforeFirstDay, to: 1)
+    baseHabit.setDay(twoDaysBefore, to: 0)
     #expect(baseHabit.firstDay == firstDay)
-    #expect(baseHabit.getEvaluation(from: oneMonthEvaluation, to: thirdDay) == 0.625)
+    #expect(baseHabit.getEvaluation(from: oneMonthEvaluation, to: thirdDay) == 0.75)
     baseHabit.setFirstDay()
     #expect(baseHabit.firstDay == beforeFirstDay)
-    #expect(baseHabit.getEvaluation(from: oneMonthEvaluation, to: thirdDay) == 0.625)
+    #expect(baseHabit.getEvaluation(from: oneMonthEvaluation, to: thirdDay) == 0.75)
 
     let clone1 = Habit(cloneof: baseHabit, newName: "TestName", copyData: true, firstDay: firstDay)
 

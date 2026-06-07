@@ -75,7 +75,7 @@ public enum HabitsSchemaV3: VersionedSchema {
         }
 
         func setFirstDay() {
-            if let fromData = dayResults.map({ $0.key }).sorted().first {
+            if let fromData = dayResults.filter({$0.value > 0}).map({ $0.key }).sorted().first {
                 firstDay = fromData
             } else {
                 logger().info("No completions set for any days, first day is set to today.")
@@ -173,7 +173,7 @@ extension Habit: Codable {
     }
 
     public var calculatedFirstDay: DateComponents {
-        if let fromData = dayResults.map({ $0.key }).sorted().first {
+        if let fromData = dayResults.filter({$0.value > 0}).map({ $0.key }).sorted().first {
             return min(fromData, firstDay)
         } else {
             return firstDay

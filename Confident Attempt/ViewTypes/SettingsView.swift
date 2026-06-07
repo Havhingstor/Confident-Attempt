@@ -59,8 +59,10 @@ struct SettingsView: View {
                     }
                 if viewModel.notifications {
                     Toggle("Only in Notification Centre", isOn: $viewModel.passiveNotifications)
+                    Toggle("Include habits where the goal\nhas been achieved over the evaluation period", isOn: $viewModel.achievedHabitsInBadge)
                 }
-                Text("Sends a notification at the start of a day and sets the badge to the number of habits which don't yet have enough completions to reach the long-term goal")
+                Text("Sends a notification at the start of a day and sets the badge to the number of habits which don't yet have enough completions to reach the long-term goal.")
+                Text("Note: After the notification has been sent, before the app is opened the next time, the badge number will include all habits, regardless of their number of completions in the past or on that day")
 
                 if !viewModel.badgingWarning.isEmpty {
                     Text(viewModel.badgingWarning)

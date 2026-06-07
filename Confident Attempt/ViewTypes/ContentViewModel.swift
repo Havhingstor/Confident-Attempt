@@ -29,6 +29,10 @@ extension ContentView {
         var activeNotifications: Bool {
             preferences.activeNotifications
         }
+        
+        var achievedHabitsInBadge: Bool {
+            preferences.achievedHabitsInBadge
+        }
 
         var calculationPeriod: CalculationStart {
             let periodScale = preferences.periodScale
@@ -130,7 +134,8 @@ extension ContentView {
                     let habits = (try? context.fetch(descriptor)) ?? []
 
                     count = habits.filter { habit in
-                        habit.getEvaluationForDay(referenceDate) < 1.0
+                        habit.getEvaluationForDay(referenceDate) < 1.0 &&
+                        (habit.getEvaluation(from: calculationPeriod, to: referenceDate) < 1.0 || preferences.achievedHabitsInBadge)
                     }.count
                 }
 
@@ -174,10 +179,7 @@ extension ContentView {
                     content.interruptionLevel = .passive
                 }
 
-                let count = habits.map { habit in
-                    Double(habit.dayDefault) < habit.goal.getAsDaily(forDate: date.dc) ? 1 : 0
-                }.reduce(UInt(0)) { $0 + $1 }
-
+                let count = habits.count
                 content.badge = NSNumber(value: count)
 
                 let trigger = UNCalendarNotificationTrigger(dateMatching: timing, repeats: true)

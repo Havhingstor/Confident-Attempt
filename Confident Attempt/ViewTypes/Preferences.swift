@@ -51,6 +51,13 @@ class Preferences {
             localDefaults.set(activeNotifications, forKey: "activeNotifications")
         }
     }
+    
+    var achievedHabitsInBadge: Bool {
+        didSet {
+            guard oldValue != achievedHabitsInBadge else { return }
+            localDefaults.set(achievedHabitsInBadge, forKey: "achievedHabitsInBadge")
+        }
+    }
 
     init() {
         periodScale = .month
@@ -59,8 +66,7 @@ class Preferences {
         dayStart = RawDateComponents()
         notifications = false
         activeNotifications = true
-
-        deleteKeys()
+        achievedHabitsInBadge = false
 
         loadValues()
         NotificationCenter.default.addObserver(self, selector: #selector(receiveNotification), name: NSUbiquitousKeyValueStore.didChangeExternallyNotification, object: defaults)
@@ -85,19 +91,12 @@ class Preferences {
         if let activeNotifications = localDefaults.value(forKey: "activeNotifications") as? Bool {
             self.activeNotifications = activeNotifications
         }
+        if let achievedHabitsInBadge = localDefaults.value(forKey: "achievedHabitsInBadge") as? Bool {
+            self.achievedHabitsInBadge = achievedHabitsInBadge
+        }
     }
 
     @objc private func receiveNotification(_: NSNotification) {
         loadValues()
-    }
-
-    private func deleteKeys() {
-        localDefaults.removeObject(forKey: "periodScale")
-        localDefaults.removeObject(forKey: "periodAmount")
-        localDefaults.removeObject(forKey: "redZone")
-        localDefaults.removeObject(forKey: "dayStart")
-        defaults.removeObject(forKey: "notifications")
-        defaults.removeObject(forKey: "activeNotifications")
-        defaults.synchronize()
     }
 }
