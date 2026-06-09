@@ -114,7 +114,7 @@ extension ContentView {
         func setBadge(context: ModelContext) {
             let notificationCentre = UNUserNotificationCenter.current()
 
-            Task {
+            _ = Task {
                 let authorizationStatus = await notificationCentre.notificationSettings().authorizationStatus
 
                 guard authorizationStatus == .authorized else {
@@ -153,7 +153,7 @@ extension ContentView {
 
             let timing = Calendar.current.dateComponents([.hour, .minute], from: date)
 
-            Task {
+            _ = Task {
                 let authorizationStatus = await notificationCentre.notificationSettings().authorizationStatus
 
                 guard authorizationStatus == .authorized else {
