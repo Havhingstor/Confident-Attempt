@@ -85,6 +85,9 @@ struct DetailsView: View {
                     }
                 }
                 .padding(.horizontal, 25)
+                .padding(.bottom, 20)
+                
+                predictionView
 
                 HStack {
                     Spacer()
@@ -100,6 +103,31 @@ struct DetailsView: View {
         .onDisappear {
             try? modelContext.save()
         }
+    }
+    
+    var predictionView: some View {
+        let (yellowDay, greenDay) = viewModel.getDayPredictionResults()
+        
+        return VStack(alignment: .leading, spacing: 10) {
+            if yellowDay != nil || greenDay != nil {
+                Text("Reach \(Image(systemName: "checkmark.circle.fill")) until")
+                    .font(.title3)
+                    .foregroundStyle(.green)
+                if let yellowDay,
+                   let yellowDay = yellowDay.asDate {
+                    Text("\(yellowDay.formatted(date: .complete, time: .omitted))\nto reach minimum completion")
+                        .foregroundStyle(.yellow)
+                }
+                if let greenDay,
+                   let greenDay = greenDay.asDate {
+                    Text("\(greenDay.formatted(date: .complete, time: .omitted))\nto reach goal")
+                        .foregroundStyle(.green)
+                }
+            }
+        }
+        .animation(.default, value: viewModel.evaluationText)
+        .animation(.default, value: viewModel.goal)
+        .animation(.default, value: viewModel.maximumString)
     }
 }
 

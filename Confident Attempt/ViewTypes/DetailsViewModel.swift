@@ -138,5 +138,60 @@ extension DetailsView {
             selectedDate = referenceDate
             showSelection()
         }
+        
+        /// Calculates the days the user reaches yellow (first value) or green (second value) status if they complete the habit at the minimum number evaluating over 1
+        /// Value is nil if the goal can't be reached or is already reached
+        func getDayPredictionResults() -> (DateComponents?, DateComponents?) {
+            var resultYellow = DateComponents?(nil)
+            var resultGreen = DateComponents?(nil)
+            let temporaryHabit = Habit(cloneof: habit, newName: "Tmp", copyData: true, firstDay: habit.firstDay)
+            let maxDayAmount = temporaryHabit.repetition
+            let goal = temporaryHabit.goal
+            
+            var currentDay = referenceDate
+            guard var (currentCutoff, _) = temporaryHabit.getDayBeforeEvalStart(from: calculationPeriod, to: currentDay) else {
+                return (nil, nil)
+            }
+            
+            let redZone = superViewModel.preferences.redZone
+            var lastEval = temporaryHabit.getEvaluation(from: calculationPeriod, to: currentDay)
+            
+            var yellowAchieved = lastEval >= redZone
+            var greenAchieved = lastEval >= 1.0
+            
+            
+            while currentCutoff < referenceDate {
+                if yellowAchieved && greenAchieved {
+                    break
+                }
+                
+                let greenDayAmount = UInt(goal.getAsDaily(forDate: currentDay).rounded(.up))
+                var setAmount = max(greenDayAmount, temporaryHabit.getDay(currentDay))
+                
+                if let maxDayAmount {
+                    setAmount = min(maxDayAmount, setAmount)
+                }
+                
+                temporaryHabit.setDay(currentDay, to: setAmount)
+                
+                lastEval = temporaryHabit.getEvaluation(from: calculationPeriod, to: currentDay)
+                
+                if !yellowAchieved && lastEval >= redZone {
+                    yellowAchieved = true
+                    resultYellow = currentDay
+                }
+                
+                if !greenAchieved && lastEval >= 1.0 {
+                    greenAchieved = true
+                    resultGreen = currentDay
+                }
+                guard let newCurrentDay = currentDay.addingDays(1),
+                      let (newCurrentCutoff, _) = temporaryHabit.getDayBeforeEvalStart(from: calculationPeriod, to: newCurrentDay) else {break}
+                currentDay = newCurrentDay
+                currentCutoff = newCurrentCutoff
+            }
+            
+            return (resultYellow, resultGreen)
+        }
     }
 }
