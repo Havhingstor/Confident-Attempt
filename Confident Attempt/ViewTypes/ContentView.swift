@@ -82,32 +82,32 @@ struct ContentView: View {
             .sheet(isPresented: $viewModel.addHabitShown) {
                 HabitEditView(referenceDate: { viewModel.referenceDate })
             }
-            .onChange(of: scenePhase) {
-                viewModel.runTimerAction(context: modelContext)
-            }
-            .onChange(of: viewModel.dayStart) {
-                viewModel.addTimer(context: modelContext)
-            }
-            .onChange(of: viewModel.notifications) {
-                viewModel.addDayFlipNotification(context: modelContext)
-                viewModel.setBadge(context: modelContext)
-            }
-            .onChange(of: viewModel.activeNotifications) {
-                viewModel.addDayFlipNotification(context: modelContext)
-            }
-            .onChange(of: viewModel.achievedHabitsInBadge) {
-                viewModel.addDayFlipNotification(context: modelContext)
-                viewModel.setBadge(context: modelContext)
-            }
-            .onChange(of: habits.count) {
-                viewModel.addDayFlipNotification(context: modelContext)
-                viewModel.setBadge(context: modelContext)
-            }
-            .onReceive(NotificationCenter.default.publisher(for: UIApplication.significantTimeChangeNotification)) { _ in
-                viewModel.runTimerAction(context: modelContext)
-            }
-            .alert(viewModel.alertText, isPresented: $viewModel.alertShown, actions: {})
         }
+        .onChange(of: scenePhase) {
+            viewModel.runTimerAction(context: modelContext)
+        }
+        .onChange(of: viewModel.dayStart) {
+            viewModel.addTimer(context: modelContext)
+        }
+        .onChange(of: viewModel.notifications) {
+            viewModel.addDayFlipNotification(context: modelContext)
+            viewModel.setBadge(context: modelContext)
+        }
+        .onChange(of: viewModel.activeNotifications) {
+            viewModel.addDayFlipNotification(context: modelContext)
+        }
+        .onChange(of: viewModel.achievedHabitsInBadge) {
+            viewModel.addDayFlipNotification(context: modelContext)
+            viewModel.setBadge(context: modelContext)
+        }
+        .onChange(of: habits.count) {
+            viewModel.addDayFlipNotification(context: modelContext)
+            viewModel.setBadge(context: modelContext)
+        }
+        .onReceive(NotificationCenter.default.publisher(for: UIApplication.significantTimeChangeNotification)) { _ in
+            viewModel.runTimerAction(context: modelContext)
+        }
+        .alert(viewModel.alertText, isPresented: $viewModel.alertShown, actions: {})
     }
 }
 
