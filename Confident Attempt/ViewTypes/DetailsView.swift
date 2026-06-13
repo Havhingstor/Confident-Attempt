@@ -110,7 +110,7 @@ struct DetailsView: View {
         
         return VStack(alignment: .leading, spacing: 10) {
             if yellowDay != nil || greenDay != nil {
-                Text("Reach \(Image(systemName: "checkmark.circle.fill")) until")
+                Text("Reach daily \(Image(systemName: "checkmark.circle.fill")) until")
                     .font(.title3)
                     .foregroundStyle(.green)
                 if let yellowDay,
