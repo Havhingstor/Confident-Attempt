@@ -84,25 +84,32 @@ struct ContentView: View {
             }
         }
         .onChange(of: scenePhase) {
-            viewModel.runTimerAction(context: modelContext)
+            if scenePhase == .active {
+                // We must set the correct timer, badge and notification even
+                // if the application was just in the background for a long time,
+                // as the timer might not have run when it was its time
+                if viewModel.newTimerNeeded() {
+                    viewModel.runTimerAction(context: modelContext)
+                }
+            }
         }
         .onChange(of: viewModel.dayStart) {
-            viewModel.addTimer(context: modelContext)
+            viewModel.planDayStart(context: modelContext)
         }
         .onChange(of: viewModel.notifications) {
-            viewModel.addDayFlipNotification(context: modelContext)
-            viewModel.setBadge(context: modelContext)
+            viewModel.addDayStartNotification(context: modelContext)
+            viewModel.setBadgeNow(context: modelContext)
         }
         .onChange(of: viewModel.activeNotifications) {
-            viewModel.addDayFlipNotification(context: modelContext)
+            viewModel.addDayStartNotification(context: modelContext)
         }
         .onChange(of: viewModel.achievedHabitsInBadge) {
-            viewModel.addDayFlipNotification(context: modelContext)
-            viewModel.setBadge(context: modelContext)
+            viewModel.addDayStartNotification(context: modelContext)
+            viewModel.setBadgeNow(context: modelContext)
         }
         .onChange(of: habits.count) {
-            viewModel.addDayFlipNotification(context: modelContext)
-            viewModel.setBadge(context: modelContext)
+            viewModel.addDayStartNotification(context: modelContext)
+            viewModel.setBadgeNow(context: modelContext)
         }
         .onReceive(NotificationCenter.default.publisher(for: UIApplication.significantTimeChangeNotification)) { _ in
             viewModel.runTimerAction(context: modelContext)

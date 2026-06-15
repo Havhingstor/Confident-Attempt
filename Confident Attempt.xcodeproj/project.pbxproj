@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		DA0FA12E2FA0FC4900284ADF /* SFSymbolsPicker in Frameworks */ = {isa = PBXBuildFile; productRef = DA0FA12D2FA0FC4900284ADF /* SFSymbolsPicker */; };
+		DA65BFA92FE01723006E97FE /* TaskGate in Frameworks */ = {isa = PBXBuildFile; productRef = DA65BFA82FE01723006E97FE /* TaskGate */; };
 		DABB432D2FD1DC5900FFE4A2 /* CalendarView in Frameworks */ = {isa = PBXBuildFile; productRef = DABB432C2FD1DC5900FFE4A2 /* CalendarView */; };
 		DAC67E932F8F7A07005AFFB7 /* Confident Attempt Model in Frameworks */ = {isa = PBXBuildFile; productRef = DAC67E922F8F7A07005AFFB7 /* Confident Attempt Model */; };
 /* End PBXBuildFile section */
@@ -43,6 +44,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DA65BFA92FE01723006E97FE /* TaskGate in Frameworks */,
 				DAC67E932F8F7A07005AFFB7 /* Confident Attempt Model in Frameworks */,
 				DABB432D2FD1DC5900FFE4A2 /* CalendarView in Frameworks */,
 				DA0FA12E2FA0FC4900284ADF /* SFSymbolsPicker in Frameworks */,
@@ -100,6 +102,7 @@
 				DAC67E922F8F7A07005AFFB7 /* Confident Attempt Model */,
 				DA0FA12D2FA0FC4900284ADF /* SFSymbolsPicker */,
 				DABB432C2FD1DC5900FFE4A2 /* CalendarView */,
+				DA65BFA82FE01723006E97FE /* TaskGate */,
 			);
 			productName = "Confident Attempt";
 			productReference = DA3C98D72F8E9E4F00E5C79B /* Confident Attempt.app */;
@@ -132,6 +135,7 @@
 			packageReferences = (
 				DA0FA12C2FA0FC4900284ADF /* XCRemoteSwiftPackageReference "SFSymbolsPicker" */,
 				DABB432B2FD1DC5900FFE4A2 /* XCRemoteSwiftPackageReference "CalendarView" */,
+				DA65BFA72FE01723006E97FE /* XCRemoteSwiftPackageReference "TaskGate" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = DA3C98D82F8E9E4F00E5C79B /* Products */;
@@ -423,6 +427,14 @@
 				minimumVersion = 1.0.9;
 			};
 		};
+		DA65BFA72FE01723006E97FE /* XCRemoteSwiftPackageReference "TaskGate" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/mattmassicotte/TaskGate";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
 		DABB432B2FD1DC5900FFE4A2 /* XCRemoteSwiftPackageReference "CalendarView" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/AllanJuenemann/CalendarView";
@@ -438,6 +450,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = DA0FA12C2FA0FC4900284ADF /* XCRemoteSwiftPackageReference "SFSymbolsPicker" */;
 			productName = SFSymbolsPicker;
+		};
+		DA65BFA82FE01723006E97FE /* TaskGate */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DA65BFA72FE01723006E97FE /* XCRemoteSwiftPackageReference "TaskGate" */;
+			productName = TaskGate;
 		};
 		DABB432C2FD1DC5900FFE4A2 /* CalendarView */ = {
 			isa = XCSwiftPackageProductDependency;

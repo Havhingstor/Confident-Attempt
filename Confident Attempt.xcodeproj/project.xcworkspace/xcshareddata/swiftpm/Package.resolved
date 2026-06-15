@@ -1,5 +1,5 @@
 {
-  "originHash" : "34bf208eb345516fbdadf774c12e0e4eaada23b25d40d510e006d7901378ede7",
+  "originHash" : "fc96b535c7c3a04ff09655dc09f4d9517a636f0cd51c388976c722616a56762b",
   "pins" : [
     {
       "identity" : "calendarview",
@@ -26,6 +26,15 @@
       "state" : {
         "revision" : "d3a6936db5fedbb48a037b556d52a215071af48e",
         "version" : "1.0.9"
+      }
+    },
+    {
+      "identity" : "taskgate",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/mattmassicotte/TaskGate",
+      "state" : {
+        "branch" : "main",
+        "revision" : "de13e6234d81fe3174362cf3aabddd3ae833c52e"
       }
     }
   ],

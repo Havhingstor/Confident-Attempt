@@ -158,8 +158,8 @@ extension HabitRowView {
             }
         }
 
-        func setBadge(context: ModelContext) {
-            superViewModel.setBadge(context: context)
+        func setBadgeNow(context: ModelContext) {
+            superViewModel.setBadgeNow(context: context)
         }
 
         func delete(context: ModelContext) {

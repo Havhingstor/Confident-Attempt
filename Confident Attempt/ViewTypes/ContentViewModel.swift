@@ -2,12 +2,15 @@ import Confident_Attempt_Model
 import OSLog
 import SwiftData
 import SwiftUI
+import Synchronization
+import TaskGate
 
 extension ContentView {
     @Observable
     class ViewModel {
         var addHabitShown: Bool
-        var setTimer: Timer?
+        let setTimer: Mutex<Timer?>
+        let notificationSetGate = AsyncGate()
         var dateNow: Date
 
         let preferences: Preferences
@@ -17,7 +20,7 @@ extension ContentView {
 
         init(_ prefs: Preferences) {
             addHabitShown = false
-            setTimer = nil
+            setTimer = Mutex(nil)
             dateNow = .now
             preferences = prefs
         }
@@ -57,7 +60,7 @@ extension ContentView {
             return (earlier ?? .now).dc
         }
 
-        func refreshDate() {
+        func loadCurrentDate() {
             dateNow = .now
         }
 
@@ -84,12 +87,12 @@ extension ContentView {
         }
 
         func runTimerAction(context: ModelContext) {
-            refreshDate()
-            setBadge(context: context)
-            addTimer(context: context)
+            loadCurrentDate()
+            setBadgeNow(context: context)
+            planDayStart(context: context)
         }
 
-        func addTimer(context: ModelContext) {
+        func planDayStart(context: ModelContext) {
             guard let date = calculateNextTimerTrigger(dayStart) else {
                 alertText = "Currently unable to update the values on day start, please reload app then."
                 alertShown = true
@@ -100,18 +103,21 @@ extension ContentView {
                 self.runTimerAction(context: context)
             }
 
-            if let setTimer {
-                setTimer.invalidate()
+            setTimer.withLock { setTimer in
+                if let setTimer {
+                    setTimer.invalidate()
+                }
+                
+                setTimer = timer
+                
+                RunLoop.main.add(timer, forMode: .common)
             }
+            
 
-            setTimer = timer
-
-            RunLoop.main.add(timer, forMode: .common)
-
-            addDayFlipNotification(context: context, at: date)
+            addDayStartNotification(context: context, at: date)
         }
 
-        func setBadge(context: ModelContext) {
+        func setBadgeNow(context: ModelContext) {
             let notificationCentre = UNUserNotificationCenter.current()
 
             _ = Task {
@@ -145,49 +151,55 @@ extension ContentView {
             }
         }
 
-        func addDayFlipNotification(context: ModelContext, at: Date? = nil) {
+        func addDayStartNotification(context: ModelContext, at: Date? = nil) {
             let notificationCentre = UNUserNotificationCenter.current()
-            notificationCentre.removePendingNotificationRequests(withIdentifiers: ["DayFlip"])
 
             guard notifications, let date = at ?? calculateNextTimerTrigger(dayStart) else { return }
 
             let timing = Calendar.current.dateComponents([.hour, .minute], from: date)
 
             _ = Task {
-                let authorizationStatus = await notificationCentre.notificationSettings().authorizationStatus
-
-                guard authorizationStatus == .authorized else {
-                    if preferences.notifications {
-                        logger().error("Can't add notification, notifications aren't authorised!")
-                        alertText = "Can't show day start notifications, please enable notifications in the iOS and app settings"
-                        alertShown = true
-                        preferences.notifications = false
+                await notificationSetGate.withGate {
+                    let authorizationStatus = await notificationCentre.notificationSettings().authorizationStatus
+                    notificationCentre.removePendingNotificationRequests(withIdentifiers: ["DayFlip"])
+                    
+                    guard authorizationStatus == .authorized else {
+                        if preferences.notifications {
+                            logger().error("Can't add notification, notifications aren't authorised!")
+                            alertText = "Can't show day start notifications, please enable notifications in the iOS and app settings"
+                            alertShown = true
+                            preferences.notifications = false
+                        }
+                        return
                     }
-                    return
-                }
-
-                let descriptor = FetchDescriptor<Habit>()
-                let habits = (try? context.fetch(descriptor)) ?? []
-
-                let content = UNMutableNotificationContent()
-                content.title = "A new day has started"
-                content.body = "Complete all your habits to reach your goals"
-
-                if preferences.activeNotifications {
-                    content.interruptionLevel = .active
-                } else {
-                    content.interruptionLevel = .passive
-                }
-
-                let count = habits.count
-                content.badge = NSNumber(value: count)
-
-                let trigger = UNCalendarNotificationTrigger(dateMatching: timing, repeats: true)
-
-                let request = UNNotificationRequest(identifier: "DayFlip", content: content, trigger: trigger)
-
-                do {
-                    try await notificationCentre.add(request)
+                    
+                    let descriptor = FetchDescriptor<Habit>()
+                    let habits = (try? context.fetch(descriptor)) ?? []
+                    
+                    let content = UNMutableNotificationContent()
+                    content.title = "A new day has started"
+                    content.body = "Complete all your habits to reach your goals"
+                    
+                    if preferences.activeNotifications {
+                        content.interruptionLevel = .active
+                    } else {
+                        content.interruptionLevel = .passive
+                    }
+                    
+                    let count = habits.count
+                    content.badge = NSNumber(value: count)
+                    
+                    let trigger = UNCalendarNotificationTrigger(dateMatching: timing, repeats: true)
+                    
+                    let request = UNNotificationRequest(identifier: "DayFlip", content: content, trigger: trigger)
+                    
+                    do {
+                        try await notificationCentre.add(request)
+                    } catch {
+                        logger().error("Can't add notification, an error occurred: \(error)!")
+                        alertText = "Can't show day start notifications because an error occurred: \(error)"
+                        alertShown = true
+                    }
                 }
             }
         }
@@ -205,6 +217,17 @@ extension ContentView {
                 try modelContext.save()
             } catch let err {
                 logger().error("Can't save model context at the moment: \(err.localizedDescription)")
+            }
+        }
+        
+        func newTimerNeeded() -> Bool {
+            return setTimer.withLock { timer in
+                if let timer,
+                   timer.fireDate > .now {
+                    return false
+                }
+                
+                return true
             }
         }
     }

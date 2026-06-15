@@ -68,7 +68,12 @@ struct HabitRowView: View {
         .animation(.default, value: viewModel.dayValue)
         .animation(.default, value: editMode?.wrappedValue)
         .onChange(of: viewModel.evaluationToday) {
-            viewModel.setBadge(context: modelContext)
+            viewModel.setBadgeNow(context: modelContext)
+        }
+        .onChange(of: viewModel.foregroundColour) {
+            // This is also necessary because the badge might need to change if
+            // habits that reached the goal aren't shown
+            viewModel.setBadgeNow(context: modelContext)
         }
         .sheet(isPresented: $viewModel.showEditor) {
             HabitEditView(editedHabit: viewModel.habit, referenceDate: { viewModel.referenceDate })
