@@ -51,7 +51,7 @@ class Preferences {
             localDefaults.set(activeNotifications, forKey: "activeNotifications")
         }
     }
-    
+
     var achievedHabitsInBadge: Bool {
         didSet {
             guard oldValue != achievedHabitsInBadge else { return }

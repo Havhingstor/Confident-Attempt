@@ -32,7 +32,7 @@ extension ContentView {
         var activeNotifications: Bool {
             preferences.activeNotifications
         }
-        
+
         var achievedHabitsInBadge: Bool {
             preferences.achievedHabitsInBadge
         }
@@ -107,12 +107,11 @@ extension ContentView {
                 if let setTimer {
                     setTimer.invalidate()
                 }
-                
+
                 setTimer = timer
-                
+
                 RunLoop.main.add(timer, forMode: .common)
             }
-            
 
             addDayStartNotification(context: context, at: date)
         }
@@ -141,7 +140,7 @@ extension ContentView {
 
                     count = habits.filter { habit in
                         habit.getEvaluationForDay(referenceDate) < 1.0 &&
-                        (habit.getEvaluation(from: calculationPeriod, to: referenceDate) < 1.0 || preferences.achievedHabitsInBadge)
+                            (habit.getEvaluation(from: calculationPeriod, to: referenceDate) < 1.0 || preferences.achievedHabitsInBadge)
                     }.count
                 }
 
@@ -162,7 +161,7 @@ extension ContentView {
                 await notificationSetGate.withGate {
                     let authorizationStatus = await notificationCentre.notificationSettings().authorizationStatus
                     notificationCentre.removePendingNotificationRequests(withIdentifiers: ["DayFlip"])
-                    
+
                     guard authorizationStatus == .authorized else {
                         if preferences.notifications {
                             logger().error("Can't add notification, notifications aren't authorised!")
@@ -172,27 +171,27 @@ extension ContentView {
                         }
                         return
                     }
-                    
+
                     let descriptor = FetchDescriptor<Habit>()
                     let habits = (try? context.fetch(descriptor)) ?? []
-                    
+
                     let content = UNMutableNotificationContent()
                     content.title = "A new day has started"
                     content.body = "Complete all your habits to reach your goals"
-                    
+
                     if preferences.activeNotifications {
                         content.interruptionLevel = .active
                     } else {
                         content.interruptionLevel = .passive
                     }
-                    
+
                     let count = habits.count
                     content.badge = NSNumber(value: count)
-                    
+
                     let trigger = UNCalendarNotificationTrigger(dateMatching: timing, repeats: true)
-                    
+
                     let request = UNNotificationRequest(identifier: "DayFlip", content: content, trigger: trigger)
-                    
+
                     do {
                         try await notificationCentre.add(request)
                     } catch {
@@ -219,14 +218,15 @@ extension ContentView {
                 logger().error("Can't save model context at the moment: \(err.localizedDescription)")
             }
         }
-        
+
         func newTimerNeeded() -> Bool {
             return setTimer.withLock { timer in
                 if let timer,
-                   timer.fireDate > .now {
+                   timer.fireDate > .now
+                {
                     return false
                 }
-                
+
                 return true
             }
         }

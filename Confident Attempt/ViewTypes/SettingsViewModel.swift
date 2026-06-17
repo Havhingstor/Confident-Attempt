@@ -101,7 +101,7 @@ extension SettingsView {
                 preferences.activeNotifications = !newValue
             }
         }
-        
+
         var achievedHabitsInBadge: Bool {
             get {
                 preferences.achievedHabitsInBadge

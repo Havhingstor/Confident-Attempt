@@ -86,7 +86,7 @@ struct DetailsView: View {
                 }
                 .padding(.horizontal, 25)
                 .padding(.bottom, 20)
-                
+
                 predictionView
 
                 HStack {
@@ -104,22 +104,24 @@ struct DetailsView: View {
             try? modelContext.save()
         }
     }
-    
+
     var predictionView: some View {
         let (yellowDay, greenDay) = viewModel.getDayPredictionResults()
-        
+
         return VStack(alignment: .leading, spacing: 10) {
             if yellowDay != nil || greenDay != nil {
                 Text("Reach daily \(Image(systemName: "checkmark.circle.fill")) until")
                     .font(.title3)
                     .foregroundStyle(.green)
                 if let yellowDay,
-                   let yellowDay = yellowDay.asDate {
+                   let yellowDay = yellowDay.asDate
+                {
                     Text("\(yellowDay.formatted(date: .complete, time: .omitted))\nto reach minimum completion")
                         .foregroundStyle(.yellow)
                 }
                 if let greenDay,
-                   let greenDay = greenDay.asDate {
+                   let greenDay = greenDay.asDate
+                {
                     Text("\(greenDay.formatted(date: .complete, time: .omitted))\nto reach goal")
                         .foregroundStyle(.green)
                 }
