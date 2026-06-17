@@ -2,8 +2,8 @@ import Foundation
 import OSLog
 import SwiftData
 
-public enum HabitsSchemaV3: VersionedSchema {
-    public static let versionIdentifier = Schema.Version(3, 0, 0)
+public enum HabitsSchemaV4: VersionedSchema {
+    public static let versionIdentifier = Schema.Version(4, 0, 0)
 
     public static var models: [any PersistentModel.Type] {
         [Habit.self]
@@ -17,7 +17,10 @@ public enum HabitsSchemaV3: VersionedSchema {
         public private(set) var repetition: UInt?
         public private(set) var goal: CompletionGoal = CompletionGoal.daily(number: 1)
 
-        fileprivate var dayResults: [DateComponents: UInt] = [:]
+        // TODO: Remove in next version
+        fileprivate var dayResults: [DateComponents: UInt]? = [:]
+
+        fileprivate var dayResultsInternal: Data = Data()
 
         private var dayDefaultInternal: UInt?
 
@@ -36,7 +39,7 @@ public enum HabitsSchemaV3: VersionedSchema {
             self.repetition = repetition
             self.goal = goal
             self.symbol = symbol
-            self.dayResults = dayResults
+            newDayResults = dayResults
             self.firstDay = firstDay
             self.dayDefault = dayDefault
         }
@@ -49,12 +52,32 @@ public enum HabitsSchemaV3: VersionedSchema {
             symbol = try container.decode(String?.self, forKey: .symbol)
             repetition = try container.decode(UInt?.self, forKey: .repetition)
             goal = try container.decode(CompletionGoal.self, forKey: .goal)
-            dayResults = try container.decode([DateComponents: UInt].self, forKey: .dayResults)
+            newDayResults = try container.decode([DateComponents: UInt].self, forKey: .dayResults)
             if let firstDay = try? container.decode(DateComponents.self, forKey: .firstDay) {
                 self.firstDay = firstDay
             } else {
                 logger().info("Manually creating first day since it isn't included in the decoder.")
                 setFirstDay()
+            }
+        }
+
+        // TODO: Later Version (5 / 6): rename to dayResults
+        public internal(set) var newDayResults: [DateComponents: UInt] {
+            get {
+                do {
+                    return try JSONDecoder().decode([DateComponents: UInt].self, from: dayResultsInternal)
+                } catch {
+                    logger().error("Couldn't decode day results: \(error.localizedDescription)")
+
+                    return [:]
+                }
+            }
+            set {
+                do {
+                    dayResultsInternal = try JSONEncoder().encode(newValue)
+                } catch {
+                    logger().error("Couldn't encode day results: \(error.localizedDescription)")
+                }
             }
         }
 
@@ -75,7 +98,7 @@ public enum HabitsSchemaV3: VersionedSchema {
         }
 
         func setFirstDay() {
-            if let fromData = dayResults.filter({ $0.value > 0 }).map({ $0.key }).sorted().first {
+            if let fromData = newDayResults.filter({ $0.value > 0 }).map({ $0.key }).sorted().first {
                 firstDay = fromData
             } else {
                 logger().info("No completions set for any days, first day is set to today.")
@@ -109,6 +132,13 @@ public enum HabitsSchemaV3: VersionedSchema {
             storedEval = nil
             storedDayEval = nil
         }
+
+        func moveDayResults() {
+            guard let dayResults, newDayResults.count == 0 else { return }
+
+            newDayResults = dayResults
+            self.dayResults = nil
+        }
     }
 }
 
@@ -137,7 +167,7 @@ extension Habit: Codable {
 
     public convenience init(cloneof from: Habit, newName: String, copyData: Bool, firstDay: DateComponents) {
         let (dayResults, firstDay) = if copyData {
-            (from.dayResults, from.firstDay)
+            (from.newDayResults, from.firstDay)
         } else {
             ([DateComponents: UInt](), firstDay)
         }
@@ -154,7 +184,7 @@ extension Habit: Codable {
         try container.encode(symbol, forKey: .symbol)
         try container.encode(repetition, forKey: .repetition)
         try container.encode(goal, forKey: .goal)
-        try container.encode(dayResults, forKey: .dayResults)
+        try container.encode(newDayResults, forKey: .dayResults)
         try container.encode(firstDay, forKey: .firstDay)
     }
 
@@ -173,7 +203,7 @@ extension Habit: Codable {
     }
 
     public var calculatedFirstDay: DateComponents {
-        if let fromData = dayResults.filter({ $0.value > 0 }).map({ $0.key }).sorted().first {
+        if let fromData = newDayResults.filter({ $0.value > 0 }).map({ $0.key }).sorted().first {
             return min(fromData, firstDay)
         } else {
             return firstDay
@@ -181,16 +211,16 @@ extension Habit: Codable {
     }
 
     public func getDay(_ day: DateComponents = .now) -> UInt {
-        return dayResults[day.cleaned] ?? dayDefault
+        return newDayResults[day.cleaned] ?? dayDefault
     }
 
     public func setDay(_ day: DateComponents, to: UInt) {
         switch repetition {
         case let .some(repetition) where to > repetition:
             logger().info("New day value of \(to) is bigger than maximum value (\(repetition)), so this is the new value set.")
-            dayResults[day.cleaned] = repetition
+            newDayResults[day.cleaned] = repetition
         default:
-            dayResults[day.cleaned] = to
+            newDayResults[day.cleaned] = to
         }
 
         storedEval = nil
@@ -240,7 +270,7 @@ extension Habit: Codable {
     }
 
     private func getTotal(beforeStart: DateComponents, to: DateComponents) -> UInt {
-        let filteredDays = dayResults.filter { $0.key > beforeStart && $0.key <= to }
+        let filteredDays = newDayResults.filter { $0.key > beforeStart && $0.key <= to }
         let count = filteredDays.count
         let directlySetValue = filteredDays.reduce(0) { $0 + UInt($1.value) }
         let totalDays = to.daysSince(beforeStart) ?? 0
@@ -347,7 +377,7 @@ extension Habit: Codable {
         if let repetition,
            self.repetition == nil || self.repetition ?? 0 > repetition
         {
-            dayResults = dayResults.mapValues { value in
+            newDayResults = newDayResults.mapValues { value in
                 min(value, repetition)
             }
         }
@@ -366,7 +396,7 @@ extension Habit: Codable {
             return 0
         }
 
-        let days = dayResults.filter { $0.value > repetition }.count
+        let days = newDayResults.filter { $0.value > repetition }.count
         return UInt(days)
     }
 }

@@ -195,8 +195,8 @@ extension ContentView {
                     do {
                         try await notificationCentre.add(request)
                     } catch {
-                        logger().error("Can't add notification, an error occurred: \(error)!")
-                        alertText = "Can't show day start notifications because an error occurred: \(error)"
+                        logger().error("Can't add notification, an error occurred: \(error.localizedDescription)!")
+                        alertText = "Can't show day start notifications because an error occurred: \(error.localizedDescription)"
                         alertShown = true
                     }
                 }

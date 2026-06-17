@@ -107,8 +107,8 @@ struct SettingsView: View {
 
                     directory.stopAccessingSecurityScopedResource()
                 case let .failure(error):
-                    logger().error("Can't import file: \(error)")
-                    ioTitle = "Habits can't be imported: \(error)"
+                    logger().error("Can't import file: \(error.localizedDescription)")
+                    ioTitle = "Habits can't be imported: \(error.localizedDescription)"
                     showIOAlert = true
                 }
             }
