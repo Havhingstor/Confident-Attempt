@@ -54,10 +54,13 @@ struct SettingsView: View {
                     .onChange(of: viewModel.notifications) {
                         viewModel.checkAndSetBadges()
                     }
+                    .onChange(of: viewModel.notificationsPreferences) {
+                        viewModel.reloadNotifications()
+                    }
                     .onAppear {
                         viewModel.checkAndSetBadges()
                     }
-                if viewModel.notifications {
+                if viewModel.notificationsPreferences {
                     Toggle("Only in Notification Centre", isOn: $viewModel.passiveNotifications)
                     Toggle("Include habits where the goal\nhas been achieved over the evaluation period", isOn: $viewModel.achievedHabitsInBadge)
                 }
@@ -66,6 +69,7 @@ struct SettingsView: View {
 
                 if !viewModel.badgingWarning.isEmpty {
                     Text(viewModel.badgingWarning)
+                        .foregroundStyle(.red)
                 }
             }
             .animation(.default, value: viewModel.badgingWarning)

@@ -59,6 +59,7 @@ public enum HabitsSchemaV4: VersionedSchema {
                 logger().info("Manually creating first day since it isn't included in the decoder.")
                 setFirstDay()
             }
+            dayDefault = try container.decode(UInt.self, forKey: .dayDefault)
         }
 
         // TODO: Later Version (5 / 6): rename to dayResults
@@ -89,11 +90,20 @@ public enum HabitsSchemaV4: VersionedSchema {
 
                 setFirstDay()
 
-                return (try? JSONDecoder().decode(DateComponents.self, from: firstDayData)) ?? .now
+                do {
+                    return try JSONDecoder().decode(DateComponents.self, from: firstDayData)
+                } catch {
+                    logger().error("Couldn't decode first day: \(error.localizedDescription)")
+                    return .now
+                }
             }
             set {
-                firstDayData = (try? JSONEncoder().encode(newValue)) ?? Data()
-                storedEval = nil
+                do {
+                    firstDayData = try JSONEncoder().encode(newValue)
+                    storedEval = nil
+                } catch {
+                    logger().error("Couldn't encode first day: \(error.localizedDescription)")
+                }
             }
         }
 
@@ -150,6 +160,7 @@ private enum HabitCodingKeys: CodingKey {
     case goal
     case dayResults
     case firstDay
+    case dayDefault
 }
 
 extension Habit: Codable {
@@ -186,6 +197,7 @@ extension Habit: Codable {
         try container.encode(goal, forKey: .goal)
         try container.encode(newDayResults, forKey: .dayResults)
         try container.encode(firstDay, forKey: .firstDay)
+        try container.encode(dayDefault, forKey: .dayDefault)
     }
 
     public static func testValues(repetition: UInt?, goal: CompletionGoal) -> Bool {

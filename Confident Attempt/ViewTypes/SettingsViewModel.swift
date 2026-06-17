@@ -12,10 +12,12 @@ extension SettingsView {
         var preferences: Preferences
         var ioErrorShown = false
         var ioError = ""
+        var notifications: Bool
 
         init(_ prefs: Preferences) {
             badgingWarning = ""
             preferences = prefs
+            notifications = prefs.notifications
         }
 
         private var dayStart: DateComponents {
@@ -35,9 +37,20 @@ extension SettingsView {
                 self.dayStart = Calendar.current.dateComponents([.hour, .minute, .second], from: newVal)
             }
         }
+        
+        func reloadNotifications() {
+            if notifications != notificationsPreferences {
+                notifications = notificationsPreferences
+            }
+        }
 
         func checkAndSetBadges() {
-            guard preferences.notifications else { return }
+            guard notifications else {
+                if notificationsPreferences {
+                    notificationsPreferences = false
+                }
+                return
+            }
             badgingWarning = ""
             let notificationCentre = UNUserNotificationCenter.current()
             Task {
@@ -45,15 +58,17 @@ extension SettingsView {
                     let authorized = try await notificationCentre.requestAuthorization(options: [.badge, .alert])
 
                     if !authorized {
-                        preferences.notifications = false
+                        notifications = false
                     }
                 } catch {
-                    preferences.notifications = false
+                    notifications = false
                 }
 
-                if preferences.notifications == false {
+                if !notifications {
                     badgingWarning = "You need to allow Notifications to send you badges."
                 }
+                
+                notificationsPreferences = notifications
             }
         }
 
@@ -84,7 +99,7 @@ extension SettingsView {
             }
         }
 
-        var notifications: Bool {
+        var notificationsPreferences: Bool {
             get {
                 preferences.notifications
             }
