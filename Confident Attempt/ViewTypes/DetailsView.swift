@@ -94,6 +94,7 @@ struct DetailsView: View {
                     Spacer()
                 }
             }
+            .textSelection(.enabled)
             .padding(30)
         }
         .animation(.default, value: viewModel.selectedDate)

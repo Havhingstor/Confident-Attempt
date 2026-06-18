@@ -104,7 +104,7 @@ struct HabitEditView: View {
             Form {
                 Section {
                     CustomTextField(TextField("Name", text: $name))
-                    CustomTextField(TextField("Description", text: $description))
+                    CustomTextField(TextField("Description", text: $description, axis: .vertical))
                     HStack {
                         Image(systemName: actualSymbol)
                             .font(.title)
