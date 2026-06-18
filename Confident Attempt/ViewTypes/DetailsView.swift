@@ -33,6 +33,7 @@ struct DetailsView: View {
 
                     Group {
                         Text("Total: \(viewModel.total) Completions")
+                        Text(viewModel.expectedText)
                         Text(viewModel.goal)
                         Text(viewModel.evaluationText)
                             .padding(.bottom, 20)

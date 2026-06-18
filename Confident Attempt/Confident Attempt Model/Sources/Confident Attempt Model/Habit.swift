@@ -295,6 +295,18 @@ extension Habit: Codable {
 
         return getTotal(beforeStart: beforeStart, to: to)
     }
+    
+    public func getExpected(from: CalculationStart, to: DateComponents) -> Double {
+        getExpectedInternal(from: from, to: to).0
+    }
+    
+    private func getExpectedInternal(from: CalculationStart, to: DateComponents) -> (Double, DateComponents) {
+        guard let (beforeStart, fdEffect) = getDayBeforeEvalStart(from: from, to: to) else { return (0, .now) }
+        
+        let encompassedGoalPeriods = getProportionOfGoalPeriod(beforeStart: beforeStart, to: to, from: from, fdEffect: fdEffect)
+        
+        return (Double(goal.getNumber()) * encompassedGoalPeriods, beforeStart)
+    }
 
     private func getEvalIfUsable(from: CalculationStart, to: DateComponents) -> Double? {
         guard let storedEval else { return nil }
@@ -311,11 +323,8 @@ extension Habit: Codable {
         if let result = getEvalIfUsable(from: from, to: to) {
             return result
         }
-        guard let (beforeStart, fdEffect) = getDayBeforeEvalStart(from: from, to: to) else { return 0 }
-
-        let encompassedGoalPeriods = getProportionOfGoalPeriod(beforeStart: beforeStart, to: to, from: from, fdEffect: fdEffect)
-
-        let totalGoal = Double(goal.getNumber()) * encompassedGoalPeriods
+        
+        let (totalGoal, beforeStart) = getExpectedInternal(from: from, to: to)
 
         guard totalGoal > 0 else {
             logger().error("Couldn't calculate goal. Returning Evaluation 0")
