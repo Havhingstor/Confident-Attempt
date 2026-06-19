@@ -129,3 +129,10 @@ struct StoredDayEval {
     var day: DateComponents
     var value: Double
 }
+
+struct StoredPrediction {
+    var referenceDate: DateComponents
+    var start: CalculationStart
+    var yellowRatio: Double
+    var value: (DateComponents?, DateComponents?)
+}

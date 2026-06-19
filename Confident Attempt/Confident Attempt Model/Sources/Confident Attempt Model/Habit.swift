@@ -21,6 +21,10 @@ public enum HabitsSchemaV4: VersionedSchema {
         fileprivate var dayResults: [DateComponents: UInt]? = [:]
 
         fileprivate var dayResultsInternal: Data = Data()
+        @Transient
+        private var dayResultsCache: [DateComponents: UInt] = [:]
+        @Transient
+        private var dayResultsHash: Int = 0
 
         private var dayDefaultInternal: UInt?
 
@@ -30,6 +34,8 @@ public enum HabitsSchemaV4: VersionedSchema {
         private var storedEval: StoredEval? = nil
         @Transient
         private var storedDayEval: StoredDayEval? = nil
+        @Transient
+        private var storedPrediction: StoredPrediction? = nil
 
         fileprivate init(name: String, textDescription: String, symbol: String?, repetition: UInt?, goal: CompletionGoal,
                          dayResults: [DateComponents: UInt], firstDay: DateComponents, dayDefault: UInt)
@@ -65,17 +71,21 @@ public enum HabitsSchemaV4: VersionedSchema {
         // TODO: Later Version (5 / 6): rename to dayResults
         public internal(set) var newDayResults: [DateComponents: UInt] {
             get {
-                do {
-                    return try JSONDecoder().decode([DateComponents: UInt].self, from: dayResultsInternal)
-                } catch {
-                    logger().error("Couldn't decode day results: \(error.localizedDescription)")
-
-                    return [:]
+                if dayResultsInternal.hashValue != dayResultsHash {
+                    do {
+                        dayResultsCache = try JSONDecoder().decode([DateComponents: UInt].self, from: dayResultsInternal)
+                        dayResultsHash = dayResultsInternal.hashValue
+                    } catch {
+                        logger().error("Couldn't decode day results: \(error.localizedDescription)")
+                    }
                 }
+                return dayResultsCache
             }
             set {
                 do {
-                    dayResultsInternal = try JSONEncoder().encode(newValue)
+                    dayResultsCache = newValue
+                    dayResultsInternal = try JSONEncoder().encode(dayResultsCache)
+                    dayResultsHash = dayResultsInternal.hashValue
                 } catch {
                     logger().error("Couldn't encode day results: \(error.localizedDescription)")
                 }
@@ -100,7 +110,7 @@ public enum HabitsSchemaV4: VersionedSchema {
             set {
                 do {
                     firstDayData = try JSONEncoder().encode(newValue)
-                    storedEval = nil
+                    resetStoredEvals(forDay: nil)
                 } catch {
                     logger().error("Couldn't encode first day: \(error.localizedDescription)")
                 }
@@ -134,12 +144,23 @@ public enum HabitsSchemaV4: VersionedSchema {
                     newValue
                 }
 
-                resetStoredEvals()
+                resetStoredEvalsAndDay()
             }
         }
 
-        private func resetStoredEvals() {
+        private func resetStoredEvals(forDay: DateComponents?) {
             storedEval = nil
+            storedPrediction = nil
+            
+            if let storedDayEval,
+               let forDay,
+               storedDayEval.day.cleanEq(forDay) {
+                self.storedDayEval = nil
+            }
+        }
+        
+        private func resetStoredEvalsAndDay(){
+            resetStoredEvals(forDay: nil)
             storedDayEval = nil
         }
 
@@ -235,10 +256,7 @@ extension Habit: Codable {
             newDayResults[day.cleaned] = to
         }
 
-        storedEval = nil
-        if let storedDayEval, storedDayEval.day.cleanEq(day) {
-            self.storedDayEval = nil
-        }
+        resetStoredEvals(forDay: day)
     }
 
     public func increaseDay(_ day: DateComponents, by: UInt) {
@@ -258,14 +276,17 @@ extension Habit: Codable {
         if storedDayEval.day.cleanEq(day) {
             return storedDayEval.value
         } else {
-            self.storedDayEval = nil
             return nil
         }
     }
 
     public func getEvaluationForDay(_ day: DateComponents) -> Double {
-        return getDayEvalIfUsable(day: day) ??
-            Double(getDay(day)) / goal.getAsDaily(forDate: day)
+        if let eval = getDayEvalIfUsable(day: day) {
+            return eval
+        }
+        let result = Double(getDay(day)) / goal.getAsDaily(forDate: day)
+        storedDayEval = StoredDayEval(day: day, value: result)
+        return result
     }
 
     /// Returns the day before the evaluation in question starts and a flag indicating if this was changed by the calculated first day
@@ -321,7 +342,6 @@ extension Habit: Codable {
         if storedEval.from == from, storedEval.to.cleanEq(to) {
             return storedEval.value
         } else {
-            self.storedEval = nil
             return nil
         }
     }
@@ -350,6 +370,13 @@ extension Habit: Codable {
     /// Calculates the days the user reaches yellow (first value) or green (second value) status if they complete the habit at the minimum number evaluating over 1
     /// Value is nil if the goal can't be reached or is already reached
     public func calculateFutureEvals(referenceDate: DateComponents, start: CalculationStart, yellowRatio: Double) -> (yellow: DateComponents?, green: DateComponents?) {
+        if let storedPrediction,
+           storedPrediction.referenceDate == referenceDate,
+           storedPrediction.start == start,
+           storedPrediction.yellowRatio == yellowRatio {
+            return storedPrediction.value
+        }
+        
         var resultYellow = DateComponents?(nil)
         var resultGreen = DateComponents?(nil)
         
@@ -425,6 +452,8 @@ extension Habit: Codable {
             currentTotal += newIn
         }
         
+        storedPrediction = StoredPrediction(referenceDate: referenceDate, start: start, yellowRatio: yellowRatio, value: (resultYellow, resultGreen))
+        
         return (resultYellow, resultGreen)
     }
 
@@ -494,7 +523,7 @@ extension Habit: Codable {
         self.repetition = repetition
         self.goal = goal
 
-        resetStoredEvals()
+        resetStoredEvalsAndDay()
     }
 
     /// Returns the number of days which would need to be lowered to confine to the proposed repetition
