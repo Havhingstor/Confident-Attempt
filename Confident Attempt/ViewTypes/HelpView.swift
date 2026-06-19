@@ -25,7 +25,7 @@ struct HelpView: View {
                 Text("The evaluation for any given habit only starts at the day it was created, or its first completion (whatever is earlier)")
             }
         }
-        .navigationTitle("Help")
+        .navigationTitle("help.title")
     }
 }
 

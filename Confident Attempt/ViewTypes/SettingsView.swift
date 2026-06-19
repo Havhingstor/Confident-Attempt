@@ -121,7 +121,7 @@ struct SettingsView: View {
             .alert(ioTitle, isPresented: $showIOAlert) {}
             .alert(viewModel.ioError, isPresented: $viewModel.ioErrorShown) {}
         }
-        .navigationTitle("Settings")
+        .navigationTitle("settings.title")
     }
 
     func importHabitFile(url: URL, addMark: Bool) {

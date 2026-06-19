@@ -133,13 +133,13 @@ struct HabitEditView: View {
                         .keyboardType(.numberPad)
 
                     Picker("Scale", selection: $goalScale) {
-                        Text("per Day")
+                        Text("edit.per-day")
                             .tag(TimeScale.day)
-                        Text("per Week")
+                        Text("edit.per-week")
                             .tag(TimeScale.week)
-                        Text("per Month")
+                        Text("edit.per-month")
                             .tag(TimeScale.month)
-                        Text("per Year")
+                        Text("edit.per-year")
                             .tag(TimeScale.year)
                     }
                 }

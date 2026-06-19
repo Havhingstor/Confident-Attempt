@@ -43,14 +43,14 @@ struct ContentView: View {
 
                 if let undoManager {
                     ToolbarItem(placement: .topBarTrailing) {
-                        Button("Undo", systemImage: "arrow.uturn.backward.circle") {
+                        Button("general.undo", systemImage: "arrow.uturn.backward.circle") {
                             undoManager.undo()
                         }
                         .disabled(!undoManager.canUndo)
                     }
 
                     ToolbarItem(placement: .topBarTrailing) {
-                        Button("Redo", systemImage: "arrow.uturn.forward.circle") {
+                        Button("general.redo", systemImage: "arrow.uturn.forward.circle") {
                             undoManager.redo()
                         }
                         .disabled(!undoManager.canRedo)
@@ -61,7 +61,7 @@ struct ContentView: View {
                     NavigationLink {
                         SettingsView(viewModel.preferences)
                     } label: {
-                        Label("Settings", systemImage: "gear")
+                        Label("settings.title", systemImage: "gear")
                     }
                 }
 
@@ -69,12 +69,12 @@ struct ContentView: View {
                     NavigationLink {
                         HelpView()
                     } label: {
-                        Label("Help", systemImage: "questionmark")
+                        Label("help.title", systemImage: "questionmark")
                     }
                 }
 
                 ToolbarItem(placement: .bottomBar) {
-                    Button("New Habit", systemImage: "plus") {
+                    Button("new-habit.title", systemImage: "plus") {
                         viewModel.addHabitShown = true
                     }
                 }
