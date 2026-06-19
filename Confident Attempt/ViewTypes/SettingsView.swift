@@ -12,6 +12,8 @@ struct SettingsView: View {
     @State private var showExportDialog = false
     @State private var showImportDialog = false
     @State private var showIOAlert = false
+    @State private var showImportMarkDialog = false
+    @State private var importURL: URL?
     @State private var ioTitle = ""
 
     init(_ prefs: Preferences) {
@@ -99,27 +101,41 @@ struct SettingsView: View {
             .fileImporter(isPresented: $showImportDialog, allowedContentTypes: [.json]) { result in
                 switch result {
                 case let .success(directory):
-                    let gotAccess = directory.startAccessingSecurityScopedResource()
-                    if !gotAccess {
-                        logger().error("Can't get access to import directory")
-                        ioTitle = "Habits can't be imported: App can't get access to directory"
-                        showIOAlert = true
-                        return
-                    }
-
-                    viewModel.loadFromFile(directory, context: modelContext)
-
-                    directory.stopAccessingSecurityScopedResource()
+                    importURL = directory
+                    showImportMarkDialog = true
                 case let .failure(error):
                     logger().error("Can't import file: \(error.localizedDescription)")
                     ioTitle = "Habits can't be imported: \(error.localizedDescription)"
                     showIOAlert = true
                 }
             }
+            .alert("Should the habits be marked as \"imported\"?", isPresented: $showImportMarkDialog, presenting: importURL, actions: { url in
+                Button("Yes") {
+                    importHabitFile(url: url, addMark: true)
+                }
+                Button("No") {
+                    importHabitFile(url: url, addMark: false)
+                }
+                Button("Cancel", role: .cancel) {}
+            })
             .alert(ioTitle, isPresented: $showIOAlert) {}
             .alert(viewModel.ioError, isPresented: $viewModel.ioErrorShown) {}
         }
         .navigationTitle("Settings")
+    }
+
+    func importHabitFile(url: URL, addMark: Bool) {
+        let gotAccess = url.startAccessingSecurityScopedResource()
+        if !gotAccess {
+            logger().error("Can't get access to import directory")
+            ioTitle = "Habits can't be imported: App can't get access to directory"
+            showIOAlert = true
+            return
+        }
+
+        viewModel.loadFromFile(url, context: modelContext, markHabits: addMark)
+
+        url.stopAccessingSecurityScopedResource()
     }
 }
 

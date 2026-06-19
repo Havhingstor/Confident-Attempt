@@ -151,7 +151,6 @@ extension DetailsView {
         /// Calculates the days the user reaches yellow (first value) or green (second value) status if they complete the habit at the minimum number evaluating over 1
         /// Value is nil if the goal can't be reached or is already reached
         func getDayPredictionResults() -> (DateComponents?, DateComponents?) {
-            let goal = habit.goal
             let redZone = superViewModel.preferences.redZone
             return habit.calculateFutureEvals(referenceDate: referenceDate, start: calculationPeriod, yellowRatio: redZone)
         }

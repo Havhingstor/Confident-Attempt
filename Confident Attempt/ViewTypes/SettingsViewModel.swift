@@ -37,7 +37,7 @@ extension SettingsView {
                 self.dayStart = Calendar.current.dateComponents([.hour, .minute, .second], from: newVal)
             }
         }
-        
+
         func reloadNotifications() {
             if notifications != notificationsPreferences {
                 notifications = notificationsPreferences
@@ -67,7 +67,7 @@ extension SettingsView {
                 if !notifications {
                     badgingWarning = "You need to allow Notifications to send you badges."
                 }
-                
+
                 notificationsPreferences = notifications
             }
         }
@@ -140,17 +140,23 @@ extension SettingsView {
             }
         }
 
-        func loadFromFile(_ url: URL, context: ModelContext) {
+        func loadFromFile(_ url: URL, context: ModelContext, markHabits: Bool) {
             do {
                 let data = try Data(contentsOf: url)
                 let habits = try JSONDecoder().decode([Habit].self, from: data)
 
                 for habit in habits {
-                    habit.name += " (Imported)"
+                    if markHabits {
+                        habit.name += " (Imported)"
+                    }
                     context.insert(habit)
                 }
 
                 try context.save()
+
+                logger().info("\(habits.count) habits have been imported successfully")
+                ioError = "\(habits.count) habits have been imported"
+                ioErrorShown = true
             } catch let e {
                 logger().error("Can't load habits: \(e)")
                 ioError = "Habits can't be imported: \(e)"
