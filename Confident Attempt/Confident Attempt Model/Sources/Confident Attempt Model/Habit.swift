@@ -270,15 +270,22 @@ extension Habit: Codable {
 
     /// Returns the day before the evaluation in question starts and a flag indicating if this was changed by the calculated first day
     public func getDayBeforeEvalStart(from: CalculationStart, to: DateComponents) -> (DateComponents, Bool)? {
-        guard let lastDate = to.asDate,
-              let beforeFirst = calculatedFirstDay.addingDays(-1),
-              let beforeStart = Calendar.current.date(byAdding: from.getAsDateComponents(), to: lastDate)?.dc else { return nil }
+        guard let beforeStart = getBeforeStartRaw(from: from, to: to),
+              let beforeFirst = calculatedFirstDay.addingDays(-1) else { return nil }
 
         if beforeFirst > beforeStart {
             return (beforeFirst, true)
         } else {
             return (beforeStart, false)
         }
+    }
+    
+    /// Returns the day before the eval start, does NOT account for first day
+    private func getBeforeStartRaw(from: CalculationStart, to: DateComponents) -> DateComponents? {
+        guard let lastDate = to.asDate,
+              let beforeStart = Calendar.current.date(byAdding: from.getAsDateComponents(), to: lastDate)?.dc else { return nil }
+        
+        return beforeStart
     }
 
     private func getTotal(beforeStart: DateComponents, to: DateComponents) -> UInt {
@@ -297,13 +304,13 @@ extension Habit: Codable {
     }
     
     public func getExpected(from: CalculationStart, to: DateComponents) -> Double {
-        getExpectedInternal(from: from, to: to).0
+        getExpectedInternal(from: from, to: to).0 ?? 0
     }
     
-    private func getExpectedInternal(from: CalculationStart, to: DateComponents) -> (Double, DateComponents) {
+    private func getExpectedInternal(from: CalculationStart, to: DateComponents) -> (Double?, DateComponents) {
         guard let (beforeStart, fdEffect) = getDayBeforeEvalStart(from: from, to: to) else { return (0, .now) }
         
-        let encompassedGoalPeriods = getProportionOfGoalPeriod(beforeStart: beforeStart, to: to, from: from, fdEffect: fdEffect)
+        guard let encompassedGoalPeriods = getProportionOfGoalPeriod(beforeStart: beforeStart, to: to, from: from, fdEffect: fdEffect) else {return (nil, beforeStart)}
         
         return (Double(goal.getNumber()) * encompassedGoalPeriods, beforeStart)
     }
@@ -326,7 +333,7 @@ extension Habit: Codable {
         
         let (totalGoal, beforeStart) = getExpectedInternal(from: from, to: to)
 
-        guard totalGoal > 0 else {
+        guard let totalGoal else {
             logger().error("Couldn't calculate goal. Returning Evaluation 0")
             return 0
         }
@@ -339,9 +346,90 @@ extension Habit: Codable {
 
         return result
     }
+    
+    /// Calculates the days the user reaches yellow (first value) or green (second value) status if they complete the habit at the minimum number evaluating over 1
+    /// Value is nil if the goal can't be reached or is already reached
+    public func calculateFutureEvals(referenceDate: DateComponents, start: CalculationStart, yellowRatio: Double) -> (yellow: DateComponents?, green: DateComponents?) {
+        var resultYellow = DateComponents?(nil)
+        var resultGreen = DateComponents?(nil)
+        
+        guard var (beforeStart, fdEffect) = getDayBeforeEvalStart(from: start, to: referenceDate) else { return (nil, nil) }
+        var currentEndDate = referenceDate
+        
+        var currentTotal = getTotal(beforeStart: beforeStart, to: currentEndDate)
+
+        // Today should also be set to at least completions
+        var completions = UInt(goal.getAsDaily(forDate: currentEndDate).rounded(.up))
+        if let rep = repetition, rep < completions {
+            completions = rep
+        }
+        
+        let actualValueToday = getDay(referenceDate)
+        if completions > actualValueToday {
+            currentTotal -= actualValueToday
+            currentTotal += completions
+        }
+        
+        outer: while beforeStart < referenceDate {
+            // Evaluation of the current date
+            guard let encompassedGoalPeriods = getProportionOfGoalPeriod(beforeStart: beforeStart, to: currentEndDate, from: start, fdEffect: fdEffect) else {break}
+            let actualGoal = Double(goal.getNumber()) * encompassedGoalPeriods
+            
+            let ratioToday = Double(currentTotal) / actualGoal
+            
+            if resultYellow == nil && ratioToday >= yellowRatio {
+                resultYellow = currentEndDate
+            }
+            
+            if resultGreen == nil && ratioToday >= 1.0 {
+                resultGreen = currentEndDate
+            }
+            
+            if resultYellow != nil && resultGreen != nil {
+                break
+            }
+            
+            // Calculation of the next date
+            
+            guard let nextEndDate = currentEndDate.addingDays(1) else {break}
+            currentEndDate = nextEndDate
+            
+            var bsIter = beforeStart
+            if fdEffect {
+                guard let (next, nextFDEffect) = getDayBeforeEvalStart(from: start, to: currentEndDate) else {break}
+                beforeStart = next
+                fdEffect = nextFDEffect
+            } else {
+                guard let next = getBeforeStartRaw(from: start, to: currentEndDate) else {break}
+                beforeStart = next
+            }
+            
+            // beforeStart might jump various distances >= 0 so we need to sum all the completions that fell out
+            var fellOut = UInt(0)
+            
+            while bsIter < beforeStart {
+                guard let next = bsIter.addingDays(1) else {break outer}
+                bsIter = next
+                
+                fellOut += getDay(bsIter)
+            }
+            
+            var completions = UInt(goal.getAsDaily(forDate: currentEndDate).rounded(.up))
+            if let rep = repetition, rep < completions {
+                completions = rep
+            }
+            
+            let newIn = max(getDay(currentEndDate), completions)
+            
+            currentTotal -= fellOut
+            currentTotal += newIn
+        }
+        
+        return (resultYellow, resultGreen)
+    }
 
     private func getProportionOfGoalPeriod(beforeStart: DateComponents, to: DateComponents,
-                                           from calcPeriod: CalculationStart, fdEffect influencedByFirstDay: Bool) -> Double
+                                           from calcPeriod: CalculationStart, fdEffect influencedByFirstDay: Bool) -> Double?
     {
         if !influencedByFirstDay && calcPeriod.typeEq(rhs: goal) {
             return Double(calcPeriod.getNumber())
@@ -349,11 +437,11 @@ extension Habit: Codable {
 
         guard var totalRemainingDays = to.daysSince(beforeStart) else {
             logger().error("Can't calculate the days between \(to) and \(beforeStart)")
-            return 0
+            return nil
         }
         guard var currentStartDate = to.asDate else {
             logger().error("Can't convert \(to) to a date")
-            return 0
+            return nil
         }
 
         let oneGoalPeriod: DateComponents!
@@ -373,11 +461,11 @@ extension Habit: Codable {
         while totalRemainingDays > 0 {
             guard let nextStartDate = Calendar.current.date(byAdding: oneGoalPeriod, to: currentStartDate) else {
                 logger().error("Can't calculate a new date adding \(oneGoalPeriod) to \(currentStartDate)")
-                return 0
+                return nil
             }
             guard let daysInPeriod = currentStartDate.dc.daysSince(nextStartDate.dc) else {
                 logger().error("Can't calculate the number of days between \(currentStartDate) and \(nextStartDate)")
-                return 0
+                return nil
             }
 
             if totalRemainingDays >= daysInPeriod {
