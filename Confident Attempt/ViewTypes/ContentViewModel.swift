@@ -195,7 +195,7 @@ extension ContentView {
                     do {
                         try await notificationCentre.add(request)
                     } catch {
-                        logger().error("Can't add notification, an error occurred: \(error.localizedDescription)!")
+                        logger().error("Can't add notification, an error occurred: \(error)!")
                         alertText = "Can't show day start notifications because an error occurred: \(error.localizedDescription)"
                         alertShown = true
                     }
@@ -215,7 +215,7 @@ extension ContentView {
             do {
                 try modelContext.save()
             } catch let err {
-                logger().error("Can't save model context at the moment: \(err.localizedDescription)")
+                logger().error("Can't save model context at the moment: \(err)")
             }
         }
 

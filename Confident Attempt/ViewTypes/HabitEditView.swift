@@ -271,7 +271,7 @@ struct HabitEditView: View {
         do {
             try modelContext.save()
         } catch let err {
-            logger().error("Can't save model context at the moment: \(err.localizedDescription)")
+            logger().error("Can't save model context at the moment: \(err)")
         }
 
         dismiss()

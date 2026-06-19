@@ -134,7 +134,7 @@ extension SettingsView {
                 return try HabitListFile(values: habits)
             } catch let e {
                 logger().error("Error when converting habits to JSON: \(e)")
-                ioError = "Habits can't be exported: \(e)"
+                ioError = "Habits can't be exported: \(e.localizedDescription)"
                 ioErrorShown = true
                 return nil
             }
@@ -159,7 +159,7 @@ extension SettingsView {
                 ioErrorShown = true
             } catch let e {
                 logger().error("Can't load habits: \(e)")
-                ioError = "Habits can't be imported: \(e)"
+                ioError = "Habits can't be imported: \(e.localizedDescription)"
                 ioErrorShown = true
             }
         }

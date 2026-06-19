@@ -93,7 +93,7 @@ struct SettingsView: View {
                     ioTitle = "Successfully exported habits"
                     showIOAlert = true
                 case let .failure(failure):
-                    logger().error("Couldn't save: \(failure)")
+                        logger().error("Couldn't save: \(failure)")
                     ioTitle = "Couldn't export habits: \(failure.localizedDescription)"
                     showIOAlert = true
                 }
@@ -104,7 +104,7 @@ struct SettingsView: View {
                     importURL = directory
                     showImportMarkDialog = true
                 case let .failure(error):
-                    logger().error("Can't import file: \(error.localizedDescription)")
+                    logger().error("Can't import file: \(error)")
                     ioTitle = "Habits can't be imported: \(error.localizedDescription)"
                     showIOAlert = true
                 }

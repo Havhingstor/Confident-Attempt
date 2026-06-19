@@ -11,8 +11,8 @@ struct Confident_AttemptApp: App {
         do {
             container = try ModelContainer(for: Habit.self, migrationPlan: HabitsMigrationPlan.self)
             container.mainContext.undoManager = UndoManager()
-        } catch let err {
-            fatalError("Failed to initialize model container: \(err)")
+        } catch {
+            fatalError("Failed to initialize model container: \(error)")
         }
     }
 

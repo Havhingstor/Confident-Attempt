@@ -76,7 +76,7 @@ public enum HabitsSchemaV4: VersionedSchema {
                         dayResultsCache = try JSONDecoder().decode([DateComponents: UInt].self, from: dayResultsInternal)
                         dayResultsHash = dayResultsInternal.hashValue
                     } catch {
-                        logger().error("Couldn't decode day results: \(error.localizedDescription)")
+                        logger().error("Couldn't decode day results: \(error)")
                     }
                 }
                 return dayResultsCache
@@ -87,7 +87,7 @@ public enum HabitsSchemaV4: VersionedSchema {
                     dayResultsInternal = try JSONEncoder().encode(dayResultsCache)
                     dayResultsHash = dayResultsInternal.hashValue
                 } catch {
-                    logger().error("Couldn't encode day results: \(error.localizedDescription)")
+                    logger().error("Couldn't encode day results: \(error)")
                 }
             }
         }
@@ -103,7 +103,7 @@ public enum HabitsSchemaV4: VersionedSchema {
                 do {
                     return try JSONDecoder().decode(DateComponents.self, from: firstDayData)
                 } catch {
-                    logger().error("Couldn't decode first day: \(error.localizedDescription)")
+                    logger().error("Couldn't decode first day: \(error)")
                     return .now
                 }
             }
@@ -112,7 +112,7 @@ public enum HabitsSchemaV4: VersionedSchema {
                     firstDayData = try JSONEncoder().encode(newValue)
                     resetStoredEvals(forDay: nil)
                 } catch {
-                    logger().error("Couldn't encode first day: \(error.localizedDescription)")
+                    logger().error("Couldn't encode first day: \(error)")
                 }
             }
         }

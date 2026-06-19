@@ -168,7 +168,7 @@ extension HabitRowView {
             do {
                 try context.save()
             } catch let err {
-                logger().error("Can't save model context at the moment: \(err.localizedDescription)")
+                logger().error("Can't save model context at the moment: \(err)")
             }
         }
 
@@ -179,7 +179,7 @@ extension HabitRowView {
             do {
                 try context.save()
             } catch let err {
-                logger().error("Can't save model context at the moment: \(err.localizedDescription)")
+                logger().error("Can't save model context at the moment: \(err)")
             }
         }
 
@@ -190,7 +190,7 @@ extension HabitRowView {
             do {
                 try context.save()
             } catch let err {
-                logger().error("Can't save model context at the moment: \(err.localizedDescription)")
+                logger().error("Can't save model context at the moment: \(err)")
             }
         }
 
