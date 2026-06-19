@@ -14,7 +14,7 @@ struct SettingsView: View {
     @State private var showIOAlert = false
     @State private var showImportMarkDialog = false
     @State private var importURL: URL?
-    @State private var ioTitle = ""
+    @State private var ioTitle: LocalizedStringKey = ""
 
     init(_ prefs: Preferences) {
         let viewModel = ViewModel(prefs)
@@ -69,8 +69,8 @@ struct SettingsView: View {
                 Text("Sends a notification at the start of a day and sets the badge to the number of habits which don't yet have enough completions to reach the long-term goal.")
                 Text("Note: After the notification has been sent, before the app is opened the next time, the badge number will include all habits, regardless of their number of completions in the past or on that day")
 
-                if !viewModel.badgingWarning.isEmpty {
-                    Text(viewModel.badgingWarning)
+                if let badgingWarning = viewModel.badgingWarning {
+                    Text(badgingWarning)
                         .foregroundStyle(.red)
                 }
             }

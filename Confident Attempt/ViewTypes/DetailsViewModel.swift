@@ -20,11 +20,11 @@ extension DetailsView {
             superViewModel.referenceDate
         }
 
-        var goal: String {
+        var goal: LocalizedStringKey {
             superViewModel.goal
         }
 
-        var evaluationText: String {
+        var evaluationText: LocalizedStringKey {
             superViewModel.evaluationText
         }
 
@@ -50,12 +50,12 @@ extension DetailsView {
             return FloatingPointFormatStyle<Double>.number.precision(.fractionLength(0)).rounded(rule: .up)
         }
 
-        var expectedText: String {
+        var expectedText: LocalizedStringKey {
             let expected = habit.getExpected(from: calculationPeriod, to: referenceDate)
             return "Expected: ~ \(expected.formatted(expectedStyle)) Completions"
         }
 
-        var timePeriodString: String {
+        var timePeriodString: LocalizedStringKey {
             guard let (dayBefore, _) = habit.getDayBeforeEvalStart(from: calculationPeriod, to: referenceDate),
                   let firstDay = dayBefore.addingDays(1),
                   let daysInBetween = referenceDate.daysSince(firstDay),
@@ -69,17 +69,17 @@ extension DetailsView {
             return "Since \(firstDayDate.formatted(date: .complete, time: .omitted))\n(\(totalDaysStr) \(daysStr)):"
         }
 
-        var selectedDayString: String {
+        var selectedDayString: LocalizedStringKey {
             guard let date = selectedDate?.asDate else { return "" }
             return "On \(date.formatted(date: .complete, time: .omitted)):"
         }
 
-        var selectedDayCompletionsString: String {
+        var selectedDayCompletionsString: LocalizedStringKey {
             guard let selectedDate else { return "" }
             return "Completions: \(habit.getDay(selectedDate))"
         }
 
-        var maximumString: String {
+        var maximumString: LocalizedStringKey {
             if let max = habit.repetition {
                 return "Maximum: \(max) per day"
             } else {

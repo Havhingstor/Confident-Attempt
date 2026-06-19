@@ -16,7 +16,7 @@ extension ContentView {
         let preferences: Preferences
 
         var alertShown = false
-        var alertText = ""
+        var alertText: LocalizedStringKey = ""
 
         init(_ prefs: Preferences) {
             addHabitShown = false

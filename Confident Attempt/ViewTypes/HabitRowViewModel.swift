@@ -69,7 +69,7 @@ extension HabitRowView {
                 .font(.title3)
         }
 
-        var text: String {
+        var text: LocalizedStringKey {
             var result = "Today: \(dayValue)"
 
             if let repetition = habit.repetition {
@@ -86,10 +86,10 @@ extension HabitRowView {
                 }
             }
 
-            return result
+            return LocalizedStringKey(result)
         }
 
-        var goal: String {
+        var goal: LocalizedStringKey {
             let goal = habit.goal
             let period = switch goal {
             case let .daily(goalNum):
@@ -118,10 +118,10 @@ extension HabitRowView {
                 }
             }
 
-            return "Goal: \(period)"
+            return LocalizedStringKey("Goal: \(period)")
         }
 
-        var evaluationText: String {
+        var evaluationText: LocalizedStringKey {
             "Achieved: \(habit.getEvaluation(from: calculationPeriod, to: referenceDate).formatted(percentStyle))"
         }
 

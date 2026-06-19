@@ -49,7 +49,7 @@ struct HabitEditView: View {
         }
     }
 
-    var repetitionTypeHelpText: String {
+    var repetitionTypeHelpText: LocalizedStringKey {
         switch repetitionType {
         case .normal:
             "A habit that can be completed once per day."
@@ -184,10 +184,10 @@ struct HabitEditView: View {
                         .font(.title3)
                 }
             }
-            .navigationTitle("\(editedHabit == nil ? "Add" : "Edit") Habit")
+            .navigationTitle(editedHabit == nil ? "edit.edit-habit" : "edit.add-habit")
             .navigationBarTitleDisplayMode(.inline)
             .sheet(isPresented: $symbolPickerShown, content: {
-                SymbolsPicker(selection: $symbol, title: "Choose a symbol", autoDismiss: true)
+                SymbolsPicker(selection: $symbol, titleKey: "Choose a symbol", autoDismiss: true)
             })
             .alert("Save Habit", isPresented: $saveConfirmationDialogShown, presenting: repetitionProblems) { _ in
                 Button("Save anyways", role: .destructive) {

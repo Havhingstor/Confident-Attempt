@@ -1,6 +1,9 @@
 {
   "sourceLanguage" : "en-GB",
   "strings" : {
+    "" : {
+
+    },
     "%@" : {
       "localizations" : {
         "en-GB" : {
@@ -12,6 +15,7 @@
       }
     },
     "%@ Habit" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en-GB" : {
           "stringUnit" : {
@@ -20,6 +24,9 @@
           }
         }
       }
+    },
+    "%lld habits have been imported" : {
+
     },
     "A habit can be completed either once per day ('normal'), multiple times up to a certain limit ('repeated'), or as often as you like ('unlimited')." : {
       "localizations" : {
@@ -30,6 +37,18 @@
           }
         }
       }
+    },
+    "A habit that can be completed multiple times per day, up to a limit of %llu." : {
+
+    },
+    "A habit that can be completed multiple times per day." : {
+
+    },
+    "A habit that can be completed once per day." : {
+
+    },
+    "Achieved: %@" : {
+
     },
     "Any completions made before this time will be assigned to the previous day." : {
       "localizations" : {
@@ -51,6 +70,15 @@
         }
       }
     },
+    "Can't set the application's badge, please enable notifications in the iOS and app settings" : {
+
+    },
+    "Can't show day start notifications because an error occurred: %@" : {
+
+    },
+    "Can't show day start notifications, please enable notifications in the iOS and app settings" : {
+
+    },
     "Cancel" : {
       "localizations" : {
         "en-GB" : {
@@ -60,6 +88,12 @@
           }
         }
       }
+    },
+    "Choose a symbol" : {
+
+    },
+    "Completions: %llu" : {
+
     },
     "Confident Attempt" : {
       "localizations" : {
@@ -90,6 +124,12 @@
           }
         }
       }
+    },
+    "Couldn't export habits: %@" : {
+
+    },
+    "Currently unable to update the values on day start, please reload app then." : {
+
     },
     "Day Start" : {
       "localizations" : {
@@ -241,6 +281,16 @@
         }
       }
     },
+    "edit.add-habit" : {
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add Habit"
+          }
+        }
+      }
+    },
     "edit.choose" : {
       "localizations" : {
         "en-GB" : {
@@ -257,6 +307,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Description"
+          }
+        }
+      }
+    },
+    "edit.edit-habit" : {
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Edit Habit"
           }
         }
       }
@@ -401,6 +461,9 @@
         }
       }
     },
+    "Expected: ~ %@ Completions" : {
+
+    },
     "Export Data" : {
       "localizations" : {
         "en-GB" : {
@@ -450,6 +513,18 @@
           }
         }
       }
+    },
+    "Goal: %@" : {
+
+    },
+    "Habits can't be exported: %@" : {
+
+    },
+    "Habits can't be imported: %@" : {
+
+    },
+    "Habits can't be imported: App can't get access to directory" : {
+
     },
     "help.title" : {
       "localizations" : {
@@ -511,6 +586,9 @@
         }
       }
     },
+    "Maximum: %llu per day" : {
+
+    },
     "Minimum Completion" : {
       "localizations" : {
         "en-GB" : {
@@ -560,6 +638,9 @@
           }
         }
       }
+    },
+    "On %@:" : {
+
     },
     "Only in Notification Centre" : {
       "localizations" : {
@@ -640,6 +721,19 @@
           }
         }
       }
+    },
+    "Since %@\n(%@ %@):" : {
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Since %1$@\n(%2$@ %3$@):"
+          }
+        }
+      }
+    },
+    "Successfully exported habits" : {
+
     },
     "Swipe right or left to increase or decrease the number of times you have completed a habit." : {
       "localizations" : {
@@ -790,6 +884,9 @@
           }
         }
       }
+    },
+    "You need to allow Notifications to send you badges." : {
+
     }
   },
   "version" : "1.3"

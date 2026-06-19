@@ -7,11 +7,11 @@ import UniformTypeIdentifiers
 extension SettingsView {
     @Observable
     class ViewModel {
-        var badgingWarning: String
+        var badgingWarning: LocalizedStringKey?
 
         var preferences: Preferences
         var ioErrorShown = false
-        var ioError = ""
+        var ioError: LocalizedStringKey = ""
         var notifications: Bool
 
         init(_ prefs: Preferences) {
