@@ -24,7 +24,7 @@ struct SettingsView: View {
     var body: some View {
         Form {
             Section("Evaluation Period") {
-                LabeledTextField(label: "Amount", TextField("Amount", value: $viewModel.periodAmount, format: .number))
+                LabeledTextField(label: "general.amount", TextField("general.amount", value: $viewModel.periodAmount, format: .number))
                     .keyboardType(.numberPad)
 
                 Picker("Scale", selection: $viewModel.periodScale) {

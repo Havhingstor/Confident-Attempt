@@ -111,11 +111,11 @@ struct CustomTextField<Label: View>: View {
 
 struct LabeledTextField<Label: View>: View {
     let textField: TextField<Label>
-    let label: String
+    let label: LocalizedStringKey
 
     @FocusState private var focussed: Bool
 
-    init(label: String, _ textField: TextField<Label>) {
+    init(label: LocalizedStringKey, _ textField: TextField<Label>) {
         self.textField = textField
         self.label = label
     }

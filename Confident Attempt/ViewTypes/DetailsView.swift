@@ -32,7 +32,7 @@ struct DetailsView: View {
                         .padding(.bottom, 5)
 
                     Group {
-                        Text("Total: \(viewModel.total) Completions")
+                        Text("details.total-completions")
                         Text(viewModel.expectedText)
                         Text(viewModel.goal)
                         Text(viewModel.evaluationText)
@@ -74,13 +74,13 @@ struct DetailsView: View {
                                 .strokeBorder(Color.accentColor, lineWidth: 2.0)
                         }
 
-                    Button("Jump to today") {
+                    Button("details.jump-today") {
                         viewModel.showToday()
                     }
                     .padding([.top, .bottom], 5)
 
                     if viewModel.dateSelected {
-                        Button("Jump to selected day") {
+                        Button("details.jump-selected") {
                             viewModel.showSelection()
                         }
                     }
@@ -112,19 +112,19 @@ struct DetailsView: View {
 
         return VStack(alignment: .leading, spacing: 10) {
             if yellowDay != nil || greenDay != nil {
-                Text("Reach daily \(Image(systemName: "checkmark.circle.fill")) until")
+                Text("details.prediction.title")
                     .font(.title3)
                     .foregroundStyle(.green)
                 if let yellowDay,
                    let yellowDay = yellowDay.asDate
                 {
-                    Text("\(yellowDay.formatted(date: .complete, time: .omitted))\nto reach minimum completion")
+                    Text("details.prediction.yellow-\(yellowDay.formatted(date: .complete, time: .omitted))")
                         .foregroundStyle(.yellow)
                 }
                 if let greenDay,
                    let greenDay = greenDay.asDate
                 {
-                    Text("\(greenDay.formatted(date: .complete, time: .omitted))\nto reach goal")
+                    Text("details.prediction.green-\(greenDay.formatted(date: .complete, time: .omitted))")
                         .foregroundStyle(.green)
                 }
             }

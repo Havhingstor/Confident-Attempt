@@ -103,8 +103,8 @@ struct HabitEditView: View {
         NavigationStack {
             Form {
                 Section {
-                    CustomTextField(TextField("Name", text: $name))
-                    CustomTextField(TextField("Description", text: $description, axis: .vertical))
+                    CustomTextField(TextField("edit.name", text: $name))
+                    CustomTextField(TextField("edit.description", text: $description, axis: .vertical))
                     HStack {
                         Image(systemName: actualSymbol)
                             .font(.title)
@@ -114,11 +114,11 @@ struct HabitEditView: View {
                         Spacer()
 
                         HStack(spacing: 12) {
-                            Button("Choose") {
+                            Button("edit.choose") {
                                 symbolPickerShown = true
                             }
 
-                            Button("Reset", role: .destructive) {
+                            Button("edit.reset", role: .destructive) {
                                 symbol = ""
                             }
                             .foregroundStyle(.red)
@@ -128,8 +128,8 @@ struct HabitEditView: View {
                     .buttonStyle(.borderless)
                 }
 
-                Section("Goal") {
-                    LabeledTextField(label: "Amount", TextField("Amount", value: $goalAmount, format: .number))
+                Section("edit.goal") {
+                    LabeledTextField(label: LocalizedStringKey("general.amount"), TextField("general.amount", value: $goalAmount, format: .number))
                         .keyboardType(.numberPad)
 
                     Picker("Scale", selection: $goalScale) {
@@ -144,19 +144,19 @@ struct HabitEditView: View {
                     }
                 }
 
-                Section("Repetition") {
-                    Picker("Type", selection: $repetitionType) {
-                        Text("Normal")
+                Section("edit.repetition") {
+                    Picker("edit.repetition.type", selection: $repetitionType) {
+                        Text("edit.repetition.normal")
                             .tag(RepetitionType.normal)
-                        Text("Repetitive")
+                        Text("edit.repetition.repetitive")
                             .tag(RepetitionType.repetitive)
-                        Text("Unlimited")
+                        Text("edit.repetition.unlimited")
                             .tag(RepetitionType.unlimited)
                     }
                     .pickerStyle(.segmented)
                     Text(repetitionTypeHelpText)
                     if repetitionType == .repetitive {
-                        LabeledTextField(label: "Maximum Number", TextField("Maximum Number", value: $repetitionCustom, format: .number))
+                        LabeledTextField(label: "edit.repetition.max-number", TextField("edit.repetition.max-number", value: $repetitionCustom, format: .number))
                             .keyboardType(.numberPad)
                     }
                 }

@@ -11,26 +11,6 @@
         }
       }
     },
-    "%@\nto reach goal" : {
-      "localizations" : {
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@\nto reach goal"
-          }
-        }
-      }
-    },
-    "%@\nto reach minimum completion" : {
-      "localizations" : {
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@\nto reach minimum completion"
-          }
-        }
-      }
-    },
     "%@ Habit" : {
       "localizations" : {
         "en-GB" : {
@@ -47,16 +27,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "A habit can be completed either once per day ('normal'), multiple times up to a certain limit ('repeated'), or as often as you like ('unlimited')."
-          }
-        }
-      }
-    },
-    "Amount" : {
-      "localizations" : {
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Amount"
           }
         }
       }
@@ -87,16 +57,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Cancel"
-          }
-        }
-      }
-    },
-    "Choose" : {
-      "localizations" : {
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Choose"
           }
         }
       }
@@ -191,12 +151,62 @@
         }
       }
     },
-    "Description" : {
+    "details.jump-selected" : {
       "localizations" : {
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Description"
+            "value" : "Jump to selected day"
+          }
+        }
+      }
+    },
+    "details.jump-today" : {
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jump to today"
+          }
+        }
+      }
+    },
+    "details.prediction.green-%@" : {
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@\nto reach goal"
+          }
+        }
+      }
+    },
+    "details.prediction.title" : {
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reach daily %@ until"
+          }
+        }
+      }
+    },
+    "details.prediction.yellow-%@" : {
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@\nto reach minimum completion"
+          }
+        }
+      }
+    },
+    "details.total-completions" : {
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Total: %llu Completions"
           }
         }
       }
@@ -227,6 +237,46 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Edit"
+          }
+        }
+      }
+    },
+    "edit.choose" : {
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose"
+          }
+        }
+      }
+    },
+    "edit.description" : {
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Description"
+          }
+        }
+      }
+    },
+    "edit.goal" : {
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Goal"
+          }
+        }
+      }
+    },
+    "edit.name" : {
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Name"
           }
         }
       }
@@ -271,6 +321,76 @@
         }
       }
     },
+    "edit.repetition" : {
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Repetition"
+          }
+        }
+      }
+    },
+    "edit.repetition.max-number" : {
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Maximum Number"
+          }
+        }
+      }
+    },
+    "edit.repetition.normal" : {
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Normal"
+          }
+        }
+      }
+    },
+    "edit.repetition.repetitive" : {
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Repetitive"
+          }
+        }
+      }
+    },
+    "edit.repetition.type" : {
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Type"
+          }
+        }
+      }
+    },
+    "edit.repetition.unlimited" : {
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unlimited"
+          }
+        }
+      }
+    },
+    "edit.reset" : {
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reset"
+          }
+        }
+      }
+    },
     "Evaluation Period" : {
       "localizations" : {
         "en-GB" : {
@@ -287,6 +407,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Export Data"
+          }
+        }
+      }
+    },
+    "general.amount" : {
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Amount"
           }
         }
       }
@@ -317,16 +447,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "GitHub"
-          }
-        }
-      }
-    },
-    "Goal" : {
-      "localizations" : {
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Goal"
           }
         }
       }
@@ -381,42 +501,12 @@
         }
       }
     },
-    "Jump to selected day" : {
-      "localizations" : {
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Jump to selected day"
-          }
-        }
-      }
-    },
-    "Jump to today" : {
-      "localizations" : {
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Jump to today"
-          }
-        }
-      }
-    },
     "Made with ❤ by Paul Schütz" : {
       "localizations" : {
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Made with ❤ by Paul Schütz"
-          }
-        }
-      }
-    },
-    "Maximum Number" : {
-      "localizations" : {
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Maximum Number"
           }
         }
       }
@@ -441,16 +531,6 @@
         }
       }
     },
-    "Name" : {
-      "localizations" : {
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Name"
-          }
-        }
-      }
-    },
     "new-habit.title" : {
       "localizations" : {
         "en-GB" : {
@@ -471,16 +551,6 @@
         }
       }
     },
-    "Normal" : {
-      "localizations" : {
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Normal"
-          }
-        }
-      }
-    },
     "Note: After the notification has been sent, before the app is opened the next time, the badge number will include all habits, regardless of their number of completions in the past or on that day" : {
       "localizations" : {
         "en-GB" : {
@@ -497,46 +567,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Only in Notification Centre"
-          }
-        }
-      }
-    },
-    "Reach daily %@ until" : {
-      "localizations" : {
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Reach daily %@ until"
-          }
-        }
-      }
-    },
-    "Repetition" : {
-      "localizations" : {
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Repetition"
-          }
-        }
-      }
-    },
-    "Repetitive" : {
-      "localizations" : {
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Repetitive"
-          }
-        }
-      }
-    },
-    "Reset" : {
-      "localizations" : {
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Reset"
           }
         }
       }
@@ -707,36 +737,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tips"
-          }
-        }
-      }
-    },
-    "Total: %llu Completions" : {
-      "localizations" : {
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Total: %llu Completions"
-          }
-        }
-      }
-    },
-    "Type" : {
-      "localizations" : {
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Type"
-          }
-        }
-      }
-    },
-    "Unlimited" : {
-      "localizations" : {
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Unlimited"
           }
         }
       }
