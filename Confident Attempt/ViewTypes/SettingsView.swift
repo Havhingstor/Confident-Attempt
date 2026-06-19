@@ -93,7 +93,7 @@ struct SettingsView: View {
                     ioTitle = "Successfully exported habits"
                     showIOAlert = true
                 case let .failure(failure):
-                        logger().error("Couldn't save: \(failure)")
+                    logger().error("Couldn't save: \(failure)")
                     ioTitle = "Couldn't export habits: \(failure.localizedDescription)"
                     showIOAlert = true
                 }

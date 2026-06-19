@@ -151,15 +151,16 @@ public enum HabitsSchemaV4: VersionedSchema {
         private func resetStoredEvals(forDay: DateComponents?) {
             storedEval = nil
             storedPrediction = nil
-            
+
             if let storedDayEval,
                let forDay,
-               storedDayEval.day.cleanEq(forDay) {
+               storedDayEval.day.cleanEq(forDay)
+            {
                 self.storedDayEval = nil
             }
         }
-        
-        private func resetStoredEvalsAndDay(){
+
+        private func resetStoredEvalsAndDay() {
             resetStoredEvals(forDay: nil)
             storedDayEval = nil
         }
@@ -234,31 +235,31 @@ extension Habit: Codable {
 
         return true
     }
-    
+
     public func setRepetitionAndGoal(rep repetition: UInt?, goal: CompletionGoal) {
         guard Self.testValues(repetition: repetition, goal: goal) else { return }
         if let repetition,
            self.repetition == nil || self.repetition ?? 0 > repetition
         {
-        newDayResults = newDayResults.mapValues { value in
-            min(value, repetition)
+            newDayResults = newDayResults.mapValues { value in
+                min(value, repetition)
+            }
         }
-        }
-        
+
         self.repetition = repetition
         self.goal = goal
-        
+
         resetStoredEvalsAndDay()
     }
-    
+
     /// Returns the number of days which would need to be lowered to confine to the proposed repetition
     public func checkNewRepetition(_ repetition: UInt) -> UInt {
         if let oldRep = self.repetition,
            repetition >= oldRep
         {
-        return 0
+            return 0
         }
-        
+
         let days = newDayResults.filter { $0.value > repetition }.count
         return UInt(days)
     }

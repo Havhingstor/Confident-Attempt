@@ -45,11 +45,11 @@ extension DetailsView {
         var total: UInt {
             habit.getTotal(from: calculationPeriod, to: referenceDate)
         }
-        
+
         var expectedStyle: FloatingPointFormatStyle<Double> {
             return FloatingPointFormatStyle<Double>.number.precision(.fractionLength(0)).rounded(rule: .up)
         }
-        
+
         var expectedText: String {
             let expected = habit.getExpected(from: calculationPeriod, to: referenceDate)
             return "Expected: ~ \(expected.formatted(expectedStyle)) Completions"
