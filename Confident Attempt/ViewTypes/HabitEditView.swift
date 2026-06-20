@@ -52,11 +52,11 @@ struct HabitEditView: View {
     var repetitionTypeHelpText: LocalizedStringKey {
         switch repetitionType {
         case .normal:
-                "edit.daily-limit.normal"
+            "edit.daily-limit.help.normal"
         case .repetitive:
-            "edit.daily-limit.repeated"
+            "edit.daily-limit.help.repeated-\(repetitionCustom)"
         case .unlimited:
-            "edit.daily-limit.unlimited"
+            "edit.daily-limit.help.unlimited"
         }
     }
 

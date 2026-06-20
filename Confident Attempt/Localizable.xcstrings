@@ -292,6 +292,54 @@
         }
       }
     },
+    "edit.daily-limit.help.normal" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eine Gewohnheit, die einmal am Tag erledigt werden kann."
+          }
+        },
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A habit that can be completed once per day."
+          }
+        }
+      }
+    },
+    "edit.daily-limit.help.repeated-%llu" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eine Gewohnheit, die bis zu %llu mal am Tag erledigt werden kann."
+          }
+        },
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A habit that can be completed multiple times per day, up to a limit of %llu."
+          }
+        }
+      }
+    },
+    "edit.daily-limit.help.unlimited" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eine Gewohnheit, die beliebig oft am Tag erledigt werden kann."
+          }
+        },
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A habit that can be completed multiple times per day."
+          }
+        }
+      }
+    },
     "edit.daily-limit.max-number" : {
       "localizations" : {
         "de" : {
