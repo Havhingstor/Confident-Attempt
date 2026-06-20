@@ -52,6 +52,22 @@
         }
       }
     },
+    "details.expected-singular-%@" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erwartung: ~ %@ Erfüllung"
+          }
+        },
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Expected: ~ %@ Completion"
+          }
+        }
+      }
+    },
     "details.jump-selected" : {
       "localizations" : {
         "de" : {
@@ -169,22 +185,6 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Seit %1$@\n(%2$@ Tag):"
-          }
-        },
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Since %1$@\n(%2$@ day):"
-          }
-        }
-      }
-    },
-    "details.since-plural-%@-%@" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
             "value" : "Seit %1$@\n(%2$@ Tage):"
           }
         },
@@ -192,6 +192,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Since %1$@\n(%2$@ days):"
+          }
+        }
+      }
+    },
+    "details.since-singular-%@-%@" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seit %1$@\n(%2$@ Tag):"
+          }
+        },
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Since %1$@\n(%2$@ day):"
           }
         }
       }
@@ -587,9 +603,21 @@
     "edit.save.overwrite-warning-%llu" : {
       "localizations" : {
         "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "The new repetition setting would overwrite the completion number in %llu day"
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "The new repetition setting would overwrite the completion number in %llu day"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "The new repetition setting would overwrite the completion number in %llu days"
+                }
+              }
+            }
           }
         }
       }
@@ -1187,9 +1215,21 @@
     "settings.import.success-%lld" : {
       "localizations" : {
         "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%lld habits have been imported"
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld habit has been imported"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld habits have been imported"
+                }
+              }
+            }
           }
         }
       }
