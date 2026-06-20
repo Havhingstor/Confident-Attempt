@@ -75,6 +75,7 @@ public enum HabitsSchemaV4: VersionedSchema {
                     do {
                         dayResultsCache = try JSONDecoder().decode([DateComponents: UInt].self, from: dayResultsInternal)
                         dayResultsHash = dayResultsInternal.hashValue
+                        resetStoredEvalsAndDay()
                     } catch {
                         logger().error("Couldn't decode day results: \(error)")
                     }

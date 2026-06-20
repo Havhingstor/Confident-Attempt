@@ -1072,6 +1072,16 @@
         }
       }
     },
+    "row.today.%llu" : {
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Today: %llu"
+          }
+        }
+      }
+    },
     "row.today.%llu-%llu" : {
       "localizations" : {
         "en-GB" : {

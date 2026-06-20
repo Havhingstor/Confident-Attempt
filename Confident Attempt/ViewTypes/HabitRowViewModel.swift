@@ -82,7 +82,7 @@ extension HabitRowView {
                 }
             }
 
-            return ""
+            return "row.today.\(dayValue)"
         }
 
         var goal: LocalizedStringKey {
