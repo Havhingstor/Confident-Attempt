@@ -6,6 +6,12 @@
     },
     "%@" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@"
+          }
+        },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
@@ -16,6 +22,12 @@
     },
     "details.completions-%llu" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erfüllungen: %llu"
+          }
+        },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
@@ -26,6 +38,12 @@
     },
     "details.expected-%@" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erwartung: ~ %@ Erfüllungen"
+          }
+        },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
@@ -36,6 +54,12 @@
     },
     "details.jump-selected" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zum ausgewählten Tag blättern"
+          }
+        },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
@@ -46,6 +70,12 @@
     },
     "details.jump-today" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zum aktuellen Monat blättern"
+          }
+        },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
@@ -56,6 +86,12 @@
     },
     "details.maximum-%llu" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Maximum: %llu pro Tag"
+          }
+        },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
@@ -66,6 +102,12 @@
     },
     "details.on-day-%@" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Am %@:"
+          }
+        },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
@@ -76,6 +118,12 @@
     },
     "details.prediction.green-%@" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@\num das Ziel zu erreichen"
+          }
+        },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
@@ -86,6 +134,12 @@
     },
     "details.prediction.title-%@" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erreiche täglich %@ bis"
+          }
+        },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
@@ -96,6 +150,12 @@
     },
     "details.prediction.yellow-%@" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@\num das Minimalziel zu erreichen"
+          }
+        },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
@@ -106,6 +166,12 @@
     },
     "details.since-%@-%@" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seit %1$@\n(%2$@ Tag):"
+          }
+        },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
@@ -116,6 +182,12 @@
     },
     "details.since-plural-%@-%@" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seit %1$@\n(%2$@ Tage):"
+          }
+        },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
@@ -126,6 +198,12 @@
     },
     "details.total-completions-%llu" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Insgesamt: %llu Erfüllungen"
+          }
+        },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
@@ -136,6 +214,12 @@
     },
     "edit.add-habit" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Angewohnheit hinzufügen"
+          }
+        },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
@@ -146,6 +230,12 @@
     },
     "edit.choose" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Auswählen"
+          }
+        },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
@@ -156,6 +246,12 @@
     },
     "edit.choose-symbol" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wähle ein Symbol"
+          }
+        },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
@@ -166,6 +262,12 @@
     },
     "edit.default-completions" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Standard-Zahl der Erfüllungen"
+          }
+        },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
@@ -176,6 +278,12 @@
     },
     "edit.default-completions.too-high" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Standard-Zahl der Erfüllungen muss unter dem Tages-Limit liegen!"
+          }
+        },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
@@ -186,6 +294,12 @@
     },
     "edit.default-completions.too-low" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Das aktuelle Ziel kann mit dem aktuellen Limit nicht erreicht werden!"
+          }
+        },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
@@ -196,6 +310,12 @@
     },
     "edit.description" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Beschreibung"
+          }
+        },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
@@ -206,6 +326,12 @@
     },
     "edit.edit-habit" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Angewohnheit bearbeiten"
+          }
+        },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
@@ -216,6 +342,12 @@
     },
     "edit.goal" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ziel"
+          }
+        },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
@@ -226,6 +358,12 @@
     },
     "edit.name" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Name"
+          }
+        },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
@@ -236,6 +374,12 @@
     },
     "edit.name-empty" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Der Name der Angewohnheit darf nicht leer sein!"
+          }
+        },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
@@ -246,6 +390,12 @@
     },
     "edit.per-day" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "pro Tag"
+          }
+        },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
@@ -256,6 +406,12 @@
     },
     "edit.per-month" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "pro Monat"
+          }
+        },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
@@ -266,6 +422,12 @@
     },
     "edit.per-week" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "pro Woche"
+          }
+        },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
@@ -276,6 +438,12 @@
     },
     "edit.per-year" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "pro Jahr"
+          }
+        },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
@@ -286,6 +454,12 @@
     },
     "edit.repetition" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wiederholung"
+          }
+        },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
@@ -296,6 +470,12 @@
     },
     "edit.repetition.max-number" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Limit"
+          }
+        },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
@@ -306,6 +486,12 @@
     },
     "edit.repetition.normal" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Normal"
+          }
+        },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
@@ -316,6 +502,12 @@
     },
     "edit.repetition.repetitive" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wiederholt"
+          }
+        },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
@@ -326,6 +518,12 @@
     },
     "edit.repetition.type" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Art"
+          }
+        },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
@@ -336,6 +534,12 @@
     },
     "edit.repetition.unlimited" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unbegrenzt"
+          }
+        },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
@@ -346,6 +550,12 @@
     },
     "edit.reset" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zurücksetzen"
+          }
+        },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
