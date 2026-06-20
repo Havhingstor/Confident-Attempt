@@ -150,15 +150,15 @@ func logger(_ category: String = "UI") -> Logger {
 func numberAsText(_ value: UInt) -> String {
     let threshold = 10
     let locale = Locale.current
-    
+
     let nf = NumberFormatter()
     nf.locale = locale
-    
+
     if value < threshold {
         nf.numberStyle = .spellOut
     } else {
         nf.numberStyle = .decimal
     }
-    
+
     return nf.string(from: NSNumber(value: value)) ?? "\(value)"
 }

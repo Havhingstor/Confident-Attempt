@@ -81,7 +81,7 @@ extension HabitRowView {
                     return "row.today.\(dayValue)-\(repetition)"
                 }
             }
-            
+
             return ""
         }
 
