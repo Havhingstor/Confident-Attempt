@@ -100,7 +100,7 @@ struct CustomTextField<Label: View>: View {
             .toolbar {
                 if focussed {
                     ToolbarItem(placement: .keyboard) {
-                        Button("Done", systemImage: "checkmark") {
+                        Button("general.done", systemImage: "checkmark") {
                             focussed = false
                         }
                     }
@@ -130,7 +130,7 @@ struct LabeledTextField<Label: View>: View {
                 .toolbar {
                     if focussed {
                         ToolbarItem(placement: .keyboard) {
-                            Button("Done", systemImage: "checkmark") {
+                            Button("general.done", systemImage: "checkmark") {
                                 focussed = false
                             }
                         }

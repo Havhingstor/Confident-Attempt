@@ -32,7 +32,7 @@ struct DetailsView: View {
                         .padding(.bottom, 5)
 
                     Group {
-                        Text("details.total-completions")
+                        Text("details.total-completions-\(viewModel.total)")
                         Text(viewModel.expectedText)
                         Text(viewModel.goal)
                         Text(viewModel.evaluationText)
@@ -112,7 +112,7 @@ struct DetailsView: View {
 
         return VStack(alignment: .leading, spacing: 10) {
             if yellowDay != nil || greenDay != nil {
-                Text("details.prediction.title")
+                Text("details.prediction.title-\(Image(systemName: "checkmark.circle.fill"))")
                     .font(.title3)
                     .foregroundStyle(.green)
                 if let yellowDay,

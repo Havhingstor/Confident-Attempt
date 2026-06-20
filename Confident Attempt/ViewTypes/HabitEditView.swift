@@ -52,11 +52,11 @@ struct HabitEditView: View {
     var repetitionTypeHelpText: LocalizedStringKey {
         switch repetitionType {
         case .normal:
-            "A habit that can be completed once per day."
+            "edit.repetition.normal"
         case .repetitive:
-            "A habit that can be completed multiple times per day, up to a limit of \(repetitionCustom)."
+            "edit.repetition.repetitive"
         case .unlimited:
-            "A habit that can be completed multiple times per day."
+            "edit.repetition.unlimited"
         }
     }
 
@@ -132,7 +132,7 @@ struct HabitEditView: View {
                     LabeledTextField(label: LocalizedStringKey("general.amount"), TextField("general.amount", value: $goalAmount, format: .number))
                         .keyboardType(.numberPad)
 
-                    Picker("Scale", selection: $goalScale) {
+                    Picker("general.scale", selection: $goalScale) {
                         Text("edit.per-day")
                             .tag(TimeScale.day)
                         Text("edit.per-week")
@@ -161,25 +161,25 @@ struct HabitEditView: View {
                     }
                 }
 
-                Section("Default Completion Number") {
-                    CustomTextField(TextField("Default Completion Number", value: $dayDefault, format: .number))
+                Section("edit.default-completions") {
+                    CustomTextField(TextField("edit.default-completions", value: $dayDefault, format: .number))
                         .keyboardType(.numberPad)
                 }
 
                 if !allowed {
-                    Text("The current goal cannot be reached with the current repetition!")
+                    Text("edit.default-completions.too-low")
                         .listRowBackground(Color.red)
                         .font(.title3)
                 }
 
                 if defaultProblem {
-                    Text("The default completions for a day must be below the daily limit!")
+                    Text("edit.default-completions.too-high")
                         .listRowBackground(Color.red)
                         .font(.title3)
                 }
 
                 if name.isEmpty {
-                    Text("The name of the habit can't be empty!")
+                    Text("edit.name-empty")
                         .listRowBackground(Color.red)
                         .font(.title3)
                 }
@@ -187,26 +187,26 @@ struct HabitEditView: View {
             .navigationTitle(editedHabit == nil ? "edit.edit-habit" : "edit.add-habit")
             .navigationBarTitleDisplayMode(.inline)
             .sheet(isPresented: $symbolPickerShown, content: {
-                SymbolsPicker(selection: $symbol, titleKey: "Choose a symbol", autoDismiss: true)
+                SymbolsPicker(selection: $symbol, titleKey: "edit.choose-symbol", autoDismiss: true)
             })
-            .alert("Save Habit", isPresented: $saveConfirmationDialogShown, presenting: repetitionProblems) { _ in
-                Button("Save anyways", role: .destructive) {
+            .alert("edit.save", isPresented: $saveConfirmationDialogShown, presenting: repetitionProblems) { _ in
+                Button("edit.save.confirmation", role: .destructive) {
                     save()
                 }
-                Button("Cancel", role: .cancel) {
+                Button("general.cancel", role: .cancel) {
                     repetitionProblems = nil
                 }
             } message: { problems in
-                Text("The new repetition setting would overwrite the completion number in \(problems) day\(problems == 1 ? "" : "s")")
+                Text("edit.save.overwrite-warning-\(problems)")
             }
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button("Cancel", role: .cancel) {
+                    Button("general.cancel", role: .cancel) {
                         dismiss()
                     }
                 }
                 ToolbarItem(placement: .confirmationAction) {
-                    createConfirmButton("Save") {
+                    createConfirmButton("general.save") {
                         if let editedHabit,
                            let repetition
                         {

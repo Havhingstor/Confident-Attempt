@@ -14,179 +14,22 @@
         }
       }
     },
-    "%@ Habit" : {
-      "extractionState" : "stale",
+    "details.completions-%llu" : {
       "localizations" : {
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@ Habit"
+            "value" : "Completions: %llu"
           }
         }
       }
     },
-    "%lld habits have been imported" : {
-
-    },
-    "A habit can be completed either once per day ('normal'), multiple times up to a certain limit ('repeated'), or as often as you like ('unlimited')." : {
+    "details.expected-%@" : {
       "localizations" : {
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "A habit can be completed either once per day ('normal'), multiple times up to a certain limit ('repeated'), or as often as you like ('unlimited')."
-          }
-        }
-      }
-    },
-    "A habit that can be completed multiple times per day, up to a limit of %llu." : {
-
-    },
-    "A habit that can be completed multiple times per day." : {
-
-    },
-    "A habit that can be completed once per day." : {
-
-    },
-    "Achieved: %@" : {
-
-    },
-    "Any completions made before this time will be assigned to the previous day." : {
-      "localizations" : {
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Any completions made before this time will be assigned to the previous day."
-          }
-        }
-      }
-    },
-    "Basic Notifications & Badges" : {
-      "localizations" : {
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Basic Notifications & Badges"
-          }
-        }
-      }
-    },
-    "Can't set the application's badge, please enable notifications in the iOS and app settings" : {
-
-    },
-    "Can't show day start notifications because an error occurred: %@" : {
-
-    },
-    "Can't show day start notifications, please enable notifications in the iOS and app settings" : {
-
-    },
-    "Cancel" : {
-      "localizations" : {
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cancel"
-          }
-        }
-      }
-    },
-    "Choose a symbol" : {
-
-    },
-    "Completions: %llu" : {
-
-    },
-    "Confident Attempt" : {
-      "localizations" : {
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Confident Attempt"
-          }
-        }
-      }
-    },
-    "Copy Data" : {
-      "localizations" : {
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Copy Data"
-          }
-        }
-      }
-    },
-    "Copy with Data?" : {
-      "localizations" : {
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Copy with Data?"
-          }
-        }
-      }
-    },
-    "Couldn't export habits: %@" : {
-
-    },
-    "Currently unable to update the values on day start, please reload app then." : {
-
-    },
-    "Day Start" : {
-      "localizations" : {
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Day Start"
-          }
-        }
-      }
-    },
-    "Days" : {
-      "localizations" : {
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Days"
-          }
-        }
-      }
-    },
-    "Decrease" : {
-      "localizations" : {
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Decrease"
-          }
-        }
-      }
-    },
-    "Default Completion Number" : {
-      "localizations" : {
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Default Completion Number"
-          }
-        }
-      }
-    },
-    "Delete" : {
-      "localizations" : {
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Delete"
-          }
-        }
-      }
-    },
-    "Delete Entry \"%@\"?" : {
-      "localizations" : {
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Delete Entry \"%@\"?"
+            "value" : "Expected: ~ %@ Completions"
           }
         }
       }
@@ -211,6 +54,26 @@
         }
       }
     },
+    "details.maximum-%llu" : {
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Maximum: %llu per day"
+          }
+        }
+      }
+    },
+    "details.on-%@" : {
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "On %@:"
+          }
+        }
+      }
+    },
     "details.prediction.green-%@" : {
       "localizations" : {
         "en-GB" : {
@@ -221,7 +84,7 @@
         }
       }
     },
-    "details.prediction.title" : {
+    "details.prediction.title-%@" : {
       "localizations" : {
         "en-GB" : {
           "stringUnit" : {
@@ -241,42 +104,22 @@
         }
       }
     },
-    "details.total-completions" : {
+    "details.since-%@-%@-%llu" : {
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Since %1$@\n(%2$@): %3$llu"
+          }
+        }
+      }
+    },
+    "details.total-completions-%llu" : {
       "localizations" : {
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Total: %llu Completions"
-          }
-        }
-      }
-    },
-    "Done" : {
-      "localizations" : {
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Done"
-          }
-        }
-      }
-    },
-    "Duplicate" : {
-      "localizations" : {
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Duplicate"
-          }
-        }
-      }
-    },
-    "Edit" : {
-      "localizations" : {
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Edit"
           }
         }
       }
@@ -297,6 +140,46 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Choose"
+          }
+        }
+      }
+    },
+    "edit.choose-symbol" : {
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose a symbol"
+          }
+        }
+      }
+    },
+    "edit.default-completions" : {
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Default Completion Number"
+          }
+        }
+      }
+    },
+    "edit.default-completions.too-high" : {
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The default completions for a day must be below the daily limit!"
+          }
+        }
+      }
+    },
+    "edit.default-completions.too-low" : {
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The current goal cannot be reached with the current repetition!"
           }
         }
       }
@@ -337,6 +220,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Name"
+          }
+        }
+      }
+    },
+    "edit.name-empty" : {
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The name of the habit can't be empty!"
           }
         }
       }
@@ -451,25 +344,32 @@
         }
       }
     },
-    "Evaluation Period" : {
+    "edit.save" : {
       "localizations" : {
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Evaluation Period"
+            "value" : "Save Habit"
           }
         }
       }
     },
-    "Expected: ~ %@ Completions" : {
-
-    },
-    "Export Data" : {
+    "edit.save.confirmation" : {
       "localizations" : {
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Export Data"
+            "value" : "Save anyways"
+          }
+        }
+      }
+    },
+    "edit.save.overwrite-warning-%llu" : {
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The new repetition setting would overwrite the completion number in %llu day"
           }
         }
       }
@@ -484,12 +384,62 @@
         }
       }
     },
+    "general.cancel" : {
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cancel"
+          }
+        }
+      }
+    },
+    "general.done" : {
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Done"
+          }
+        }
+      }
+    },
+    "general.no" : {
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No"
+          }
+        }
+      }
+    },
     "general.redo" : {
       "localizations" : {
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Redo"
+          }
+        }
+      }
+    },
+    "general.save" : {
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save"
+          }
+        }
+      }
+    },
+    "general.scale" : {
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scale"
           }
         }
       }
@@ -504,7 +454,27 @@
         }
       }
     },
-    "GitHub" : {
+    "general.yes" : {
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yes"
+          }
+        }
+      }
+    },
+    "help.author-name" : {
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Made with ❤ by Paul Schütz"
+          }
+        }
+      }
+    },
+    "help.github" : {
       "localizations" : {
         "en-GB" : {
           "stringUnit" : {
@@ -514,17 +484,85 @@
         }
       }
     },
-    "Goal: %@" : {
-
+    "help.issues" : {
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Issues"
+          }
+        }
+      }
     },
-    "Habits can't be exported: %@" : {
-
+    "help.tips" : {
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tips"
+          }
+        }
+      }
     },
-    "Habits can't be imported: %@" : {
-
+    "help.tips.details" : {
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tap on a habit to see more details and analytics and set the number of time this habit was completed on previous days."
+          }
+        }
+      }
     },
-    "Habits can't be imported: App can't get access to directory" : {
-
+    "help.tips.evaluation" : {
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The remaining text is red if the number of completions is below the minimum for the given period (both of which can be configured in the settings), and green if the number of completions is above the goal. Otherwise, it is yellow."
+          }
+        }
+      }
+    },
+    "help.tips.evaluation-today" : {
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The symbol on the left is green if today's completions are enough to reach the long-term goal if repeated daily, and red if this is not the case."
+          }
+        }
+      }
+    },
+    "help.tips.first-day" : {
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The evaluation for any given habit only starts at the day it was created, or its first completion (whatever is earlier)"
+          }
+        }
+      }
+    },
+    "help.tips.repetition" : {
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A habit can be completed either once per day ('normal'), multiple times up to a certain limit ('repeated'), or as often as you like ('unlimited')."
+          }
+        }
+      }
+    },
+    "help.tips.swipe" : {
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Swipe right or left to increase or decrease the number of times you have completed a habit."
+          }
+        }
+      }
     },
     "help.title" : {
       "localizations" : {
@@ -536,75 +574,12 @@
         }
       }
     },
-    "Import Data" : {
+    "help.version-%@" : {
       "localizations" : {
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Import Data"
-          }
-        }
-      }
-    },
-    "Include habits where the goal\nhas been achieved over the evaluation period" : {
-      "localizations" : {
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Include habits where the goal\nhas been achieved over the evaluation period"
-          }
-        }
-      }
-    },
-    "Increase" : {
-      "localizations" : {
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Increase"
-          }
-        }
-      }
-    },
-    "Issues" : {
-      "localizations" : {
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Issues"
-          }
-        }
-      }
-    },
-    "Made with ❤ by Paul Schütz" : {
-      "localizations" : {
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Made with ❤ by Paul Schütz"
-          }
-        }
-      }
-    },
-    "Maximum: %llu per day" : {
-
-    },
-    "Minimum Completion" : {
-      "localizations" : {
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Minimum Completion"
-          }
-        }
-      }
-    },
-    "Months" : {
-      "localizations" : {
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Months"
+            "value" : "Version %@"
           }
         }
       }
@@ -619,17 +594,437 @@
         }
       }
     },
-    "No" : {
+    "root.app-name" : {
       "localizations" : {
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "No"
+            "value" : "Confident Attempt"
           }
         }
       }
     },
-    "Note: After the notification has been sent, before the app is opened the next time, the badge number will include all habits, regardless of their number of completions in the past or on that day" : {
+    "root.badge-set-fail" : {
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Can't set the application's badge, please enable notifications in the iOS and app settings"
+          }
+        }
+      }
+    },
+    "root.day-update-fail" : {
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Currently unable to update the values on day start, please reload app then."
+          }
+        }
+      }
+    },
+    "root.notification-fail" : {
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Can't show day start notifications, please enable notifications in the iOS and app settings"
+          }
+        }
+      }
+    },
+    "root.notification-fail-%@" : {
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Can't show day start notifications because an error occurred: %@"
+          }
+        }
+      }
+    },
+    "row.copy-confirmation" : {
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copy with Data?"
+          }
+        }
+      }
+    },
+    "row.copy-confirmation.with-data" : {
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copy Data"
+          }
+        }
+      }
+    },
+    "row.copy-confirmation.without-data" : {
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Without Data"
+          }
+        }
+      }
+    },
+    "row.decrease" : {
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Decrease"
+          }
+        }
+      }
+    },
+    "row.delete" : {
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete"
+          }
+        }
+      }
+    },
+    "row.delete-entry-%@" : {
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete Entry \"%@\"?"
+          }
+        }
+      }
+    },
+    "row.duplicate" : {
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Duplicate"
+          }
+        }
+      }
+    },
+    "row.edit" : {
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Edit"
+          }
+        }
+      }
+    },
+    "row.evaluation-%@" : {
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Achieved: %@"
+          }
+        }
+      }
+    },
+    "row.goal.daily" : {
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Goal: daily"
+          }
+        }
+      }
+    },
+    "row.goal.daily-%llu" : {
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Goal: %llu per day"
+          }
+        }
+      }
+    },
+    "row.goal.monthly" : {
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Goal: monthly"
+          }
+        }
+      }
+    },
+    "row.goal.monthly-%llu" : {
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Goal: %llu per month"
+          }
+        }
+      }
+    },
+    "row.goal.weekly" : {
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Goal: weekly"
+          }
+        }
+      }
+    },
+    "row.goal.weekly-%llu" : {
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Goal: %llu per week"
+          }
+        }
+      }
+    },
+    "row.goal.yearly" : {
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Goal: yearly"
+          }
+        }
+      }
+    },
+    "row.goal.yearly-%llu" : {
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Goal: %llu per year"
+          }
+        }
+      }
+    },
+    "row.increase" : {
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Increase"
+          }
+        }
+      }
+    },
+    "row.today.%llu-%llu" : {
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Today: %1$llu / %2$llu"
+          }
+        }
+      }
+    },
+    "row.today.done" : {
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Done today"
+          }
+        }
+      }
+    },
+    "row.today.not-done" : {
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yet to do today"
+          }
+        }
+      }
+    },
+    "settings.day-start" : {
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Day Start"
+          }
+        }
+      }
+    },
+    "settings.day-start.help" : {
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Any completions made before this time will be assigned to the previous day."
+          }
+        }
+      }
+    },
+    "settings.days" : {
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Days"
+          }
+        }
+      }
+    },
+    "settings.evaluation-period" : {
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Evaluation Period"
+          }
+        }
+      }
+    },
+    "settings.export" : {
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Export Data"
+          }
+        }
+      }
+    },
+    "settings.export.fail-%@" : {
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Habits can't be exported: %@"
+          }
+        }
+      }
+    },
+    "settings.export.success" : {
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Successfully exported habits"
+          }
+        }
+      }
+    },
+    "settings.import" : {
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Import Data"
+          }
+        }
+      }
+    },
+    "settings.import.fail-%@" : {
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Habits can't be imported: %@"
+          }
+        }
+      }
+    },
+    "settings.import.fail.directory" : {
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Habits can't be imported: App can't get access to directory"
+          }
+        }
+      }
+    },
+    "settings.import.mark" : {
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Should the habits be marked as \"imported\"?"
+          }
+        }
+      }
+    },
+    "settings.import.success-%lld" : {
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld habits have been imported"
+          }
+        }
+      }
+    },
+    "settings.minimum-completion" : {
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Minimum Completion"
+          }
+        }
+      }
+    },
+    "settings.months" : {
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Months"
+          }
+        }
+      }
+    },
+    "settings.notification-acceptance-needed" : {
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You need to allow Notifications to send you badges."
+          }
+        }
+      }
+    },
+    "settings.notifications.achieved-habits" : {
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Include habits where the goal\nhas been achieved over the evaluation period"
+          }
+        }
+      }
+    },
+    "settings.notifications.basic" : {
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Basic Notifications & Badges"
+          }
+        }
+      }
+    },
+    "settings.notifications.help.badge" : {
       "localizations" : {
         "en-GB" : {
           "stringUnit" : {
@@ -639,65 +1034,22 @@
         }
       }
     },
-    "On %@:" : {
-
-    },
-    "Only in Notification Centre" : {
-      "localizations" : {
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Only in Notification Centre"
-          }
-        }
-      }
-    },
-    "Save" : {
-      "localizations" : {
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Save"
-          }
-        }
-      }
-    },
-    "Save anyways" : {
-      "localizations" : {
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Save anyways"
-          }
-        }
-      }
-    },
-    "Save Habit" : {
-      "localizations" : {
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Save Habit"
-          }
-        }
-      }
-    },
-    "Scale" : {
-      "localizations" : {
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Scale"
-          }
-        }
-      }
-    },
-    "Sends a notification at the start of a day and sets the badge to the number of habits which don't yet have enough completions to reach the long-term goal." : {
+    "settings.notifications.help.basic" : {
       "localizations" : {
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sends a notification at the start of a day and sets the badge to the number of habits which don't yet have enough completions to reach the long-term goal."
+          }
+        }
+      }
+    },
+    "settings.notifications.notification-centre" : {
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Only in Notification Centre"
           }
         }
       }
@@ -712,140 +1064,7 @@
         }
       }
     },
-    "Should the habits be marked as \"imported\"?" : {
-      "localizations" : {
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Should the habits be marked as \"imported\"?"
-          }
-        }
-      }
-    },
-    "Since %@\n(%@ %@):" : {
-      "localizations" : {
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "Since %1$@\n(%2$@ %3$@):"
-          }
-        }
-      }
-    },
-    "Successfully exported habits" : {
-
-    },
-    "Swipe right or left to increase or decrease the number of times you have completed a habit." : {
-      "localizations" : {
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Swipe right or left to increase or decrease the number of times you have completed a habit."
-          }
-        }
-      }
-    },
-    "Tap on a habit to see more details and analytics and set the number of time this habit was completed on previous days." : {
-      "localizations" : {
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tap on a habit to see more details and analytics and set the number of time this habit was completed on previous days."
-          }
-        }
-      }
-    },
-    "The current goal cannot be reached with the current repetition!" : {
-      "localizations" : {
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "The current goal cannot be reached with the current repetition!"
-          }
-        }
-      }
-    },
-    "The default completions for a day must be below the daily limit!" : {
-      "localizations" : {
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "The default completions for a day must be below the daily limit!"
-          }
-        }
-      }
-    },
-    "The evaluation for any given habit only starts at the day it was created, or its first completion (whatever is earlier)" : {
-      "localizations" : {
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "The evaluation for any given habit only starts at the day it was created, or its first completion (whatever is earlier)"
-          }
-        }
-      }
-    },
-    "The name of the habit can't be empty!" : {
-      "localizations" : {
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "The name of the habit can't be empty!"
-          }
-        }
-      }
-    },
-    "The new repetition setting would overwrite the completion number in %llu day%@" : {
-      "localizations" : {
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "The new repetition setting would overwrite the completion number in %llu day%@"
-          }
-        }
-      }
-    },
-    "The remaining text is red if the number of completions is below the minimum for the given period (both of which can be configured in the settings), and green if the number of completions is above the goal. Otherwise, it is yellow." : {
-      "localizations" : {
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "The remaining text is red if the number of completions is below the minimum for the given period (both of which can be configured in the settings), and green if the number of completions is above the goal. Otherwise, it is yellow."
-          }
-        }
-      }
-    },
-    "The symbol on the left is green if today's completions are enough to reach the long-term goal if repeated daily, and red if this is not the case." : {
-      "localizations" : {
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "The symbol on the left is green if today's completions are enough to reach the long-term goal if repeated daily, and red if this is not the case."
-          }
-        }
-      }
-    },
-    "Tips" : {
-      "localizations" : {
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tips"
-          }
-        }
-      }
-    },
-    "Version %@" : {
-      "localizations" : {
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Version %@"
-          }
-        }
-      }
-    },
-    "Weeks" : {
+    "settings.weeks" : {
       "localizations" : {
         "en-GB" : {
           "stringUnit" : {
@@ -855,17 +1074,7 @@
         }
       }
     },
-    "Without Data" : {
-      "localizations" : {
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Without Data"
-          }
-        }
-      }
-    },
-    "Years" : {
+    "settings.years" : {
       "localizations" : {
         "en-GB" : {
           "stringUnit" : {
@@ -874,19 +1083,6 @@
           }
         }
       }
-    },
-    "Yes" : {
-      "localizations" : {
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Yes"
-          }
-        }
-      }
-    },
-    "You need to allow Notifications to send you badges." : {
-
     }
   },
   "version" : "1.3"

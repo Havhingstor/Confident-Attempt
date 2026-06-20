@@ -33,14 +33,14 @@ struct HabitRowView: View {
         .foregroundStyle(viewModel.foregroundColour)
         .swipeActions(edge: .trailing) {
             if editMode?.wrappedValue.isEditing != true {
-                Button("Decrease", systemImage: "minus.circle") {
+                Button("row.decrease", systemImage: "minus.circle") {
                     viewModel.decrease()
                 }
             }
         }
         .swipeActions(edge: .leading) {
             if editMode?.wrappedValue.isEditing != true {
-                Button("Increase", systemImage: "plus.circle") {
+                Button("row.increase", systemImage: "plus.circle") {
                     viewModel.increase()
                 }
             }
@@ -54,13 +54,13 @@ struct HabitRowView: View {
             }
         }
         .contextMenu {
-            Button("Edit") {
+            Button("row.edit") {
                 viewModel.showEditor = true
             }
-            Button("Duplicate") {
+            Button("row.duplicate") {
                 viewModel.showDuplicateAlert = true
             }
-            Button("Delete", role: .destructive) {
+            Button("row.delete", role: .destructive) {
                 viewModel.showDeletionAlert = true
             }
         }
@@ -81,18 +81,18 @@ struct HabitRowView: View {
         .sheet(isPresented: $viewModel.showDetails) {
             DetailsView(viewModel)
         }
-        .alert("Delete Entry \"\(viewModel.name)\"?", isPresented: $viewModel.showDeletionAlert) {
-            Button("Cancel", role: .cancel) {}
-            Button("Delete", role: .destructive) {
+        .alert("row.delete-entry-\(viewModel.name)", isPresented: $viewModel.showDeletionAlert) {
+            Button("general.cancel", role: .cancel) {}
+            Button("row.delete", role: .destructive) {
                 viewModel.delete(context: modelContext)
             }
         }
-        .alert("Copy with Data?", isPresented: $viewModel.showDuplicateAlert) {
-            Button("Cancel", role: .cancel) {}
-            Button("Copy Data") {
+        .alert("row.copy-confirmation", isPresented: $viewModel.showDuplicateAlert) {
+            Button("general.cancel", role: .cancel) {}
+            Button("row.copy-confirmation.with-data") {
                 viewModel.duplicateWithCopy(context: modelContext)
             }
-            Button("Without Data") {
+            Button("row.copy-confirmation.without-data") {
                 viewModel.duplicateWithoutCopy(context: modelContext)
             }
         }

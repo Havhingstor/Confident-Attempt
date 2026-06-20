@@ -65,7 +65,7 @@ extension SettingsView {
                 }
 
                 if !notifications {
-                    badgingWarning = "You need to allow Notifications to send you badges."
+                    badgingWarning = "settings.notification-acceptance-needed"
                 }
 
                 notificationsPreferences = notifications
@@ -134,7 +134,7 @@ extension SettingsView {
                 return try HabitListFile(values: habits)
             } catch let e {
                 logger().error("Error when converting habits to JSON: \(e)")
-                ioError = "Habits can't be exported: \(e.localizedDescription)"
+                ioError = "settings.export.fail-\(e.localizedDescription)"
                 ioErrorShown = true
                 return nil
             }
@@ -155,11 +155,11 @@ extension SettingsView {
                 try context.save()
 
                 logger().info("\(habits.count) habits have been imported successfully")
-                ioError = "\(habits.count) habits have been imported"
+                ioError = "settings.import.success-\(habits.count)"
                 ioErrorShown = true
             } catch let e {
                 logger().error("Can't load habits: \(e)")
-                ioError = "Habits can't be imported: \(e.localizedDescription)"
+                ioError = "settings.import.fail-\(e.localizedDescription)"
                 ioErrorShown = true
             }
         }

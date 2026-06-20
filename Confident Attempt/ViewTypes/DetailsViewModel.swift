@@ -52,7 +52,7 @@ extension DetailsView {
 
         var expectedText: LocalizedStringKey {
             let expected = habit.getExpected(from: calculationPeriod, to: referenceDate)
-            return "Expected: ~ \(expected.formatted(expectedStyle)) Completions"
+            return "details.expected-\(expected.formatted(expectedStyle))"
         }
 
         var timePeriodString: LocalizedStringKey {
@@ -64,24 +64,23 @@ extension DetailsView {
             let totalDays = UInt(clamping: daysInBetween + 1)
 
             let totalDaysStr = numberAsText(totalDays)
-            let daysStr = totalDays == 1 ? "day" : "days"
 
-            return "Since \(firstDayDate.formatted(date: .complete, time: .omitted))\n(\(totalDaysStr) \(daysStr)):"
+            return "details.since-\(firstDayDate.formatted(date: .complete, time: .omitted))-\(totalDaysStr)-\(totalDays)"
         }
 
         var selectedDayString: LocalizedStringKey {
             guard let date = selectedDate?.asDate else { return "" }
-            return "On \(date.formatted(date: .complete, time: .omitted)):"
+            return "details.on-\(date.formatted(date: .complete, time: .omitted))"
         }
 
         var selectedDayCompletionsString: LocalizedStringKey {
             guard let selectedDate else { return "" }
-            return "Completions: \(habit.getDay(selectedDate))"
+            return "details.completions-\(habit.getDay(selectedDate))"
         }
 
         var maximumString: LocalizedStringKey {
             if let max = habit.repetition {
-                return "Maximum: \(max) per day"
+                return "details.maximum-\(max)"
             } else {
                 return ""
             }

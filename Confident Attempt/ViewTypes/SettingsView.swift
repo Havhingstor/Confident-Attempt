@@ -23,23 +23,23 @@ struct SettingsView: View {
 
     var body: some View {
         Form {
-            Section("Evaluation Period") {
+            Section("settings.evaluation-period") {
                 LabeledTextField(label: "general.amount", TextField("general.amount", value: $viewModel.periodAmount, format: .number))
                     .keyboardType(.numberPad)
 
-                Picker("Scale", selection: $viewModel.periodScale) {
-                    Text("Days")
+                Picker("general.scale", selection: $viewModel.periodScale) {
+                    Text("settings.days")
                         .tag(TimeScale.day)
-                    Text("Weeks")
+                    Text("settings.weeks")
                         .tag(TimeScale.week)
-                    Text("Months")
+                    Text("settings.months")
                         .tag(TimeScale.month)
-                    Text("Years")
+                    Text("settings.years")
                         .tag(TimeScale.year)
                 }
             }
 
-            Section("Minimum Completion") {
+            Section("settings.minimum-completion") {
                 VStack {
                     Slider(value: $viewModel.redZone, in: 0 ... 1, step: 0.01)
                     Text("\(viewModel.redZone.formatted(.percent))")
@@ -47,12 +47,12 @@ struct SettingsView: View {
             }
 
             Section {
-                DatePicker("Day Start", selection: viewModel.dayStartDate, displayedComponents: .hourAndMinute)
-                Text("Any completions made before this time will be assigned to the previous day.")
+                DatePicker("settings.day-start", selection: viewModel.dayStartDate, displayedComponents: .hourAndMinute)
+                Text("settings.day-start.help")
             }
 
             Section {
-                Toggle("Basic Notifications & Badges", isOn: $viewModel.notifications)
+                Toggle("settings.notifications.basic", isOn: $viewModel.notifications)
                     .onChange(of: viewModel.notifications) {
                         viewModel.checkAndSetBadges()
                     }
@@ -63,11 +63,11 @@ struct SettingsView: View {
                         viewModel.checkAndSetBadges()
                     }
                 if viewModel.notificationsPreferences {
-                    Toggle("Only in Notification Centre", isOn: $viewModel.passiveNotifications)
-                    Toggle("Include habits where the goal\nhas been achieved over the evaluation period", isOn: $viewModel.achievedHabitsInBadge)
+                    Toggle("settings.notifications.notification-centre", isOn: $viewModel.passiveNotifications)
+                    Toggle("settings.notifications.achieved-habits", isOn: $viewModel.achievedHabitsInBadge)
                 }
-                Text("Sends a notification at the start of a day and sets the badge to the number of habits which don't yet have enough completions to reach the long-term goal.")
-                Text("Note: After the notification has been sent, before the app is opened the next time, the badge number will include all habits, regardless of their number of completions in the past or on that day")
+                Text("settings.notifications.help.basic")
+                Text("settings.notifications.help.badge")
 
                 if let badgingWarning = viewModel.badgingWarning {
                     Text(badgingWarning)
@@ -78,11 +78,11 @@ struct SettingsView: View {
             .animation(.default, value: viewModel.notifications)
 
             Section {
-                Button("Export Data") {
+                Button("settings.export") {
                     showExportDialog = true
                 }
 
-                Button("Import Data") {
+                Button("settings.import") {
                     showImportDialog = true
                 }
             }
@@ -90,11 +90,11 @@ struct SettingsView: View {
                 switch result {
                 case let .success(success):
                     logger().info("Saving Success: Saved to \(success.absoluteString)")
-                    ioTitle = "Successfully exported habits"
+                    ioTitle = "settings.export.success"
                     showIOAlert = true
                 case let .failure(failure):
                     logger().error("Couldn't save: \(failure)")
-                    ioTitle = "Couldn't export habits: \(failure.localizedDescription)"
+                    ioTitle = "settings.export.fail-\(failure.localizedDescription)"
                     showIOAlert = true
                 }
             }
@@ -105,18 +105,18 @@ struct SettingsView: View {
                     showImportMarkDialog = true
                 case let .failure(error):
                     logger().error("Can't import file: \(error)")
-                    ioTitle = "Habits can't be imported: \(error.localizedDescription)"
+                    ioTitle = "settings.import.fail-\(error.localizedDescription)"
                     showIOAlert = true
                 }
             }
-            .alert("Should the habits be marked as \"imported\"?", isPresented: $showImportMarkDialog, presenting: importURL, actions: { url in
-                Button("Yes") {
+            .alert("settings.import.mark", isPresented: $showImportMarkDialog, presenting: importURL, actions: { url in
+                Button("general.yes") {
                     importHabitFile(url: url, addMark: true)
                 }
-                Button("No") {
+                Button("general.no") {
                     importHabitFile(url: url, addMark: false)
                 }
-                Button("Cancel", role: .cancel) {}
+                Button("general.cancel", role: .cancel) {}
             })
             .alert(ioTitle, isPresented: $showIOAlert) {}
             .alert(viewModel.ioError, isPresented: $viewModel.ioErrorShown) {}
@@ -128,7 +128,7 @@ struct SettingsView: View {
         let gotAccess = url.startAccessingSecurityScopedResource()
         if !gotAccess {
             logger().error("Can't get access to import directory")
-            ioTitle = "Habits can't be imported: App can't get access to directory"
+            ioTitle = "settings.import.fail.directory"
             showIOAlert = true
             return
         }

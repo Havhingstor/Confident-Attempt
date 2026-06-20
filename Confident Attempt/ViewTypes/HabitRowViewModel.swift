@@ -70,59 +70,53 @@ extension HabitRowView {
         }
 
         var text: LocalizedStringKey {
-            var result = "Today: \(dayValue)"
-
             if let repetition = habit.repetition {
                 if repetition == 1 {
                     if dayValue == 1 {
-                        result = "Done"
+                        return "row.today.done"
                     } else {
-                        result = "Yet to do"
+                        return "row.today.not-done"
                     }
-
-                    result += " today"
                 } else {
-                    result += " / \(repetition)"
+                    return "row.today.\(dayValue)-\(repetition)"
                 }
             }
-
-            return LocalizedStringKey(result)
+            
+            return ""
         }
 
         var goal: LocalizedStringKey {
             let goal = habit.goal
-            let period = switch goal {
+            switch goal {
             case let .daily(goalNum):
                 if goalNum == 1 {
-                    "daily"
+                    return "row.goal.daily"
                 } else {
-                    "\(goalNum) per day"
+                    return "row.goal.daily-\(goalNum)"
                 }
             case let .weekly(goalNum):
                 if goalNum == 1 {
-                    "weekly"
+                    return "row.goal.weekly"
                 } else {
-                    "\(goalNum) per week"
+                    return "row.goal.weekly-\(goalNum)"
                 }
             case let .monthly(goalNum):
                 if goalNum == 1 {
-                    "monthly"
+                    return "row.goal.monthly"
                 } else {
-                    "\(goalNum) per month"
+                    return "row.goal.monthly-\(goalNum)"
                 }
             case let .yearly(goalNum):
                 if goalNum == 1 {
-                    "yearly"
+                    return "row.goal.yearly"
                 } else {
-                    "\(goalNum) per year"
+                    return "row.goal.yearly-\(goalNum)"
                 }
             }
-
-            return LocalizedStringKey("Goal: \(period)")
         }
 
         var evaluationText: LocalizedStringKey {
-            "Achieved: \(habit.getEvaluation(from: calculationPeriod, to: referenceDate).formatted(percentStyle))"
+            "row.evaluation-\(habit.getEvaluation(from: calculationPeriod, to: referenceDate).formatted(percentStyle))"
         }
 
         var foregroundColour: Color {

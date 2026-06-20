@@ -94,7 +94,7 @@ extension ContentView {
 
         func planDayStart(context: ModelContext) {
             guard let date = calculateNextTimerTrigger(dayStart) else {
-                alertText = "Currently unable to update the values on day start, please reload app then."
+                alertText = "root.day-update-fail"
                 alertShown = true
                 return
             }
@@ -125,7 +125,7 @@ extension ContentView {
                 guard authorizationStatus == .authorized else {
                     if preferences.notifications {
                         logger().error("Can't set badge, notifications aren't authorised!")
-                        alertText = "Can't set the application's badge, please enable notifications in the iOS and app settings"
+                        alertText = "root.badge-set-fail"
                         alertShown = true
                         preferences.notifications = false
                     }
@@ -165,7 +165,7 @@ extension ContentView {
                     guard authorizationStatus == .authorized else {
                         if preferences.notifications {
                             logger().error("Can't add notification, notifications aren't authorised!")
-                            alertText = "Can't show day start notifications, please enable notifications in the iOS and app settings"
+                            alertText = "root.notification-fail"
                             alertShown = true
                             preferences.notifications = false
                         }
@@ -196,7 +196,7 @@ extension ContentView {
                         try await notificationCentre.add(request)
                     } catch {
                         logger().error("Can't add notification, an error occurred: \(error)!")
-                        alertText = "Can't show day start notifications because an error occurred: \(error.localizedDescription)"
+                        alertText = "root.notification-fail-\(error.localizedDescription)"
                         alertShown = true
                     }
                 }

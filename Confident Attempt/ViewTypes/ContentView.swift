@@ -35,7 +35,7 @@ struct ContentView: View {
             .animation(.default, value: habits)
             .animation(.default, value: undoManager?.canUndo)
             .animation(.default, value: undoManager?.canRedo)
-            .navigationTitle("Confident Attempt")
+            .navigationTitle("root.app-name")
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     EditButton()
