@@ -2,7 +2,7 @@
   "sourceLanguage" : "en-GB",
   "strings" : {
     "" : {
-
+      "shouldTranslate" : false
     },
     "%@" : {
       "localizations" : {
@@ -25,7 +25,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Erfüllungen: %llu"
+            "value" : "Erledigungen: %llu"
           }
         },
         "en-GB" : {
@@ -41,7 +41,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Erwartung: ~ %@ Erfüllungen"
+            "value" : "Erwartung: ~ %@ Erledigungen"
           }
         },
         "en-GB" : {
@@ -57,7 +57,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Erwartung: ~ %@ Erfüllung"
+            "value" : "Erwartung: ~ %@ Erledigung"
           }
         },
         "en-GB" : {
@@ -169,7 +169,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@\num das Minimalziel zu erreichen"
+            "value" : "%@\num dem Mindestwert zu erreichen"
           }
         },
         "en-GB" : {
@@ -217,7 +217,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Insgesamt: %llu Erfüllungen"
+            "value" : "Insgesamt: %llu Erledigung"
           }
         },
         "en-GB" : {
@@ -233,7 +233,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Angewohnheit hinzufügen"
+            "value" : "Gewohnheit hinzufügen"
           }
         },
         "en-GB" : {
@@ -276,12 +276,124 @@
         }
       }
     },
+    "edit.daily-limit" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tageslimit"
+          }
+        },
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Daily Limit"
+          }
+        }
+      }
+    },
+    "edit.daily-limit.max-number" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Limit"
+          }
+        },
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Maximum Number"
+          }
+        }
+      }
+    },
+    "edit.daily-limit.normal" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Normal"
+          }
+        },
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Normal"
+          }
+        }
+      }
+    },
+    "edit.daily-limit.repeated" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wiederholt"
+          }
+        },
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Repeated"
+          }
+        }
+      }
+    },
+    "edit.daily-limit.too-low" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Das aktuelle Ziel lässt sich mit dem derzeitigen Tageslimit nicht erreichen!"
+          }
+        },
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The current goal cannot be reached with the current daily limit!"
+          }
+        }
+      }
+    },
+    "edit.daily-limit.type" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Art"
+          }
+        },
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Type"
+          }
+        }
+      }
+    },
+    "edit.daily-limit.unlimited" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unbegrenzt"
+          }
+        },
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unlimited"
+          }
+        }
+      }
+    },
     "edit.default-completions" : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Standard-Zahl der Erfüllungen"
+            "value" : "Standard-Zahl der Erledigungen"
           }
         },
         "en-GB" : {
@@ -297,29 +409,13 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Standard-Zahl der Erfüllungen muss unter dem Tages-Limit liegen!"
+            "value" : "Standard-Zahl der Erledigungen muss unter dem Tages-Limit liegen!"
           }
         },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "The default completions for a day must be below the daily limit!"
-          }
-        }
-      }
-    },
-    "edit.default-completions.too-low" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Das aktuelle Ziel kann mit dem aktuellen Limit nicht erreicht werden!"
-          }
-        },
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "The current goal cannot be reached with the current repetition!"
           }
         }
       }
@@ -345,7 +441,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Angewohnheit bearbeiten"
+            "value" : "Gewohnheit bearbeiten"
           }
         },
         "en-GB" : {
@@ -393,7 +489,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Der Name der Angewohnheit darf nicht leer sein!"
+            "value" : "Der Name der Gewohnheit darf nicht leer sein!"
           }
         },
         "en-GB" : {
@@ -468,102 +564,6 @@
         }
       }
     },
-    "edit.repetition" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Wiederholung"
-          }
-        },
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Repetition"
-          }
-        }
-      }
-    },
-    "edit.repetition.max-number" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Limit"
-          }
-        },
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Maximum Number"
-          }
-        }
-      }
-    },
-    "edit.repetition.normal" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Normal"
-          }
-        },
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Normal"
-          }
-        }
-      }
-    },
-    "edit.repetition.repetitive" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Wiederholt"
-          }
-        },
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Repetitive"
-          }
-        }
-      }
-    },
-    "edit.repetition.type" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Art"
-          }
-        },
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Type"
-          }
-        }
-      }
-    },
-    "edit.repetition.unlimited" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Unbegrenzt"
-          }
-        },
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Unlimited"
-          }
-        }
-      }
-    },
     "edit.reset" : {
       "localizations" : {
         "de" : {
@@ -582,6 +582,12 @@
     },
     "edit.save" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gewohnheit Speichern"
+          }
+        },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
@@ -592,6 +598,12 @@
     },
     "edit.save.confirmation" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Trotzdem speichern"
+          }
+        },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
@@ -602,19 +614,37 @@
     },
     "edit.save.overwrite-warning-%llu" : {
       "localizations" : {
+        "de" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Das neue Tageslimit würde die Anzahl der Wiederholungen an einem Tag überschreiben."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Das neue Tageslimit würde die Anzahl der Wiederholungen an %llu Tagen überschreiben."
+                }
+              }
+            }
+          }
+        },
         "en-GB" : {
           "variations" : {
             "plural" : {
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "The new repetition setting would overwrite the completion number in %llu day"
+                  "value" : "The new daily limit would overwrite the completion number in %llu day"
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "The new repetition setting would overwrite the completion number in %llu days"
+                  "value" : "The new daily limit would overwrite the completion number in %llu days"
                 }
               }
             }
@@ -624,6 +654,12 @@
     },
     "general.amount" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Anzahl"
+          }
+        },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
@@ -634,6 +670,12 @@
     },
     "general.cancel" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abbrechen"
+          }
+        },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
@@ -644,6 +686,12 @@
     },
     "general.done" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fertig"
+          }
+        },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
@@ -654,6 +702,12 @@
     },
     "general.no" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nein"
+          }
+        },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
@@ -664,6 +718,12 @@
     },
     "general.redo" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wiederholen"
+          }
+        },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
@@ -674,6 +734,12 @@
     },
     "general.save" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Speichern"
+          }
+        },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
@@ -684,6 +750,12 @@
     },
     "general.scale" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Größenordnung"
+          }
+        },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
@@ -694,6 +766,12 @@
     },
     "general.undo" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rückgängig"
+          }
+        },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
@@ -704,6 +782,12 @@
     },
     "general.yes" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ja"
+          }
+        },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
@@ -714,6 +798,12 @@
     },
     "help.author-name" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mit ❤ von Paul Schütz gebaut"
+          }
+        },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
@@ -730,10 +820,17 @@
             "value" : "GitHub"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "help.issues" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Probleme"
+          }
+        },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
@@ -744,6 +841,12 @@
     },
     "help.tips" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tipps"
+          }
+        },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
@@ -752,8 +855,30 @@
         }
       }
     },
+    "help.tips.daily-limit" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eine Gewohnheit kann entweder einmal pro Tag („normal“), mehrmals bis zu einer bestimmten Obergrenze („wiederholt“) oder so oft du möchtest („unbegrenzt“) erledigt werden."
+          }
+        },
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A habit can be completed either once per day ('normal'), multiple times up to a certain limit ('repeated'), or as often as you like ('unlimited')."
+          }
+        }
+      }
+    },
     "help.tips.details" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Clicke auf eine Gewohnheit, um weitere Details und Auswertungen anzuzeigen und festzulegen, wie oft diese Gewohnheit an den vergangenen Tagen ausgeführt wurde."
+          }
+        },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
@@ -764,16 +889,28 @@
     },
     "help.tips.evaluation" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Der restliche Text wird rot angezeigt, wenn die Anzahl der Erledigungen unter dem Mindestwert für den angegebenen Zeitraum liegt (beide Werte können in den Einstellungen konfiguriert werden), und grün, wenn die Anzahl der abgeschlossenen Aufgaben über dem Zielwert liegt. Andernfalls wird er gelb / orange angezeigt."
+          }
+        },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "The remaining text is red if the number of completions is below the minimum for the given period (both of which can be configured in the settings), and green if the number of completions is above the goal. Otherwise, it is yellow."
+            "value" : "The remaining text is red if the number of completions is below the minimum for the given period (both of which can be configured in the settings), and green if the number of completions is above the goal. Otherwise, it is yellow / orange."
           }
         }
       }
     },
     "help.tips.evaluation-today" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Das Symbol auf der linken Seite ist grün, wenn die heutigen Erledigungen ausreichen, um das langfristige Ziel zu erreichen, sofern sie täglich wiederholt werden, und rot, wenn dies nicht der Fall ist."
+          }
+        },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
@@ -784,6 +921,12 @@
     },
     "help.tips.first-day" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Auswertung einer bestimmten Gewohnheit beginnt erst an dem Tag, an dem sie angelegt wurde, oder an dem Tag, an dem sie zum ersten Mal erledigt wurde (je nachdem, was früher eintritt)."
+          }
+        },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
@@ -792,28 +935,30 @@
         }
       }
     },
-    "help.tips.repetition" : {
-      "localizations" : {
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "A habit can be completed either once per day ('normal'), multiple times up to a certain limit ('repeated'), or as often as you like ('unlimited')."
-          }
-        }
-      }
-    },
     "help.tips.swipe" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wische nach rechts oder links, um die Anzahl der Male, die du eine Gewohnheit heute erledigt hast, zu erhöhen oder zu verringern."
+          }
+        },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Swipe right or left to increase or decrease the number of times you have completed a habit."
+            "value" : "Swipe right or left to increase or decrease the number of times you have completed a habit today."
           }
         }
       }
     },
     "help.title" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hilfe"
+          }
+        },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
@@ -824,6 +969,12 @@
     },
     "help.version-%@" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Version %@"
+          }
+        },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
@@ -834,6 +985,12 @@
     },
     "new-habit.title" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Neue Gewohnheit"
+          }
+        },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
@@ -850,10 +1007,17 @@
             "value" : "Confident Attempt"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "root.badge-set-fail" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Das Badge der App kann nicht festgelegt werden. Bitte aktiviere Benachrichtigungen in den iOS- und App-Einstellungen."
+          }
+        },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
@@ -864,6 +1028,12 @@
     },
     "root.day-update-fail" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Derzeit können die Werte zum Start des Tages nicht aktualisiert werden. Bitte lade die App dann neu."
+          }
+        },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
@@ -874,6 +1044,12 @@
     },
     "root.notification-fail" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Benachrichtigungen zum Tagesbeginn können nicht gesendet werden. Bitte aktiviere Benachrichtigungen in den iOS- und App-Einstellungen."
+          }
+        },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
@@ -884,6 +1060,12 @@
     },
     "root.notification-fail-%@" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Benachrichtigungen zum Tagesbeginn konnte nicht gesendet werden, weil ein Fehler aufgetreten ist: %@"
+          }
+        },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
@@ -894,36 +1076,60 @@
     },
     "row.copy-confirmation" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mit Erledigungen kopieren?"
+          }
+        },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Copy with Data?"
+            "value" : "Copy with Completions?"
           }
         }
       }
     },
     "row.copy-confirmation.with-data" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erledigungen kopieren"
+          }
+        },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Copy Data"
+            "value" : "Copy Completions"
           }
         }
       }
     },
     "row.copy-confirmation.without-data" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ohne Erledigungen"
+          }
+        },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Without Data"
+            "value" : "Without Completions"
           }
         }
       }
     },
     "row.decrease" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verringern"
+          }
+        },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
@@ -934,6 +1140,12 @@
     },
     "row.delete" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Löschen"
+          }
+        },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
@@ -944,16 +1156,28 @@
     },
     "row.delete-entry-%@" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gewohnheit „%@“ löschen?"
+          }
+        },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Delete Entry \"%@\"?"
+            "value" : "Delete Habit \"%@\"?"
           }
         }
       }
     },
     "row.duplicate" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Duplizieren"
+          }
+        },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
@@ -964,6 +1188,12 @@
     },
     "row.edit" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bearbeiten"
+          }
+        },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
@@ -974,6 +1204,12 @@
     },
     "row.evaluation-%@" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erreicht: %@"
+          }
+        },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
@@ -984,6 +1220,12 @@
     },
     "row.goal.daily" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ziel: täglich"
+          }
+        },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
@@ -994,6 +1236,12 @@
     },
     "row.goal.daily-%llu" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ziel: %llu pro Tag"
+          }
+        },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1004,6 +1252,12 @@
     },
     "row.goal.monthly" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ziel: monatlich"
+          }
+        },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1014,6 +1268,12 @@
     },
     "row.goal.monthly-%llu" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ziel: %llu pro Monat"
+          }
+        },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1024,6 +1284,12 @@
     },
     "row.goal.weekly" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ziel: wöchentlich"
+          }
+        },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1034,6 +1300,12 @@
     },
     "row.goal.weekly-%llu" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ziel: %llu pro Woche"
+          }
+        },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1044,6 +1316,12 @@
     },
     "row.goal.yearly" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ziel: jährlich"
+          }
+        },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1054,6 +1332,12 @@
     },
     "row.goal.yearly-%llu" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ziel: %llu pro Jahr"
+          }
+        },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1064,6 +1348,12 @@
     },
     "row.increase" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erhöhen"
+          }
+        },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1074,6 +1364,12 @@
     },
     "row.today.%llu" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Heute: %llu"
+          }
+        },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1084,6 +1380,12 @@
     },
     "row.today.%llu-%llu" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Heute: %1$llu / %2$llu"
+          }
+        },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1094,6 +1396,12 @@
     },
     "row.today.done" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Heute erledigt"
+          }
+        },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1104,6 +1412,12 @@
     },
     "row.today.not-done" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Heute noch nicht erledigt"
+          }
+        },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1114,6 +1428,12 @@
     },
     "settings.day-start" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Start des Tages"
+          }
+        },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1124,6 +1444,12 @@
     },
     "settings.day-start.help" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erledigungen vor diesem Zeitpunkt werden dem Vortag zugeordnet."
+          }
+        },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1134,6 +1460,12 @@
     },
     "settings.days" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tage"
+          }
+        },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1144,6 +1476,12 @@
     },
     "settings.evaluation-period" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Auswertungszeitraum"
+          }
+        },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1154,16 +1492,28 @@
     },
     "settings.export" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gewohnheiten Exportieren"
+          }
+        },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Export Data"
+            "value" : "Export Habits"
           }
         }
       }
     },
     "settings.export.fail-%@" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gewohnheiten können nicht exportiert werden: %@"
+          }
+        },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1174,6 +1524,12 @@
     },
     "settings.export.success" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gewohnheiten wurden erfolgreich exportiert"
+          }
+        },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1184,16 +1540,28 @@
     },
     "settings.import" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gewohnheiten Importieren"
+          }
+        },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Import Data"
+            "value" : "Import Habits"
           }
         }
       }
     },
     "settings.import.fail-%@" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gewohnheiten können nicht importiert werden: %@"
+          }
+        },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1204,6 +1572,12 @@
     },
     "settings.import.fail.directory" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gewohnheiten können nicht importiert werden, da die App nicht auf den Ordner zugreifen kann"
+          }
+        },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1214,6 +1588,12 @@
     },
     "settings.import.mark" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sollten die Gewohnheiten als „imported“ gekennzeichnet werden?"
+          }
+        },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1224,6 +1604,24 @@
     },
     "settings.import.success-%lld" : {
       "localizations" : {
+        "de" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Eine Gewohnheit wurde importiert"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld Gewohnheiten wurden importiert"
+                }
+              }
+            }
+          }
+        },
         "en-GB" : {
           "variations" : {
             "plural" : {
@@ -1246,6 +1644,12 @@
     },
     "settings.minimum-completion" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mindestwert"
+          }
+        },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1256,6 +1660,12 @@
     },
     "settings.months" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Monate"
+          }
+        },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1266,16 +1676,28 @@
     },
     "settings.notification-acceptance-needed" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erlaube Benachrichtigungen um Badges zu bekommen."
+          }
+        },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "You need to allow Notifications to send you badges."
+            "value" : "You need to allow Notifications to get badges."
           }
         }
       }
     },
     "settings.notifications.achieved-habits" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zeige auch Gewohnheiten an, bei denen\ndas Ziel im Bewertungszeitraum erreicht wurde"
+          }
+        },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1286,6 +1708,12 @@
     },
     "settings.notifications.basic" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Einfache Benachrichtigungen und Badges"
+          }
+        },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1296,6 +1724,12 @@
     },
     "settings.notifications.help.badge" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hinweis: Nach dem Versenden der Benachrichtigung und vor dem nächsten Öffnen der App zeigt das Badge alle Gewohnheiten an, unabhängig davon, wie oft sie in der Vergangenheit oder an diesem Tag erledigt wurden."
+          }
+        },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1306,6 +1740,12 @@
     },
     "settings.notifications.help.basic" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sendet zu Beginn eines Tages eine Benachrichtigung und zeigt auf dem Badge die Anzahl der Gewohnheiten an, die heute noch nicht genug erledigt wurden, um das langfristige Ziel zu erreichen."
+          }
+        },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1316,6 +1756,12 @@
     },
     "settings.notifications.notification-centre" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nur in der Benachrichtigungszentrale"
+          }
+        },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1326,6 +1772,12 @@
     },
     "settings.title" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Einstellungen"
+          }
+        },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1336,6 +1788,12 @@
     },
     "settings.weeks" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wochen"
+          }
+        },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1346,6 +1804,12 @@
     },
     "settings.years" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jahre"
+          }
+        },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",

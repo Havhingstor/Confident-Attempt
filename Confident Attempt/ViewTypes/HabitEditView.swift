@@ -52,11 +52,11 @@ struct HabitEditView: View {
     var repetitionTypeHelpText: LocalizedStringKey {
         switch repetitionType {
         case .normal:
-            "edit.repetition.normal"
+                "edit.daily-limit.normal"
         case .repetitive:
-            "edit.repetition.repetitive"
+            "edit.daily-limit.repeated"
         case .unlimited:
-            "edit.repetition.unlimited"
+            "edit.daily-limit.unlimited"
         }
     }
 
@@ -144,19 +144,19 @@ struct HabitEditView: View {
                     }
                 }
 
-                Section("edit.repetition") {
-                    Picker("edit.repetition.type", selection: $repetitionType) {
-                        Text("edit.repetition.normal")
+                Section("edit.daily-limit") {
+                    Picker("edit.daily-limit.type", selection: $repetitionType) {
+                        Text("edit.daily-limit.normal")
                             .tag(RepetitionType.normal)
-                        Text("edit.repetition.repetitive")
+                        Text("edit.daily-limit.repeated")
                             .tag(RepetitionType.repetitive)
-                        Text("edit.repetition.unlimited")
+                        Text("edit.daily-limit.unlimited")
                             .tag(RepetitionType.unlimited)
                     }
                     .pickerStyle(.segmented)
                     Text(repetitionTypeHelpText)
                     if repetitionType == .repetitive {
-                        LabeledTextField(label: "edit.repetition.max-number", TextField("edit.repetition.max-number", value: $repetitionCustom, format: .number))
+                        LabeledTextField(label: "edit.daily-limit.max-number", TextField("edit.daily-limit.max-number", value: $repetitionCustom, format: .number))
                             .keyboardType(.numberPad)
                     }
                 }
@@ -167,7 +167,7 @@ struct HabitEditView: View {
                 }
 
                 if !allowed {
-                    Text("edit.default-completions.too-low")
+                    Text("edit.daily-limit.too-low")
                         .listRowBackground(Color.red)
                         .font(.title3)
                 }

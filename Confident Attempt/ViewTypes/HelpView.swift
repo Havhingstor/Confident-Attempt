@@ -18,7 +18,7 @@ struct HelpView: View {
 
             Section("help.tips") {
                 Text("help.tips.swipe")
-                Text("help.tips.repetition")
+                Text("help.tips.daily-limit")
                 Text("help.tips.evaluation-today")
                 Text("help.tips.evaluation")
                 Text("help.tips.details")
