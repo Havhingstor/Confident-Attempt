@@ -233,7 +233,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Gewohnheit hinzufügen"
+            "value" : "Hinzufügen"
           }
         },
         "en-GB" : {
@@ -489,7 +489,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Gewohnheit bearbeiten"
+            "value" : "Bearbeiten"
           }
         },
         "en-GB" : {
@@ -862,14 +862,19 @@
     },
     "help.github" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "GitHub"
+          }
+        },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "GitHub"
           }
         }
-      },
-      "shouldTranslate" : false
+      }
     },
     "help.issues" : {
       "localizations" : {
@@ -924,7 +929,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Clicke auf eine Gewohnheit, um weitere Details und Auswertungen anzuzeigen und festzulegen, wie oft diese Gewohnheit an den vergangenen Tagen ausgeführt wurde."
+            "value" : "Klicke auf eine Gewohnheit, um weitere Details und Auswertungen anzuzeigen und festzulegen, wie oft diese Gewohnheit an den vergangenen Tagen ausgeführt wurde."
           }
         },
         "en-GB" : {
@@ -988,7 +993,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Wische nach rechts oder links, um die Anzahl der Male, die du eine Gewohnheit heute erledigt hast, zu erhöhen oder zu verringern."
+            "value" : "Swipe nach rechts oder links, um die Anzahl der Male, die du eine Gewohnheit heute erledigt hast, zu erhöhen oder zu verringern."
           }
         },
         "en-GB" : {
@@ -1049,14 +1054,19 @@
     },
     "root.app-name" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Confident Attempt"
+          }
+        },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Confident Attempt"
           }
         }
-      },
-      "shouldTranslate" : false
+      }
     },
     "root.badge-set-fail" : {
       "localizations" : {
@@ -1463,7 +1473,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Heute noch nicht erledigt"
+            "value" : "Heute nicht erledigt"
           }
         },
         "en-GB" : {

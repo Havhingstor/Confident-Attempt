@@ -184,7 +184,7 @@ struct HabitEditView: View {
                         .font(.title3)
                 }
             }
-            .navigationTitle(editedHabit == nil ? "edit.edit-habit" : "edit.add-habit")
+            .navigationTitle(editedHabit == nil ? "edit.add-habit" : "edit.edit-habit")
             .navigationBarTitleDisplayMode(.inline)
             .sheet(isPresented: $symbolPickerShown, content: {
                 SymbolsPicker(selection: $symbol, titleKey: "edit.choose-symbol", autoDismiss: true)
