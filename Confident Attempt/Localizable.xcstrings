@@ -64,7 +64,7 @@
         }
       }
     },
-    "details.on-%@" : {
+    "details.on-day-%@" : {
       "localizations" : {
         "en-GB" : {
           "stringUnit" : {
@@ -104,12 +104,22 @@
         }
       }
     },
-    "details.since-%@-%@-%llu" : {
+    "details.since-%@-%@" : {
       "localizations" : {
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Since %1$@\n(%2$@): %3$llu"
+            "value" : "Since %1$@\n(%2$@ day):"
+          }
+        }
+      }
+    },
+    "details.since-plural-%@-%@" : {
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Since %1$@\n(%2$@ days):"
           }
         }
       }

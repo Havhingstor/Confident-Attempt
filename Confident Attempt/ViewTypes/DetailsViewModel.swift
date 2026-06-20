@@ -65,12 +65,18 @@ extension DetailsView {
 
             let totalDaysStr = numberAsText(totalDays)
 
-            return "details.since-\(firstDayDate.formatted(date: .complete, time: .omitted))-\(totalDaysStr)-\(totalDays)"
+            let firstFormat = firstDayDate.formatted(date: .complete, time: .omitted)
+            if totalDays == 1 {
+                return "details.since-\(firstFormat)-\(totalDaysStr)"
+            } else {
+                return "details.since-plural-\(firstFormat)-\(totalDaysStr)"
+            }
+            
         }
 
         var selectedDayString: LocalizedStringKey {
             guard let date = selectedDate?.asDate else { return "" }
-            return "details.on-\(date.formatted(date: .complete, time: .omitted))"
+            return "details.on-day-\(date.formatted(date: .complete, time: .omitted))"
         }
 
         var selectedDayCompletionsString: LocalizedStringKey {
