@@ -5,6 +5,7 @@ import SwiftUI
 struct HabitRowView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.editMode) private var editMode
+    @Environment(\.colorScheme) var colourScheme
     @State private var viewModel: ViewModel
 
     init(_ habit: Habit, _ model: ContentView.ViewModel) {
@@ -30,7 +31,7 @@ struct HabitRowView: View {
             }
             .multilineTextAlignment(.trailing)
         }
-        .foregroundStyle(viewModel.foregroundColour)
+        .foregroundStyle(viewModel.foregroundColour(mode: colourScheme))
         .swipeActions(edge: .trailing) {
             if editMode?.wrappedValue.isEditing != true {
                 Button("row.decrease", systemImage: "minus.circle") {
@@ -70,7 +71,7 @@ struct HabitRowView: View {
         .onChange(of: viewModel.evaluationToday) {
             viewModel.setBadgeNow(context: modelContext)
         }
-        .onChange(of: viewModel.foregroundColour) {
+        .onChange(of: viewModel.foregroundColour(mode: colourScheme)) {
             // This is also necessary because the badge might need to change if
             // habits that reached the goal aren't shown
             viewModel.setBadgeNow(context: modelContext)

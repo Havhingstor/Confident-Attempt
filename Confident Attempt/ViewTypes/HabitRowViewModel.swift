@@ -119,7 +119,7 @@ extension HabitRowView {
             "row.evaluation-\(habit.getEvaluation(from: calculationPeriod, to: referenceDate).formatted(percentStyle))"
         }
 
-        var foregroundColour: Color {
+        func foregroundColour(mode: ColorScheme) -> Color {
             let eval = habit.getEvaluation(from: calculationPeriod, to: referenceDate)
 
             return if eval < preferences.redZone {
@@ -127,7 +127,11 @@ extension HabitRowView {
             } else if eval >= 1.0 {
                 .green
             } else {
-                .yellow
+                if mode == .dark {
+                    .yellow
+                } else {
+                    .yellow.mix(with: .orange, by: 0.7)
+                }
             }
         }
 

@@ -28,8 +28,8 @@ extension DetailsView {
             superViewModel.evaluationText
         }
 
-        var evaluationColour: Color {
-            superViewModel.foregroundColour
+        func evaluationColour(mode: ColorScheme) -> Color {
+            superViewModel.foregroundColour(mode: mode)
         }
 
         var dayColour: Color {

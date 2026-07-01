@@ -6,6 +6,7 @@ import SwiftUI
 struct DetailsView: View {
     @State private var viewModel: ViewModel
     @Environment(\.modelContext) private var modelContext
+    @Environment(\.colorScheme) var colourScheme
     @State private var date = Date()
     @State private var number = UInt(3)
 
@@ -40,7 +41,7 @@ struct DetailsView: View {
                     }
                     .padding(.leading)
                 }
-                .foregroundStyle(viewModel.evaluationColour)
+                .foregroundStyle(viewModel.evaluationColour(mode: colourScheme))
 
                 if viewModel.dateSelected {
                     Group {
