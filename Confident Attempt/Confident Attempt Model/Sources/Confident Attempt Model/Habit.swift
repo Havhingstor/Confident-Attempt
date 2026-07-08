@@ -36,6 +36,9 @@ public enum HabitsSchemaV4: VersionedSchema {
         var storedDayEval: StoredDayEval? = nil
         @Transient
         var storedPrediction: StoredPrediction? = nil
+        
+        @Transient
+        private var firstDayHash: Int = 0
 
         fileprivate init(name: String, textDescription: String, symbol: String?, repetition: UInt?, goal: CompletionGoal,
                          dayResults: [DateComponents: UInt], firstDay: DateComponents, dayDefault: UInt)
@@ -221,6 +224,21 @@ extension Habit: Codable {
         try container.encode(newDayResults, forKey: .dayResults)
         try container.encode(firstDay, forKey: .firstDay)
         try container.encode(dayDefault, forKey: .dayDefault)
+    }
+    
+    /// Should be manually called with onChange for first day if this value can be set from the outside (like iCloud)
+    public func resetForFirstDay() {
+        resetStoredEvals(forDay: nil)
+    }
+    
+    /// Should be manually called with onChange for day default if this value can be set from the outside (like iCloud)
+    public func resetForDayDefault() {
+        resetStoredEvalsAndDay()
+    }
+    
+    /// Should be manually called with onChange for repetition / goal if this value can be set from the outside (like iCloud)
+    public func resetForRepGoal() {
+        resetStoredEvalsAndDay()
     }
 
     public static func testValues(repetition: UInt?, goal: CompletionGoal) -> Bool {

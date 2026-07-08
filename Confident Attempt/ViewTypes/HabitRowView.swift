@@ -76,6 +76,18 @@ struct HabitRowView: View {
             // habits that reached the goal aren't shown
             viewModel.setBadgeNow(context: modelContext)
         }
+        .onChange(of: viewModel.habit.firstDay, {
+            viewModel.habit.resetForFirstDay()
+        })
+        .onChange(of: viewModel.habit.dayDefault, {
+            viewModel.habit.resetForDayDefault()
+        })
+        .onChange(of: viewModel.habit.repetition, {
+            viewModel.habit.resetForRepGoal()
+        })
+        .onChange(of: viewModel.habit.goal, {
+            viewModel.habit.resetForRepGoal()
+        })
         .sheet(isPresented: $viewModel.showEditor) {
             HabitEditView(editedHabit: viewModel.habit, referenceDate: { viewModel.referenceDate })
         }
