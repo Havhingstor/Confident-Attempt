@@ -66,6 +66,9 @@ struct DetailsView: View {
                     .foregroundStyle(viewModel.dayColour)
                 }
 
+                predictionView
+                    .padding(.bottom, 20)
+
                 Group {
                     CalendarView(visibleDateComponents: $viewModel.visibleComponentsCalendar, selection: $viewModel.selectedDate)
                         .addDecorations(viewModel)
@@ -87,9 +90,6 @@ struct DetailsView: View {
                     }
                 }
                 .padding(.horizontal, 25)
-                .padding(.bottom, 20)
-
-                predictionView
 
                 HStack {
                     Spacer()
