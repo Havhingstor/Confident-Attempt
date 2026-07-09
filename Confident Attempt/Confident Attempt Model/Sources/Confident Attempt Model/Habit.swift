@@ -14,7 +14,7 @@ public enum HabitsSchemaV4: VersionedSchema {
         public var name: String = ""
         public var textDescription: String = ""
         public var symbol: String?
-        public private(set) var repetition: UInt?
+        public private(set) var limit: UInt?
         public private(set) var goal: CompletionGoal = CompletionGoal.daily(number: 1)
 
         // TODO: Remove in next version
@@ -40,12 +40,12 @@ public enum HabitsSchemaV4: VersionedSchema {
         @Transient
         private var firstDayHash: Int = 0
 
-        fileprivate init(name: String, textDescription: String, symbol: String?, repetition: UInt?, goal: CompletionGoal,
+        fileprivate init(name: String, textDescription: String, symbol: String?, limit: UInt?, goal: CompletionGoal,
                          dayResults: [DateComponents: UInt], firstDay: DateComponents, dayDefault: UInt)
         {
             self.name = name
             self.textDescription = textDescription
-            self.repetition = repetition
+            self.limit = limit
             self.goal = goal
             self.symbol = symbol
             newDayResults = dayResults
@@ -59,7 +59,7 @@ public enum HabitsSchemaV4: VersionedSchema {
             name = try container.decode(String.self, forKey: .name)
             textDescription = try container.decode(String.self, forKey: .textDescription)
             symbol = try container.decode(String?.self, forKey: .symbol)
-            repetition = try container.decode(UInt?.self, forKey: .repetition)
+            limit = try container.decode(UInt?.self, forKey: .limit)
             goal = try container.decode(CompletionGoal.self, forKey: .goal)
             newDayResults = try container.decode([DateComponents: UInt].self, forKey: .dayResults)
             if let firstDay = try? container.decode(DateComponents.self, forKey: .firstDay) {
@@ -135,8 +135,8 @@ public enum HabitsSchemaV4: VersionedSchema {
                 dayDefaultInternal ?? 0
             }
             set {
-                if let repetition,
-                   repetition < newValue
+                if let limit,
+                   limit < newValue
                 {
                     logger().warning("Won't set new day default: higher than daily maximum!")
                     return
@@ -182,7 +182,7 @@ private enum HabitCodingKeys: CodingKey {
     case name
     case textDescription
     case symbol
-    case repetition
+    case limit
     case goal
     case dayResults
     case firstDay
@@ -190,15 +190,15 @@ private enum HabitCodingKeys: CodingKey {
 }
 
 extension Habit: Codable {
-    public convenience init?(name: String, textDescription: String, symbol: String? = nil, repetition: UInt? = 1,
+    public convenience init?(name: String, textDescription: String, symbol: String? = nil, limit: UInt? = 1,
                              goal: CompletionGoal = .daily(number: 1), firstDay: DateComponents, dayDefault: UInt = 0)
     {
-        if !Self.testValues(repetition: repetition, goal: goal) {
-            logger().info("Habit with repetition \(String(describing: repetition)) and goal \(String(describing: goal)) won't be created!")
+        if !Self.testValues(limit: limit, goal: goal) {
+            logger().info("Habit with limit \(String(describing: limit)) and goal \(String(describing: goal)) won't be created!")
             return nil
         }
 
-        self.init(name: name, textDescription: textDescription, symbol: symbol, repetition: repetition,
+        self.init(name: name, textDescription: textDescription, symbol: symbol, limit: limit,
                   goal: goal, dayResults: [:], firstDay: firstDay, dayDefault: dayDefault)
     }
 
@@ -209,7 +209,7 @@ extension Habit: Codable {
             ([DateComponents: UInt](), firstDay)
         }
 
-        self.init(name: newName, textDescription: from.textDescription, symbol: from.symbol, repetition: from.repetition,
+        self.init(name: newName, textDescription: from.textDescription, symbol: from.symbol, limit: from.limit,
                   goal: from.goal, dayResults: dayResults, firstDay: firstDay, dayDefault: from.dayDefault)
     }
 
@@ -219,7 +219,7 @@ extension Habit: Codable {
         try container.encode(name, forKey: .name)
         try container.encode(textDescription, forKey: .textDescription)
         try container.encode(symbol, forKey: .symbol)
-        try container.encode(repetition, forKey: .repetition)
+        try container.encode(limit, forKey: .limit)
         try container.encode(goal, forKey: .goal)
         try container.encode(newDayResults, forKey: .dayResults)
         try container.encode(firstDay, forKey: .firstDay)
@@ -236,18 +236,18 @@ extension Habit: Codable {
         resetStoredEvalsAndDay()
     }
     
-    /// Should be manually called with onChange for repetition / goal if this value can be set from the outside (like iCloud)
-    public func resetForRepGoal() {
+    /// Should be manually called with onChange for limit / goal if this value can be set from the outside (like iCloud)
+    public func resetForLimGoal() {
         resetStoredEvalsAndDay()
     }
 
-    public static func testValues(repetition: UInt?, goal: CompletionGoal) -> Bool {
+    public static func testValues(limit: UInt?, goal: CompletionGoal) -> Bool {
         guard goal.getNumber() > 0 else { return false }
 
-        if let repetition {
-            guard repetition > 0 else { return false }
+        if let limit {
+            guard limit > 0 else { return false }
 
-            if let daily = goal.getAsDailyAlways(), daily > Double(repetition) {
+            if let daily = goal.getAsDailyAlways(), daily > Double(limit) {
                 return false
             }
         }
@@ -255,31 +255,31 @@ extension Habit: Codable {
         return true
     }
 
-    public func setRepetitionAndGoal(rep repetition: UInt?, goal: CompletionGoal) {
-        guard Self.testValues(repetition: repetition, goal: goal) else { return }
-        if let repetition,
-           self.repetition == nil || self.repetition ?? 0 > repetition
+    public func setLimitAndGoal(lim limit: UInt?, goal: CompletionGoal) {
+        guard Self.testValues(limit: limit, goal: goal) else { return }
+        if let limit,
+           self.limit == nil || self.limit ?? 0 > limit
         {
             newDayResults = newDayResults.mapValues { value in
-                min(value, repetition)
+                min(value, limit)
             }
         }
 
-        self.repetition = repetition
+        self.limit = limit
         self.goal = goal
 
         resetStoredEvalsAndDay()
     }
 
-    /// Returns the number of days which would need to be lowered to confine to the proposed repetition
-    public func checkNewRepetition(_ repetition: UInt) -> UInt {
-        if let oldRep = self.repetition,
-           repetition >= oldRep
+    /// Returns the number of days which would need to be lowered to confine to the proposed limit
+    public func checkNewLimit(_ limit: UInt) -> UInt {
+        if let oldLim = self.limit,
+           limit >= oldLim
         {
             return 0
         }
 
-        let days = newDayResults.filter { $0.value > repetition }.count
+        let days = newDayResults.filter { $0.value > limit }.count
         return UInt(days)
     }
 
@@ -288,10 +288,10 @@ extension Habit: Codable {
     }
 
     public func setDay(_ day: DateComponents, to: UInt) {
-        switch repetition {
-        case let .some(repetition) where to > repetition:
-            logger().info("New day value of \(to) is bigger than maximum value (\(repetition)), so this is the new value set.")
-            newDayResults[day.cleaned] = repetition
+        switch limit {
+        case let .some(limit) where to > limit:
+            logger().info("New day value of \(to) is bigger than maximum value (\(limit)), so this is the new value set.")
+            newDayResults[day.cleaned] = limit
         default:
             newDayResults[day.cleaned] = to
         }

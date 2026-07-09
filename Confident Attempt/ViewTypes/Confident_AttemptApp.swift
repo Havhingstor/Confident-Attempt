@@ -30,8 +30,8 @@ func getPreviewContainer() -> ModelContainer {
     container.mainContext.undoManager = UndoManager()
 
     let habit1 = Habit(name: "Test 1", textDescription: "Test", firstDay: .now)
-    let habit2 = Habit(name: "Test 2", textDescription: "Test", repetition: .none, firstDay: .now)
-    let habit3 = Habit(name: "Test 3", textDescription: "Test", repetition: 10, firstDay: .now)
+    let habit2 = Habit(name: "Test 2", textDescription: "Test", limit: .none, firstDay: .now)
+    let habit3 = Habit(name: "Test 3", textDescription: "Test", limit: 10, firstDay: .now)
     let habit4 = Habit(name: "Test 4", textDescription: "Test", goal: .weekly(number: 3), firstDay: .now)
     container.mainContext.insert(habit1!)
     container.mainContext.insert(habit2!)

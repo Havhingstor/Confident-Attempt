@@ -51,7 +51,7 @@ extension HabitRowView {
 
             if dayValue == 0 {
                 result = Image(systemName: "xmark.circle.fill")
-            } else if let repetition = habit.repetition, repetition == 1 && dayValue == 1 {
+            } else if let limit = habit.limit, limit == 1 && dayValue == 1 {
                 result = Image(systemName: "checkmark.circle.fill")
             } else if dayValue <= 50 {
                 result = Image(systemName: "\(dayValue).circle.fill")
@@ -70,15 +70,15 @@ extension HabitRowView {
         }
 
         var text: LocalizedStringKey {
-            if let repetition = habit.repetition {
-                if repetition == 1 {
+            if let limit = habit.limit {
+                if limit == 1 {
                     if dayValue == 1 {
                         return "row.today.done"
                     } else {
                         return "row.today.not-done"
                     }
                 } else {
-                    return "row.today.\(dayValue)-\(repetition)"
+                    return "row.today.\(dayValue)-\(limit)"
                 }
             }
 

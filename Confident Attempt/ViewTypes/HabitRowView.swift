@@ -82,11 +82,11 @@ struct HabitRowView: View {
         .onChange(of: viewModel.habit.dayDefault, {
             viewModel.habit.resetForDayDefault()
         })
-        .onChange(of: viewModel.habit.repetition, {
-            viewModel.habit.resetForRepGoal()
+        .onChange(of: viewModel.habit.limit, {
+            viewModel.habit.resetForLimGoal()
         })
         .onChange(of: viewModel.habit.goal, {
-            viewModel.habit.resetForRepGoal()
+            viewModel.habit.resetForLimGoal()
         })
         .sheet(isPresented: $viewModel.showEditor) {
             HabitEditView(editedHabit: viewModel.habit, referenceDate: { viewModel.referenceDate })

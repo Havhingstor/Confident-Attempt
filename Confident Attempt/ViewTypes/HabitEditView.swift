@@ -12,15 +12,15 @@ struct HabitEditView: View {
 
     @State private var name = ""
     @State private var description = ""
-    @State private var repetitionCustom = UInt(2)
-    @State private var repetitionType = RepetitionType.normal
+    @State private var limitCustom = UInt(2)
+    @State private var limitType = LimitType.normal
     @State private var goalScale = TimeScale.day
     @State private var goalAmount = UInt(1)
     @State private var dayDefault = UInt(0)
     @State private var symbol: String = ""
     @State private var symbolPickerShown = false
     @State private var saveConfirmationDialogShown = false
-    @State private var repetitionProblems: UInt? = nil
+    @State private var limitProblems: UInt? = nil
 
     private var referenceDate: () -> DateComponents
 
@@ -29,32 +29,32 @@ struct HabitEditView: View {
     }
 
     private var allowed: Bool {
-        Habit.testValues(repetition: repetition, goal: goal)
+        Habit.testValues(limit: limit, goal: goal)
     }
 
     private var defaultProblem: Bool {
-        guard let repetition else { return false }
+        guard let limit else { return false }
 
-        return repetition < dayDefault
+        return limit < dayDefault
     }
 
-    private var repetition: UInt? {
-        switch repetitionType {
+    private var limit: UInt? {
+        switch limitType {
         case .normal:
             1
-        case .repetitive:
-            repetitionCustom
+        case .repeated:
+            limitCustom
         case .unlimited:
             nil
         }
     }
 
-    var repetitionTypeHelpText: LocalizedStringKey {
-        switch repetitionType {
+    var limitTypeHelpText: LocalizedStringKey {
+        switch limitType {
         case .normal:
             "edit.daily-limit.help.normal"
-        case .repetitive:
-            "edit.daily-limit.help.repeated-\(repetitionCustom)"
+        case .repeated:
+            "edit.daily-limit.help.repeated-\(limitCustom)"
         case .unlimited:
             "edit.daily-limit.help.unlimited"
         }
@@ -72,13 +72,13 @@ struct HabitEditView: View {
             _symbol = State(initialValue: editedHabit.symbol ?? "")
             _dayDefault = State(initialValue: editedHabit.dayDefault)
 
-            if editedHabit.repetition == 1 {
-                _repetitionType = State(initialValue: .normal)
-            } else if let rep = editedHabit.repetition {
-                _repetitionType = State(initialValue: .repetitive)
-                _repetitionCustom = State(initialValue: rep)
+            if editedHabit.limit == 1 {
+                _limitType = State(initialValue: .normal)
+            } else if let lim = editedHabit.limit {
+                _limitType = State(initialValue: .repeated)
+                _limitCustom = State(initialValue: lim)
             } else {
-                _repetitionType = State(initialValue: .unlimited)
+                _limitType = State(initialValue: .unlimited)
             }
         }
     }
@@ -145,18 +145,18 @@ struct HabitEditView: View {
                 }
 
                 Section("edit.daily-limit") {
-                    Picker("edit.daily-limit.type", selection: $repetitionType) {
+                    Picker("edit.daily-limit.type", selection: $limitType) {
                         Text("edit.daily-limit.normal")
-                            .tag(RepetitionType.normal)
+                            .tag(LimitType.normal)
                         Text("edit.daily-limit.repeated")
-                            .tag(RepetitionType.repetitive)
+                            .tag(LimitType.repeated)
                         Text("edit.daily-limit.unlimited")
-                            .tag(RepetitionType.unlimited)
+                            .tag(LimitType.unlimited)
                     }
                     .pickerStyle(.segmented)
-                    Text(repetitionTypeHelpText)
-                    if repetitionType == .repetitive {
-                        LabeledTextField(label: "edit.daily-limit.max-number", TextField("edit.daily-limit.max-number", value: $repetitionCustom, format: .number))
+                    Text(limitTypeHelpText)
+                    if limitType == .repeated {
+                        LabeledTextField(label: "edit.daily-limit.max-number", TextField("edit.daily-limit.max-number", value: $limitCustom, format: .number))
                             .keyboardType(.numberPad)
                     }
                 }
@@ -189,12 +189,12 @@ struct HabitEditView: View {
             .sheet(isPresented: $symbolPickerShown, content: {
                 SymbolsPicker(selection: $symbol, titleKey: "edit.choose-symbol", autoDismiss: true)
             })
-            .alert("edit.save", isPresented: $saveConfirmationDialogShown, presenting: repetitionProblems) { _ in
+            .alert("edit.save", isPresented: $saveConfirmationDialogShown, presenting: limitProblems) { _ in
                 Button("edit.save.confirmation", role: .destructive) {
                     save()
                 }
                 Button("general.cancel", role: .cancel) {
-                    repetitionProblems = nil
+                    limitProblems = nil
                 }
             } message: { problems in
                 Text("edit.save.overwrite-warning-\(problems)")
@@ -208,12 +208,12 @@ struct HabitEditView: View {
                 ToolbarItem(placement: .confirmationAction) {
                     createConfirmButton("general.save") {
                         if let editedHabit,
-                           let repetition
+                           let limit
                         {
-                            let repetitionProblems = editedHabit.checkNewRepetition(repetition)
+                            let limitProblems = editedHabit.checkNewLimit(limit)
 
-                            if repetitionProblems > 0 {
-                                self.repetitionProblems = repetitionProblems
+                            if limitProblems > 0 {
+                                self.limitProblems = limitProblems
                                 self.saveConfirmationDialogShown = true
                                 return
                             }
@@ -228,15 +228,15 @@ struct HabitEditView: View {
                     goalAmount = 1
                 }
             }
-            .onChange(of: repetitionCustom) {
-                if repetitionCustom < 1 {
-                    repetitionCustom = 1
+            .onChange(of: limitCustom) {
+                if limitCustom < 1 {
+                    limitCustom = 1
                 }
             }
             .animation(.default, value: allowed)
             .animation(.default, value: defaultProblem)
             .animation(.default, value: name.isEmpty)
-            .animation(.default, value: repetition)
+            .animation(.default, value: limit)
         }
         .interactiveDismissDisabled()
     }
@@ -255,10 +255,10 @@ struct HabitEditView: View {
             editedHabit.name = name
             editedHabit.textDescription = description
             editedHabit.symbol = storedSymbol
-            editedHabit.setRepetitionAndGoal(rep: repetition, goal: goal)
+            editedHabit.setLimitAndGoal(lim: limit, goal: goal)
             editedHabit.dayDefault = dayDefault
         } else {
-            guard let newHabit = Habit(name: name, textDescription: description, symbol: storedSymbol, repetition: repetition,
+            guard let newHabit = Habit(name: name, textDescription: description, symbol: storedSymbol, limit: limit,
                                        goal: goal, firstDay: referenceDate(), dayDefault: dayDefault)
             else {
                 logger().error("Couldn't create habit! This should never happen.")
@@ -278,9 +278,9 @@ struct HabitEditView: View {
     }
 }
 
-private enum RepetitionType {
+private enum LimitType {
     case normal
-    case repetitive
+    case repeated
     case unlimited
 }
 

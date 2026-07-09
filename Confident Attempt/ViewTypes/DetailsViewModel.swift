@@ -90,7 +90,7 @@ extension DetailsView {
         }
 
         var maximumString: LocalizedStringKey {
-            if let max = habit.repetition {
+            if let max = habit.limit {
                 return "details.maximum-\(max)"
             } else {
                 return ""
@@ -102,7 +102,7 @@ extension DetailsView {
         }
 
         var hasMax: Bool {
-            habit.repetition != nil
+            habit.limit != nil
         }
 
         /// The first returned list is of days where the user has done enough, the second are the remaining days

@@ -192,8 +192,8 @@ public extension Habit {
         
         // Today should also be set to at least completions
         var completions = UInt(goal.getAsDaily(forDate: currentEndDate).rounded(.up))
-        if let rep = repetition, rep < completions {
-            completions = rep
+        if let lim = limit, lim < completions {
+            completions = lim
         }
         
         let actualValueToday = getDay(referenceDate)
@@ -247,8 +247,8 @@ public extension Habit {
             }
             
             var completions = UInt(goal.getAsDaily(forDate: currentEndDate).rounded(.up))
-            if let rep = repetition, rep < completions {
-                completions = rep
+            if let lim = limit, lim < completions {
+                completions = lim
             }
             
             let newIn = max(getDay(currentEndDate), completions)

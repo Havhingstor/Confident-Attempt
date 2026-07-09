@@ -13,16 +13,16 @@ public enum HabitsSchemaV1: VersionedSchema {
         public var name: String = ""
         public var textDescription: String = ""
         public var symbol: String?
-        public var repetition: UInt?
+        public var limit: UInt?
         public var goal: CompletionGoal = CompletionGoal.daily(number: 1)
         public var dayResults: [DateComponents: UInt] = [:]
 
         public init(name: String, textDescription: String, symbol: String?,
-                    repetition: UInt?, goal: CompletionGoal, dayResults: [DateComponents: UInt])
+                    limit: UInt?, goal: CompletionGoal, dayResults: [DateComponents: UInt])
         {
             self.name = name
             self.textDescription = textDescription
-            self.repetition = repetition
+            self.limit = limit
             self.goal = goal
             self.symbol = symbol
             self.dayResults = dayResults
@@ -42,18 +42,18 @@ public enum HabitsSchemaV2: VersionedSchema {
         public var name: String = ""
         public var textDescription: String = ""
         public var symbol: String?
-        public private(set) var repetition: UInt?
+        public private(set) var limit: UInt?
         public private(set) var goal: CompletionGoal = CompletionGoal.daily(number: 1)
         public var dayResults: [DateComponents: UInt] = [:]
 
         private var firstDayData: Data = Data()
 
-        public init(name: String, textDescription: String, symbol: String?, repetition: UInt?,
+        public init(name: String, textDescription: String, symbol: String?, limit: UInt?,
                     goal: CompletionGoal, dayResults: [DateComponents: UInt], firstDay: DateComponents)
         {
             self.name = name
             self.textDescription = textDescription
-            self.repetition = repetition
+            self.limit = limit
             self.goal = goal
             self.symbol = symbol
             self.dayResults = dayResults
@@ -98,7 +98,7 @@ public enum HabitsSchemaV3: VersionedSchema {
         public var name: String = ""
         public var textDescription: String = ""
         public var symbol: String?
-        public private(set) var repetition: UInt?
+        public private(set) var limit: UInt?
         public private(set) var goal: CompletionGoal = CompletionGoal.daily(number: 1)
 
         fileprivate var dayResults: [DateComponents: UInt] = [:]
@@ -112,12 +112,12 @@ public enum HabitsSchemaV3: VersionedSchema {
         @Transient
         private var storedDayEval: StoredDayEval? = nil
 
-        fileprivate init(name: String, textDescription: String, symbol: String?, repetition: UInt?, goal: CompletionGoal,
+        fileprivate init(name: String, textDescription: String, symbol: String?, limit: UInt?, goal: CompletionGoal,
                          dayResults: [DateComponents: UInt], firstDay: DateComponents, dayDefault: UInt)
         {
             self.name = name
             self.textDescription = textDescription
-            self.repetition = repetition
+            self.limit = limit
             self.goal = goal
             self.symbol = symbol
             self.dayResults = dayResults
@@ -155,8 +155,8 @@ public enum HabitsSchemaV3: VersionedSchema {
                 dayDefaultInternal ?? 0
             }
             set {
-                if let repetition,
-                   repetition < newValue
+                if let limit,
+                   limit < newValue
                 {
                     logger().warning("Won't set new day default: higher than daily maximum!")
                     return

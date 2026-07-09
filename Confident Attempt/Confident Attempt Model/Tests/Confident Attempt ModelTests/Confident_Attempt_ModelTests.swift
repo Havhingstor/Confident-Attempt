@@ -22,7 +22,7 @@ func habitBasics() {
     let firstDay = DateComponents(year: 2026, month: 3, day: 17)
     let secondDay = DateComponents(year: 2026, month: 3, day: 18)
     let thirdDay = DateComponents(year: 2026, month: 3, day: 19)
-    let baseHabit = Habit(name: "Habit", textDescription: "Some habit", repetition: 3, goal: .daily(number: 2), firstDay: firstDay)!
+    let baseHabit = Habit(name: "Habit", textDescription: "Some habit", limit: 3, goal: .daily(number: 2), firstDay: firstDay)!
 
     baseHabit.increaseDay(firstDay, by: 2)
     #expect(baseHabit.getDay(firstDay) == 2)
@@ -77,8 +77,8 @@ func habitBasics() {
     #expect(clone2.name == "NewTestName")
     #expect(clone2.getEvaluation(from: twoDayEvaluation, to: thirdDay) == 1.5)
 
-    #expect(clone1.checkNewRepetition(2) == 1)
-    clone1.setRepetitionAndGoal(rep: 2, goal: .daily(number: 2))
+    #expect(clone1.checkNewLimit(2) == 1)
+    clone1.setLimitAndGoal(lim: 2, goal: .daily(number: 2))
     #expect(clone1.getDay(firstDay) == 1)
     #expect(clone1.getDay(secondDay) == 2)
     #expect(clone1.getDay(thirdDay) == 0)
@@ -86,16 +86,16 @@ func habitBasics() {
 
 @Test
 func illegalHabit() {
-    #expect(Habit(name: "A", textDescription: "", repetition: 0, firstDay: .now) == nil)
+    #expect(Habit(name: "A", textDescription: "", limit: 0, firstDay: .now) == nil)
     #expect(Habit(name: "A", textDescription: "", goal: .daily(number: 0), firstDay: .now) == nil)
-    #expect(Habit(name: "A", textDescription: "", repetition: 1, goal: .daily(number: 2), firstDay: .now) == nil)
+    #expect(Habit(name: "A", textDescription: "", limit: 1, goal: .daily(number: 2), firstDay: .now) == nil)
 }
 
 @Test
 func specialEvaluation() {
     let firstDay = DateComponents(year: 2026, month: 5, day: 20)
     let currentDay = DateComponents(year: 2026, month: 6, day: 19)
-    let habit = Habit(name: "Test", textDescription: "", repetition: nil, goal: .monthly(number: 5), firstDay: firstDay)!
+    let habit = Habit(name: "Test", textDescription: "", limit: nil, goal: .monthly(number: 5), firstDay: firstDay)!
     habit.setDay(currentDay, to: 5)
 
     #expect(habit.getEvaluation(from: .months(number: 1), to: currentDay) == 1.0)
