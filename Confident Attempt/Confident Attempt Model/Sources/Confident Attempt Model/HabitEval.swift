@@ -4,7 +4,7 @@ public extension Habit {
     // MARK: - Helpers
     
     func calculateFirstDay() -> DateComponents {
-        if let fromData = newDayResults.filter({ $0.value > 0 }).map({ $0.key }).sorted().first {
+        if let fromData = dayResults.filter({ $0.value > 0 }).map({ $0.key }).sorted().first {
             return min(fromData, firstDay)
         } else {
             return firstDay
@@ -87,7 +87,7 @@ public extension Habit {
     // MARK: - Total
     
     private func getTotal(beforeStart: DateComponents, to: DateComponents) -> UInt {
-        let filteredDays = newDayResults.filter { $0.key > beforeStart && $0.key <= to }
+        let filteredDays = dayResults.filter { $0.key > beforeStart && $0.key <= to }
         let count = filteredDays.count
         let directlySetValue = filteredDays.reduce(0) { $0 + UInt($1.value) }
         let totalDays = to.daysSince(beforeStart) ?? 0

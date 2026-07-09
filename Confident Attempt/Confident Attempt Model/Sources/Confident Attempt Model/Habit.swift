@@ -2,8 +2,8 @@ import Foundation
 import OSLog
 import SwiftData
 
-public enum HabitsSchemaV4: VersionedSchema {
-    public static let versionIdentifier = Schema.Version(4, 0, 0)
+public enum HabitsSchemaV1: VersionedSchema {
+    public static let versionIdentifier = Schema.Version(1, 0, 0)
 
     public static var models: [any PersistentModel.Type] {
         [Habit.self]
@@ -17,18 +17,17 @@ public enum HabitsSchemaV4: VersionedSchema {
         public private(set) var limit: UInt?
         public private(set) var goal: CompletionGoal = CompletionGoal.daily(number: 1)
 
-        // TODO: Remove in next version
-        fileprivate var dayResults: [DateComponents: UInt]? = [:]
-
         fileprivate var dayResultsInternal: Data = Data()
-        @Transient
-        private var dayResultsCache: [DateComponents: UInt] = [:]
-        @Transient
-        private var dayResultsHash: Int = 0
 
         private var dayDefaultInternal: UInt?
 
         private var firstDayData: Data = Data()
+        
+        
+        @Transient
+        private var dayResultsCache: [DateComponents: UInt] = [:]
+        @Transient
+        private var dayResultsHash: Int = 0
 
         @Transient
         var storedEval: StoredEval? = nil
@@ -36,9 +35,6 @@ public enum HabitsSchemaV4: VersionedSchema {
         var storedDayEval: StoredDayEval? = nil
         @Transient
         var storedPrediction: StoredPrediction? = nil
-        
-        @Transient
-        private var firstDayHash: Int = 0
 
         fileprivate init(name: String, textDescription: String, symbol: String?, limit: UInt?, goal: CompletionGoal,
                          dayResults: [DateComponents: UInt], firstDay: DateComponents, dayDefault: UInt)
@@ -48,7 +44,7 @@ public enum HabitsSchemaV4: VersionedSchema {
             self.limit = limit
             self.goal = goal
             self.symbol = symbol
-            newDayResults = dayResults
+            self.dayResults = dayResults
             self.firstDay = firstDay
             self.dayDefault = dayDefault
         }
@@ -59,9 +55,13 @@ public enum HabitsSchemaV4: VersionedSchema {
             name = try container.decode(String.self, forKey: .name)
             textDescription = try container.decode(String.self, forKey: .textDescription)
             symbol = try container.decode(String?.self, forKey: .symbol)
-            limit = try container.decode(UInt?.self, forKey: .limit)
+            limit = if let loadedLimit = try? container.decode(UInt?.self, forKey: .limit) {
+                loadedLimit
+            } else {
+                try container.decode(UInt?.self, forKey: .repetition)
+            }
             goal = try container.decode(CompletionGoal.self, forKey: .goal)
-            newDayResults = try container.decode([DateComponents: UInt].self, forKey: .dayResults)
+            dayResults = try container.decode([DateComponents: UInt].self, forKey: .dayResults)
             if let firstDay = try? container.decode(DateComponents.self, forKey: .firstDay) {
                 self.firstDay = firstDay
             } else {
@@ -71,8 +71,7 @@ public enum HabitsSchemaV4: VersionedSchema {
             dayDefault = try container.decode(UInt.self, forKey: .dayDefault)
         }
 
-        // TODO: Later Version (5 / 6): rename to dayResults
-        public internal(set) var newDayResults: [DateComponents: UInt] {
+        public internal(set) var dayResults: [DateComponents: UInt] {
             get {
                 if dayResultsInternal.hashValue != dayResultsHash {
                     do {
@@ -122,7 +121,7 @@ public enum HabitsSchemaV4: VersionedSchema {
         }
 
         func setFirstDay() {
-            if let fromData = newDayResults.filter({ $0.value > 0 }).map({ $0.key }).sorted().first {
+            if let fromData = dayResults.filter({ $0.value > 0 }).map({ $0.key }).sorted().first {
                 firstDay = fromData
             } else {
                 logger().info("No completions set for any days, first day is set to today.")
@@ -168,13 +167,6 @@ public enum HabitsSchemaV4: VersionedSchema {
             resetStoredEvals(forDay: nil)
             storedDayEval = nil
         }
-
-        func moveDayResults() {
-            guard let dayResults, newDayResults.count == 0 else { return }
-
-            newDayResults = dayResults
-            self.dayResults = nil
-        }
     }
 }
 
@@ -182,6 +174,7 @@ private enum HabitCodingKeys: CodingKey {
     case name
     case textDescription
     case symbol
+    case repetition
     case limit
     case goal
     case dayResults
@@ -204,7 +197,7 @@ extension Habit: Codable {
 
     public convenience init(cloneof from: Habit, newName: String, copyData: Bool, firstDay: DateComponents) {
         let (dayResults, firstDay) = if copyData {
-            (from.newDayResults, from.firstDay)
+            (from.dayResults, from.firstDay)
         } else {
             ([DateComponents: UInt](), firstDay)
         }
@@ -221,7 +214,7 @@ extension Habit: Codable {
         try container.encode(symbol, forKey: .symbol)
         try container.encode(limit, forKey: .limit)
         try container.encode(goal, forKey: .goal)
-        try container.encode(newDayResults, forKey: .dayResults)
+        try container.encode(dayResults, forKey: .dayResults)
         try container.encode(firstDay, forKey: .firstDay)
         try container.encode(dayDefault, forKey: .dayDefault)
     }
@@ -260,7 +253,7 @@ extension Habit: Codable {
         if let limit,
            self.limit == nil || self.limit ?? 0 > limit
         {
-            newDayResults = newDayResults.mapValues { value in
+            dayResults = dayResults.mapValues { value in
                 min(value, limit)
             }
         }
@@ -279,21 +272,21 @@ extension Habit: Codable {
             return 0
         }
 
-        let days = newDayResults.filter { $0.value > limit }.count
+        let days = dayResults.filter { $0.value > limit }.count
         return UInt(days)
     }
 
     public func getDay(_ day: DateComponents = .now) -> UInt {
-        return newDayResults[day.cleaned] ?? dayDefault
+        return dayResults[day.cleaned] ?? dayDefault
     }
 
     public func setDay(_ day: DateComponents, to: UInt) {
         switch limit {
         case let .some(limit) where to > limit:
             logger().info("New day value of \(to) is bigger than maximum value (\(limit)), so this is the new value set.")
-            newDayResults[day.cleaned] = limit
+            dayResults[day.cleaned] = limit
         default:
-            newDayResults[day.cleaned] = to
+            dayResults[day.cleaned] = to
         }
 
         resetStoredEvals(forDay: day)
