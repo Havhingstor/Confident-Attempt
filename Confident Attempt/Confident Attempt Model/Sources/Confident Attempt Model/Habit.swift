@@ -77,7 +77,6 @@ public enum HabitsSchemaV1: VersionedSchema {
                     do {
                         dayResultsCache = try JSONDecoder().decode([DateComponents: UInt].self, from: dayResultsInternal)
                         dayResultsHash = dayResultsInternal.hashValue
-                        resetStoredEvalsAndDay()
                     } catch {
                         logger().error("Couldn't decode day results: \(error)")
                     }
@@ -113,7 +112,6 @@ public enum HabitsSchemaV1: VersionedSchema {
             set {
                 do {
                     firstDayData = try JSONEncoder().encode(newValue)
-                    resetStoredEvals(forDay: nil)
                 } catch {
                     logger().error("Couldn't encode first day: \(error)")
                 }
@@ -146,26 +144,7 @@ public enum HabitsSchemaV1: VersionedSchema {
                 } else {
                     newValue
                 }
-
-                resetStoredEvalsAndDay()
             }
-        }
-
-        private func resetStoredEvals(forDay: DateComponents?) {
-            storedEval = nil
-            storedPrediction = nil
-
-            if let storedDayEval,
-               let forDay,
-               storedDayEval.day.cleanEq(forDay)
-            {
-                self.storedDayEval = nil
-            }
-        }
-
-        private func resetStoredEvalsAndDay() {
-            resetStoredEvals(forDay: nil)
-            storedDayEval = nil
         }
     }
 }
@@ -218,21 +197,6 @@ extension Habit: Codable {
         try container.encode(firstDay, forKey: .firstDay)
         try container.encode(dayDefault, forKey: .dayDefault)
     }
-    
-    /// Should be manually called with onChange for first day if this value can be set from the outside (like iCloud)
-    public func resetForFirstDay() {
-        resetStoredEvals(forDay: nil)
-    }
-    
-    /// Should be manually called with onChange for day default if this value can be set from the outside (like iCloud)
-    public func resetForDayDefault() {
-        resetStoredEvalsAndDay()
-    }
-    
-    /// Should be manually called with onChange for limit / goal if this value can be set from the outside (like iCloud)
-    public func resetForLimGoal() {
-        resetStoredEvalsAndDay()
-    }
 
     public static func testValues(limit: UInt?, goal: CompletionGoal) -> Bool {
         guard goal.getNumber() > 0 else { return false }
@@ -260,8 +224,6 @@ extension Habit: Codable {
 
         self.limit = limit
         self.goal = goal
-
-        resetStoredEvalsAndDay()
     }
 
     /// Returns the number of days which would need to be lowered to confine to the proposed limit
@@ -277,7 +239,7 @@ extension Habit: Codable {
     }
 
     public func getDay(_ day: DateComponents = .now) -> UInt {
-        return dayResults[day.cleaned] ?? dayDefault
+        getDayOutside(day, dayResults, dayDefault)
     }
 
     public func setDay(_ day: DateComponents, to: UInt) {
@@ -288,8 +250,6 @@ extension Habit: Codable {
         default:
             dayResults[day.cleaned] = to
         }
-
-        resetStoredEvals(forDay: day)
     }
 
     public func increaseDay(_ day: DateComponents, by: UInt) {
@@ -302,4 +262,8 @@ extension Habit: Codable {
 
         setDay(day, to: newVal)
     }
+}
+
+func getDayOutside(_ day: DateComponents, _ dayResults: [DateComponents: UInt], _ dayDefault: UInt) -> UInt {
+    return dayResults[day.cleaned] ?? dayDefault
 }

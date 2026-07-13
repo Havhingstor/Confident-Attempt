@@ -122,17 +122,83 @@ public enum CalculationStart: Codable, Equatable {
 struct StoredEval {
     var from: CalculationStart
     var to: DateComponents
+    var dayResultsHash: Int
+    var goal: CompletionGoal
+    var firstDay: DateComponents
+    var dayDefault: UInt
     var value: Double
+    
+    init(from: CalculationStart, to: DateComponents, dayResultsHash: Int, goal: CompletionGoal, firstDay: DateComponents, dayDefault: UInt) {
+        self.from = from
+        self.to = to
+        self.dayResultsHash = dayResultsHash
+        self.goal = goal
+        self.firstDay = firstDay
+        self.dayDefault = dayDefault
+        self.value = 0
+    }
+    
+    func equalsBase(_ other: StoredEval) -> Bool {
+        from == other.from &&
+        to.cleanEq(other.to) &&
+        dayResultsHash == other.dayResultsHash &&
+        goal == other.goal &&
+        firstDay.cleanEq(other.firstDay) &&
+        dayDefault == other.dayDefault
+    }
 }
 
 struct StoredDayEval {
+    var dayResult: UInt
     var day: DateComponents
+    var goal: CompletionGoal
     var value: Double
+    
+    init(dayResult: UInt, day: DateComponents, goal: CompletionGoal) {
+        self.dayResult = dayResult
+        self.day = day
+        self.goal = goal
+        self.value = 0
+    }
+    
+    func equalsBase(_ other: StoredDayEval) -> Bool {
+        dayResult == other.dayResult &&
+        day.cleanEq(other.day) &&
+        goal == other.goal
+    }
 }
 
 struct StoredPrediction {
     var referenceDate: DateComponents
     var start: CalculationStart
     var yellowRatio: Double
+    var goal: CompletionGoal
+    var dayResultsHash: Int
+    var limit: UInt?
+    var dayDefault: UInt
+    var firstDay: DateComponents
     var value: (DateComponents?, DateComponents?)
+    
+    init(referenceDate: DateComponents, start: CalculationStart, yellowRatio: Double, goal: CompletionGoal, dayResultsHash: Int, limit: UInt?, dayDefault: UInt, firstDay: DateComponents) {
+        self.referenceDate = referenceDate
+        self.start = start
+        self.yellowRatio = yellowRatio
+        self.goal = goal
+        self.dayResultsHash = dayResultsHash
+        self.limit = limit
+        self.dayDefault = dayDefault
+        self.firstDay = firstDay
+        self.value = (nil, nil)
+    }
+    
+    func equalsBase(_ other: StoredPrediction) -> Bool {
+        referenceDate.cleanEq(other.referenceDate) &&
+        start == other.start &&
+        yellowRatio == other.yellowRatio &&
+        goal == other.goal &&
+        dayResultsHash == other.dayResultsHash &&
+        limit == other.limit &&
+        dayDefault == other.dayDefault &&
+        firstDay == other.firstDay
+    }
 }
