@@ -22,8 +22,7 @@ public enum HabitsSchemaV1: VersionedSchema {
         private var dayDefaultInternal: UInt?
 
         private var firstDayData: Data = Data()
-        
-        
+
         @Transient
         private var dayResultsCache: [DateComponents: UInt] = [:]
         @Transient

@@ -18,11 +18,11 @@ func testGoal() {
 }
 
 @Test
-func habitBasics() {
+func habitBasics() throws {
     let firstDay = DateComponents(year: 2026, month: 3, day: 17)
     let secondDay = DateComponents(year: 2026, month: 3, day: 18)
     let thirdDay = DateComponents(year: 2026, month: 3, day: 19)
-    let baseHabit = Habit(name: "Habit", textDescription: "Some habit", limit: 3, goal: .daily(number: 2), firstDay: firstDay)!
+    let baseHabit = try #require(Habit(name: "Habit", textDescription: "Some habit", limit: 3, goal: .daily(number: 2), firstDay: firstDay))
 
     baseHabit.increaseDay(firstDay, by: 2)
     #expect(baseHabit.getDay(firstDay) == 2)
@@ -92,10 +92,10 @@ func illegalHabit() {
 }
 
 @Test
-func specialEvaluation() {
+func specialEvaluation() throws {
     let firstDay = DateComponents(year: 2026, month: 5, day: 20)
     let currentDay = DateComponents(year: 2026, month: 6, day: 19)
-    let habit = Habit(name: "Test", textDescription: "", limit: nil, goal: .monthly(number: 5), firstDay: firstDay)!
+    let habit = try #require(Habit(name: "Test", textDescription: "", limit: nil, goal: .monthly(number: 5), firstDay: firstDay))
     habit.setDay(currentDay, to: 5)
 
     #expect(habit.getEvaluation(from: .months(number: 1), to: currentDay) == 1.0)

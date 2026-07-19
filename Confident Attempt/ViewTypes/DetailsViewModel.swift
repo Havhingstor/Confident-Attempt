@@ -52,7 +52,7 @@ extension DetailsView {
 
         var expectedText: LocalizedStringKey {
             let expected = habit.getExpected(from: calculationPeriod, to: referenceDate)
-            
+
             if expected != 1 {
                 return "details.expected-\(expected.formatted(expectedStyle))"
             } else {
@@ -76,7 +76,6 @@ extension DetailsView {
             } else {
                 return "details.since-singular-\(firstFormat)-\(totalDaysStr)"
             }
-            
         }
 
         var selectedDayString: LocalizedStringKey {
