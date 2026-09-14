@@ -132,17 +132,7 @@ extension ContentView {
                     return
                 }
 
-                var count = 0
-
-                if preferences.notifications {
-                    let descriptor = FetchDescriptor<Habit>()
-                    let habits = (try? context.fetch(descriptor)) ?? []
-
-                    count = habits.filter { habit in
-                        habit.getEvaluationForDay(referenceDate) < 1.0 &&
-                            (habit.getEvaluation(from: calculationPeriod, to: referenceDate) < 1.0 || preferences.achievedHabitsInBadge)
-                    }.count
-                }
+                let count = getBadgeCount(for: referenceDate, context: context)
 
                 do {
                     try await notificationCentre.setBadgeCount(count)
@@ -172,25 +162,9 @@ extension ContentView {
                         return
                     }
 
-                    let descriptor = FetchDescriptor<Habit>()
-                    let habits = (try? context.fetch(descriptor)) ?? []
-
-                    let content = UNMutableNotificationContent()
-                    content.title = "A new day has started"
-                    content.body = "Complete all your habits to reach your goals"
-
-                    if preferences.activeNotifications {
-                        content.interruptionLevel = .active
-                    } else {
-                        content.interruptionLevel = .passive
-                    }
-
-                    let count = habits.count
-                    content.badge = NSNumber(value: count)
-
-                    let trigger = UNCalendarNotificationTrigger(dateMatching: timing, repeats: true)
-
-                    let request = UNNotificationRequest(identifier: "DayFlip", content: content, trigger: trigger)
+                    let count = getBadgeCount(for: date.dc, context: context)
+                    
+                    let request = constructNotification(timing, repeating: true, badge: count)
 
                     do {
                         try await notificationCentre.add(request)
@@ -200,6 +174,39 @@ extension ContentView {
                         alertShown = true
                     }
                 }
+            }
+        }
+        
+        private func constructNotification(_ at: DateComponents, repeating: Bool, badge: Int) -> UNNotificationRequest {
+            let content = UNMutableNotificationContent()
+            content.title = "A new day has started"
+            content.body = "Complete all your habits to reach your goals"
+            
+            if preferences.activeNotifications {
+                content.interruptionLevel = .active
+            } else {
+                content.interruptionLevel = .passive
+            }
+            
+            content.badge = NSNumber(value: badge)
+            
+            let trigger = UNCalendarNotificationTrigger(dateMatching: at, repeats: repeating)
+            
+            return UNNotificationRequest(identifier: "DayFlip", content: content, trigger: trigger)
+            
+        }
+        
+        private func getBadgeCount(for referenceDate: DateComponents, context: ModelContext) -> Int {
+            if preferences.notifications {
+                let descriptor = FetchDescriptor<Habit>()
+                let habits = (try? context.fetch(descriptor)) ?? []
+                
+                return habits.filter { habit in
+                    habit.getEvaluationForDay(referenceDate) < 1.0 &&
+                    (habit.getEvaluation(from: calculationPeriod, to: referenceDate) < 1.0 || preferences.achievedHabitsInBadge)
+                }.count
+            } else {
+                return 0
             }
         }
 

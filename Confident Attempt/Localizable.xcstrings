@@ -1777,13 +1777,13 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Zeige auch Gewohnheiten an, bei denen\ndas Ziel im Bewertungszeitraum erreicht wurde"
+            "value" : "Zeige auch Gewohnheiten an, bei denen\ndas Ziel erreicht ist"
           }
         },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Include habits where the goal\nhas been achieved over the evaluation period"
+            "value" : "Include habits where the goal\nis achieved"
           }
         }
       }
@@ -1800,22 +1800,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Basic Notifications & Badges"
-          }
-        }
-      }
-    },
-    "settings.notifications.help.badge" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Hinweis: Nach dem Versenden der Benachrichtigung und vor dem nächsten Öffnen der App zeigt das Badge alle Gewohnheiten an, unabhängig davon, wie oft sie in der Vergangenheit oder an diesem Tag erledigt wurden."
-          }
-        },
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Note: After the notification has been sent, before the app is opened the next time, the badge number will include all habits, regardless of their number of completions in the past or on that day"
           }
         }
       }

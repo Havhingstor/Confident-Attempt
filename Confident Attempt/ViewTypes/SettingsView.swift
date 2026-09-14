@@ -67,7 +67,6 @@ struct SettingsView: View {
                     Toggle("settings.notifications.achieved-habits", isOn: $viewModel.achievedHabitsInBadge)
                 }
                 Text("settings.notifications.help.basic")
-                Text("settings.notifications.help.badge")
 
                 if let badgingWarning = viewModel.badgingWarning {
                     Text(badgingWarning)
