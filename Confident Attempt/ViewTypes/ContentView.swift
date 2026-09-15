@@ -115,6 +115,9 @@ struct ContentView: View {
             viewModel.runTimerAction(context: modelContext)
         }
         .alert(viewModel.alertText, isPresented: $viewModel.alertShown, actions: {})
+        .onAppear {
+            viewModel.preloadEvals(context: modelContext)
+        }
     }
 }
 

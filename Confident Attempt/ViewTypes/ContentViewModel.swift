@@ -237,5 +237,14 @@ extension ContentView {
                 return true
             }
         }
+        
+        func preloadEvals(context: ModelContext) {
+            let habits = (try? context.fetch(FetchDescriptor<Habit>())) ?? []
+            
+            for habit in habits {
+                _ = habit.getEvaluationForDay(referenceDate)
+                _ = habit.getEvaluation(from: calculationPeriod, to: referenceDate)
+            }
+        }
     }
 }
