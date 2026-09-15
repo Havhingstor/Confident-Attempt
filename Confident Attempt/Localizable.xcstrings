@@ -20,6 +20,9 @@
         }
       }
     },
+    "CalendarView" : {
+
+    },
     "details.completions-%llu" : {
       "localizations" : {
         "de" : {
@@ -912,6 +915,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Issues"
+          }
+        }
+      }
+    },
+    "help.libraries" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Benutzte Open-Source Bibliotheken"
+          }
+        },
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Used Open-Source Libraries"
           }
         }
       }
@@ -1883,6 +1902,12 @@
           }
         }
       }
+    },
+    "SFSymbolsPickerForSwiftUI" : {
+
+    },
+    "TaskGate" : {
+
     }
   },
   "version" : "1.3"

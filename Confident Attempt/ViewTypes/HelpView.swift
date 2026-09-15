@@ -24,6 +24,12 @@ struct HelpView: View {
                 Text("help.tips.details")
                 Text("help.tips.first-day")
             }
+            
+            Section("help.libraries") {
+                Link("CalendarView", destination: URL(string: "https://github.com/AllanJuenemann/CalendarView")!)
+                Link("SFSymbolsPickerForSwiftUI", destination: URL(string: "https://github.com/alessiorubicini/SFSymbolsPickerForSwiftUI")!)
+                Link("TaskGate", destination: URL(string: "https://github.com/mattmassicotte/TaskGate")!)
+            }
         }
         .navigationTitle("help.title")
     }
