@@ -58,6 +58,16 @@ class Preferences {
             localDefaults.set(achievedHabitsInBadge, forKey: "achievedHabitsInBadge")
         }
     }
+    
+    func retrieveShouldReloadTips() -> Bool {
+        let result = localDefaults.bool(forKey: "shouldReloadTips")
+        localDefaults.removeObject(forKey: "shouldReloadTips")
+        return result
+    }
+    
+    func storeTipsReload() {
+        localDefaults.set(true, forKey: "shouldReloadTips")
+    }
 
     init() {
         periodScale = .month

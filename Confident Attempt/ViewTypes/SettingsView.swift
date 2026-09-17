@@ -39,16 +39,21 @@ struct SettingsView: View {
                 }
             }
 
-            Section("settings.minimum-completion") {
+            Section {
                 VStack {
                     Slider(value: $viewModel.redZone, in: 0 ... 1, step: 0.01)
                     Text("\(viewModel.redZone.formatted(.percent))")
                 }
+            } header: {
+                Text("settings.minimum-completion")
+            } footer: {
+                Text("settings.minimum-completion.explanation-\(viewModel.redZone.formatted(.percent))-\(1.0.formatted(.percent))")
             }
 
             Section {
                 DatePicker("settings.day-start", selection: viewModel.dayStartDate, displayedComponents: .hourAndMinute)
-                Text("settings.day-start.help")
+            } footer: {
+                Text("settings.day-start.help-\(viewModel.dayStartDate.wrappedValue.formatted(date: .omitted, time: .shortened))")
             }
 
             Section {
@@ -66,12 +71,13 @@ struct SettingsView: View {
                     Toggle("settings.notifications.notification-centre", isOn: $viewModel.passiveNotifications)
                     Toggle("settings.notifications.achieved-habits", isOn: $viewModel.achievedHabitsInBadge)
                 }
-                Text("settings.notifications.help.basic")
 
                 if let badgingWarning = viewModel.badgingWarning {
                     Text(badgingWarning)
                         .foregroundStyle(.red)
                 }
+            } footer: {
+                Text("settings.notifications.help.basic")
             }
             .animation(.default, value: viewModel.badgingWarning)
             .animation(.default, value: viewModel.notifications)

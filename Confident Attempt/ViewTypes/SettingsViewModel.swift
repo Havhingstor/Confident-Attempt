@@ -15,7 +15,7 @@ extension SettingsView {
         var notifications: Bool
 
         init(_ prefs: Preferences) {
-            badgingWarning = ""
+            badgingWarning = .none
             preferences = prefs
             notifications = prefs.notifications
         }
@@ -51,7 +51,7 @@ extension SettingsView {
                 }
                 return
             }
-            badgingWarning = ""
+            badgingWarning = .none
             let notificationCentre = UNUserNotificationCenter.current()
             Task {
                 do {
@@ -88,6 +88,10 @@ extension SettingsView {
             set {
                 preferences.redZone = newValue
             }
+        }
+        
+        var redZonePercentage: UInt {
+            UInt(redZone * 100.0)
         }
 
         var periodScale: TimeScale {

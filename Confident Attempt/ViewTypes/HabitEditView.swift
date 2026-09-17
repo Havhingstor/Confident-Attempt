@@ -3,8 +3,11 @@ import OSLog
 import SFSymbolsPicker
 import SwiftData
 import SwiftUI
+import TipKit
 
 struct HabitEditView: View {
+    static let userCreatedHabit: Tip.Event = Tip.Event(id: "createdHabit")
+    
     private var editedHabit: Habit?
     @Environment(\.modelContext) private var modelContext
 
@@ -144,7 +147,7 @@ struct HabitEditView: View {
                     }
                 }
 
-                Section("edit.daily-limit") {
+                Section {
                     Picker("edit.daily-limit.type", selection: $limitType) {
                         Text("edit.daily-limit.normal")
                             .tag(LimitType.normal)
@@ -154,11 +157,14 @@ struct HabitEditView: View {
                             .tag(LimitType.unlimited)
                     }
                     .pickerStyle(.segmented)
-                    Text(limitTypeHelpText)
                     if limitType == .repeated {
                         LabeledTextField(label: "edit.daily-limit.max-number", TextField("edit.daily-limit.max-number", value: $limitCustom, format: .number))
                             .keyboardType(.numberPad)
                     }
+                } header: {
+                    Text("edit.daily-limit")
+                } footer: {
+                    Text(limitTypeHelpText)
                 }
 
                 Section("edit.default-completions") {
@@ -266,6 +272,9 @@ struct HabitEditView: View {
             }
 
             modelContext.insert(newHabit)
+            Task {
+                await Self.userCreatedHabit.donate()
+            }
         }
 
         do {

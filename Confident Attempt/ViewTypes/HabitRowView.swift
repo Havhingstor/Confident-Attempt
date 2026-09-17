@@ -1,21 +1,28 @@
 import Confident_Attempt_Model
 import SwiftData
 import SwiftUI
+import TipKit
 
 struct HabitRowView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.editMode) private var editMode
     @Environment(\.colorScheme) var colourScheme
     @State private var viewModel: ViewModel
+    
+    private var isFirst = false
 
-    init(_ habit: Habit, _ model: ContentView.ViewModel) {
+    init(_ habit: Habit, _ model: ContentView.ViewModel, first: Bool) {
         let viewModel = ViewModel(habit, model)
         _viewModel = .init(initialValue: viewModel)
+        isFirst = first
     }
 
     var body: some View {
         HStack {
             viewModel.completionSymbol
+                .condition(isFirst) {
+                    $0.popoverTip(EvalTodayTip())
+                }
             VStack(alignment: .leading) {
                 viewModel.habitSymbol
                 Text(viewModel.habit.name)
@@ -28,6 +35,9 @@ struct HabitRowView: View {
                 Text(viewModel.text)
 
                 Text(viewModel.evaluationText)
+                    .condition(isFirst) {
+                        $0.popoverTip(EvalTotalTip())
+                    }
             }
             .multilineTextAlignment(.trailing)
         }
@@ -35,14 +45,14 @@ struct HabitRowView: View {
         .swipeActions(edge: .trailing) {
             if editMode?.wrappedValue.isEditing != true {
                 Button("row.decrease", systemImage: "minus.circle") {
-                    viewModel.decrease()
+                    viewModel.swipeDecrease()
                 }
             }
         }
         .swipeActions(edge: .leading) {
             if editMode?.wrappedValue.isEditing != true {
                 Button("row.increase", systemImage: "plus.circle") {
-                    viewModel.increase()
+                    viewModel.swipeIncrease()
                 }
             }
         }
@@ -103,6 +113,6 @@ struct HabitRowView: View {
 #Preview {
     let model = ContentView.ViewModel(Preferences())
     let habit = Habit(name: "Test", textDescription: "Test", firstDay: .now)!
-    HabitRowView(habit, model)
+    HabitRowView(habit, model, first: true)
         .modelContainer(getPreviewContainer())
 }

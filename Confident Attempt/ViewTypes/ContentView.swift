@@ -1,8 +1,11 @@
 import Confident_Attempt_Model
 import SwiftData
 import SwiftUI
+import TipKit
 
 struct ContentView: View {
+    @Parameter static var numberOfHabits: Int = 0
+    
     @Environment(\.modelContext) private var modelContext
     @Query(sort: \Habit.name) private var habits: [Habit]
     @Environment(\.scenePhase) var scenePhase
@@ -25,12 +28,9 @@ struct ContentView: View {
     var body: some View {
         NavigationStack {
             List {
-                ForEach(habits) { habit in
-                    HabitRowView(habit, viewModel)
-                }
-                .onDelete { indices in
-                    viewModel.delete(indices, list: habits, modelContext: modelContext)
-                }
+                TipView(SwipeTip())
+                
+                rows
             }
             .animation(.default, value: habits)
             .animation(.default, value: undoManager?.canUndo)
@@ -67,7 +67,7 @@ struct ContentView: View {
 
                 ToolbarItem(placement: .bottomBar) {
                     NavigationLink {
-                        HelpView()
+                        HelpView(preferences: viewModel.preferences)
                     } label: {
                         Label("help.title", systemImage: "questionmark")
                     }
@@ -77,6 +77,9 @@ struct ContentView: View {
                     Button("new-habit.title", systemImage: "plus") {
                         viewModel.addHabitShown = true
                     }
+                    // Workaround (see https://developer.apple.com/forums/thread/735961)
+                    .buttonStyle(.plain)
+                    .popoverTip(CreateTip())
                 }
             }
             .sheet(isPresented: $viewModel.addHabitShown) {
@@ -110,6 +113,7 @@ struct ContentView: View {
         .onChange(of: habits.count) {
             viewModel.addDayStartNotification(context: modelContext)
             viewModel.setBadgeNow(context: modelContext)
+            Self.numberOfHabits = habits.count
         }
         .onReceive(NotificationCenter.default.publisher(for: UIApplication.significantTimeChangeNotification)) { _ in
             viewModel.runTimerAction(context: modelContext)
@@ -117,6 +121,17 @@ struct ContentView: View {
         .alert(viewModel.alertText, isPresented: $viewModel.alertShown, actions: {})
         .onAppear {
             viewModel.preloadEvals(context: modelContext)
+            Self.numberOfHabits = habits.count
+        }
+    }
+    
+    @ViewBuilder
+    var rows: some View {
+        ForEach(Array(habits.enumerated()), id: \.offset) { idx, habit in
+            HabitRowView(habit, viewModel, first: idx == 0)
+        }
+        .onDelete { indices in
+            viewModel.delete(indices, list: habits, modelContext: modelContext)
         }
     }
 }

@@ -2,6 +2,14 @@
   "sourceLanguage" : "en-GB",
   "strings" : {
     "" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        }
+      },
       "shouldTranslate" : false
     },
     "%@" : {
@@ -21,7 +29,14 @@
       }
     },
     "CalendarView" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CalendarView"
+          }
+        }
+      }
     },
     "details.completions-%llu" : {
       "localizations" : {
@@ -951,70 +966,6 @@
         }
       }
     },
-    "help.tips.daily-limit" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Eine Gewohnheit kann entweder einmal pro Tag („normal“), mehrmals bis zu einer bestimmten Obergrenze („wiederholt“) oder so oft du möchtest („unbegrenzt“) erledigt werden."
-          }
-        },
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "A habit can be completed either once per day ('normal'), multiple times up to a certain limit ('repeated'), or as often as you like ('unlimited')."
-          }
-        }
-      }
-    },
-    "help.tips.details" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Klicke auf eine Gewohnheit, um weitere Details und Auswertungen anzuzeigen und festzulegen, wie oft diese Gewohnheit an den vergangenen Tagen ausgeführt wurde."
-          }
-        },
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tap on a habit to see more details and analytics and set the number of time this habit was completed on previous days."
-          }
-        }
-      }
-    },
-    "help.tips.evaluation" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Der restliche Text wird rot angezeigt, wenn die Anzahl der Erledigungen unter dem Mindestwert für den angegebenen Zeitraum liegt (beide Werte können in den Einstellungen konfiguriert werden), und grün, wenn die Anzahl der abgeschlossenen Aufgaben über dem Zielwert liegt. Andernfalls wird er gelb / orange angezeigt."
-          }
-        },
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "The remaining text is red if the number of completions is below the minimum for the given period (both of which can be configured in the settings), and green if the number of completions is above the goal. Otherwise, it is yellow / orange."
-          }
-        }
-      }
-    },
-    "help.tips.evaluation-today" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Das Symbol auf der linken Seite ist grün, wenn die heutigen Erledigungen ausreichen, um das langfristige Ziel zu erreichen, sofern sie täglich wiederholt werden, und rot, wenn dies nicht der Fall ist."
-          }
-        },
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "The symbol on the left is green if today's completions are enough to reach the long-term goal if repeated daily, and red if this is not the case."
-          }
-        }
-      }
-    },
     "help.tips.first-day" : {
       "localizations" : {
         "de" : {
@@ -1026,7 +977,39 @@
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "The evaluation for any given habit only starts at the day it was created, or its first completion (whatever is earlier)"
+            "value" : "The evaluation for any given habit only starts at the day it was created, or its first completion (whatever is earlier)."
+          }
+        }
+      }
+    },
+    "help.tips.reload" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alle überlagerten Tipps wieder anzeigen"
+          }
+        },
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show all overlayed tips again"
+          }
+        }
+      }
+    },
+    "help.tips.reload.restart-hint" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alle Tipps werden wieder angezeigt (bei passender Gelegenheit) nachdem die App neu gestartet wurde."
+          }
+        },
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "All the tips will be shown again (as they fit) once the app has been restarted."
           }
         }
       }
@@ -1036,13 +1019,13 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Swipe nach rechts oder links, um die Anzahl der Male, die du eine Gewohnheit heute erledigt hast, zu erhöhen oder zu verringern."
+            "value" : "Swipe nach rechts oder links, um die heutigen Erledigungen zu erhöhen oder zu verringern."
           }
         },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Swipe right or left to increase or decrease the number of times you have completed a habit today."
+            "value" : "Change the number of completions today by swiping on habits."
           }
         }
       }
@@ -1543,18 +1526,18 @@
         }
       }
     },
-    "settings.day-start.help" : {
+    "settings.day-start.help-%@" : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Erledigungen vor diesem Zeitpunkt werden dem Vortag zugeordnet."
+            "value" : "Erledigungen vor %@ werden dem Vortag zugeordnet."
           }
         },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Any completions made before this time will be assigned to the previous day."
+            "value" : "Any completions made before %@ will be assigned to the previous day."
           }
         }
       }
@@ -1759,6 +1742,22 @@
         }
       }
     },
+    "settings.minimum-completion.explanation-%@-%@" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Der Text einer Gewohnheit ist gelb, wenn ihre Erledigungsrate mindestens %1$@ ist￼, aber unter ihrem Ziel liegt."
+          }
+        },
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A habit’s text is yellow if its completion rate is at least %1$@ but below %2$@ of its goal."
+          }
+        }
+      }
+    },
     "settings.months" : {
       "localizations" : {
         "de" : {
@@ -1904,10 +1903,153 @@
       }
     },
     "SFSymbolsPickerForSwiftUI" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "SFSymbolsPickerForSwiftUI"
+          }
+        }
+      }
     },
     "TaskGate" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "TaskGate"
+          }
+        }
+      }
+    },
+    "tips.create.message" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nutze diesen Button, um deine erste Gewohnheit zu erstellen."
+          }
+        },
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tap this button to create your first habit."
+          }
+        }
+      }
+    },
+    "tips.create.title" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erstelle deine erste Gewohnheit"
+          }
+        },
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Create your first habit"
+          }
+        }
+      }
+    },
+    "tips.eval-today.message" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Das Symbol ist grün, wenn du auf dem richtigen Weg bist, dein Ziel zu erreichen, andernfalls ist es rot."
+          }
+        },
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The symbol is green if you're on track to achieve your goal, otherwise it is red."
+          }
+        }
+      }
+    },
+    "tips.eval-today.title" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Heutige Erledigungen"
+          }
+        },
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Today’s completions"
+          }
+        }
+      }
+    },
+    "tips.eval-total.message" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : " Der Text ist grün, wenn das Ziel erreicht wurde, und rot, wenn das festgelegte Minimum unterschritten wird. Dazwischen ist er gelb."
+          }
+        },
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The text is green if the goal is achieved, red if you’re below the set minimum, otherwise it is yellow."
+          }
+        }
+      }
+    },
+    "tips.eval-total.title" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dein Fortschritt beim Erreichen deines Ziels"
+          }
+        },
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your progress in reaching your goal"
+          }
+        }
+      }
+    },
+    "tips.swipe.message" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Swipe from links, um sie zu erhöhen, und von rechts, um sie zu verringern."
+          }
+        },
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Swipe from the left to increase and from the right to decrease."
+          }
+        }
+      }
+    },
+    "tips.swipe.title" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Passe die heutige Anzahl der Erfüllungen an"
+          }
+        },
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adjust today’s number of completions"
+          }
+        }
+      }
     }
   },
   "version" : "1.3"

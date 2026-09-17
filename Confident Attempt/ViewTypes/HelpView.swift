@@ -1,7 +1,11 @@
 import SwiftUI
+import TipKit
 
 struct HelpView: View {
     let appVersion = (Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String) ?? ""
+    var preferences: Preferences
+    
+    @State var showTipsReloadHint = false
 
     var body: some View {
         List {
@@ -18,11 +22,12 @@ struct HelpView: View {
 
             Section("help.tips") {
                 Text("help.tips.swipe")
-                Text("help.tips.daily-limit")
-                Text("help.tips.evaluation-today")
-                Text("help.tips.evaluation")
-                Text("help.tips.details")
                 Text("help.tips.first-day")
+                Button("help.tips.reload") {
+                    preferences.storeTipsReload()
+                    showTipsReloadHint = true
+                }
+                .alert("help.tips.reload.restart-hint", isPresented: $showTipsReloadHint, actions: {})
             }
             
             Section("help.libraries") {
@@ -37,6 +42,6 @@ struct HelpView: View {
 
 #Preview {
     NavigationStack {
-        HelpView()
+        HelpView(preferences: Preferences())
     }
 }

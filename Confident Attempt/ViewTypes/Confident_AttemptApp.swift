@@ -1,19 +1,30 @@
 import Confident_Attempt_Model
 import SwiftData
 import SwiftUI
+import TipKit
 
 @main
 struct Confident_AttemptApp: App {
-    @State private var preferences = Preferences()
+    @State private var preferences: Preferences
     let container: ModelContainer
 
     init() {
+        let prefs = Preferences()
+        _preferences = State(initialValue: prefs)
         do {
             container = try ModelContainer(for: Habit.self, migrationPlan: HabitsMigrationPlan.self)
             container.mainContext.undoManager = UndoManager()
         } catch {
             fatalError("Failed to initialize model container: \(error)")
         }
+        
+        if prefs.retrieveShouldReloadTips() {
+            try? Tips.resetDatastore()
+        }
+        
+        try? Tips.configure([
+            .cloudKitContainer(.automatic)
+        ])
     }
 
     var body: some Scene {

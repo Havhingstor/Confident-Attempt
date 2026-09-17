@@ -162,3 +162,14 @@ func numberAsText(_ value: UInt) -> String {
 
     return nf.string(from: NSNumber(value: value)) ?? "\(value)"
 }
+
+extension View {
+    @ViewBuilder
+    func condition(_ condition: Bool, modifier: (Self) -> some View) -> some View {
+        if condition {
+            modifier(self)
+        } else {
+            self
+        }
+    }
+}

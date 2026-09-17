@@ -4,6 +4,7 @@ import SwiftData
 import SwiftUI
 import Synchronization
 import TaskGate
+import TipKit
 
 extension ContentView {
     @Observable

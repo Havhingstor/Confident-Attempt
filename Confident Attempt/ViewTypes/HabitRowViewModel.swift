@@ -2,10 +2,13 @@ import Confident_Attempt_Model
 import OSLog
 import SwiftData
 import SwiftUI
+import TipKit
 
 extension HabitRowView {
     @Observable
     class ViewModel {
+        static let userSwiped: Tips.Event = Tips.Event(id: "swiped")
+        
         var habit: Habit
         var superViewModel: ContentView.ViewModel
         var showEditor = false
@@ -192,12 +195,20 @@ extension HabitRowView {
             }
         }
 
-        func increase() {
+        func swipeIncrease() {
             habit.increaseDay(referenceDate, by: 1)
+            
+            Task {
+                await Self.userSwiped.donate()
+            }
         }
 
-        func decrease() {
+        func swipeDecrease() {
             habit.decreaseDay(referenceDate, by: 1)
+            
+            Task {
+                await Self.userSwiped.donate()
+            }
         }
     }
 }
