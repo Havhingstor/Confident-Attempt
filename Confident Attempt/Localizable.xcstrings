@@ -43,7 +43,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Erledigungen: %llu"
+            "value" : "%llu Mal"
           }
         },
         "en-GB" : {
@@ -59,7 +59,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Erwartung: ~ %@ Erledigungen"
+            "value" : "Erwartung: ~ %@ Mal"
           }
         },
         "en-GB" : {
@@ -75,7 +75,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Erwartung: ~ %@ Erledigung"
+            "value" : "Erwartung: ~ %@ Mal"
           }
         },
         "en-GB" : {
@@ -238,13 +238,13 @@
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Insgesamt: %llu Erledigung"
+                  "value" : "Insgesamt: %llu Mal"
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Insgesamt: %llu Erledigungen"
+                  "value" : "Insgesamt: %llu Mal"
                 }
               }
             }
@@ -483,7 +483,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Standard-Zahl der Erledigungen"
+            "value" : "Standard-Anzahl"
           }
         },
         "en-GB" : {
@@ -499,7 +499,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Standard-Zahl der Erledigungen muss unter dem Tages-Limit liegen!"
+            "value" : "Standard-Anzahl muss unter dem Tages-Limit liegen!"
           }
         },
         "en-GB" : {
@@ -710,13 +710,13 @@
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Das neue Tageslimit würde die Anzahl der Wiederholungen an einem Tag überschreiben."
+                  "value" : "Das neue Tageslimit würde die Anzahl an einem Tag überschreiben."
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Das neue Tageslimit würde die Anzahl der Wiederholungen an %llu Tagen überschreiben."
+                  "value" : "Das neue Tageslimit würde die Anzahl an %llu Tagen überschreiben."
                 }
               }
             }
@@ -1019,7 +1019,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Swipe nach rechts oder links, um die heutigen Erledigungen zu erhöhen oder zu verringern."
+            "value" : "Wische über eine Gewohnheit, um anzupassen, wie oft du sie heute erledigt hast."
           }
         },
         "en-GB" : {
@@ -1163,7 +1163,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mit Erledigungen kopieren?"
+            "value" : "Mit Anzahl von Erledigungen kopieren?"
           }
         },
         "en-GB" : {
@@ -1179,7 +1179,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Erledigungen kopieren"
+            "value" : "Mit Anzahl kopieren"
           }
         },
         "en-GB" : {
@@ -1195,7 +1195,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ohne Erledigungen"
+            "value" : "Ohne Anzahl kopieren"
           }
         },
         "en-GB" : {
@@ -1531,7 +1531,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Erledigungen vor %@ werden dem Vortag zugeordnet."
+            "value" : "Vor %@ Uhr erledigte Gewohnheiten werden dem Vortag zugerechnet."
           }
         },
         "en-GB" : {
@@ -1742,18 +1742,18 @@
         }
       }
     },
-    "settings.minimum-completion.explanation-%@-%@" : {
+    "settings.minimum-completion.explanation-%@" : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Der Text einer Gewohnheit ist gelb, wenn ihre Erledigungsrate mindestens %1$@ ist￼, aber unter ihrem Ziel liegt."
+            "value" : "Der Text einer Gewohnheit ist gelb, wenn die Zielerreichung bei mindestens %1$@ liegt, das Ziel aber noch nicht ganz erreicht ist."
           }
         },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "A habit’s text is yellow if its completion rate is at least %1$@ but below %2$@ of its goal."
+            "value" : "A habit’s text is yellow if its completion rate is at least %1$@ but below the habit’s goal."
           }
         }
       }
@@ -1827,7 +1827,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sendet zu Beginn eines Tages eine Benachrichtigung und zeigt auf dem Badge die Anzahl der Gewohnheiten an, die heute noch nicht genug erledigt wurden, um das langfristige Ziel zu erreichen."
+            "value" : "Sendet zu Tagesbeginn eine Mitteilung und zeigt als Kennzeichen die Anzahl der Gewohnheiten, die noch erledigt werden müssen, um dein Langzeitziel zu erreichen."
           }
         },
         "en-GB" : {
@@ -1975,7 +1975,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Heutige Erledigungen"
+            "value" : "Heutige Anzahl"
           }
         },
         "en-GB" : {
@@ -1990,14 +1990,14 @@
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "translated",
-            "value" : " Der Text ist grün, wenn das Ziel erreicht wurde, und rot, wenn das festgelegte Minimum unterschritten wird. Dazwischen ist er gelb."
+            "state" : "needs_review",
+            "value" : " Der Text ist grün, wenn das Ziel (im Auswertungszeitraum) erreicht wurde, und rot, wenn das festgelegte Minimum unterschritten wird. Dazwischen ist er gelb."
           }
         },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "The text is green if the goal is achieved, red if you’re below the set minimum, otherwise it is yellow."
+            "value" : "The text is green if the goal is achieved over the evaluation period, red if you’re below the set minimum, otherwise it is yellow."
           }
         }
       }
@@ -2024,7 +2024,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Swipe from links, um sie zu erhöhen, und von rechts, um sie zu verringern."
+            "value" : "Wische from links, um sie zu erhöhen, und von rechts, um sie zu verringern."
           }
         },
         "en-GB" : {
@@ -2040,7 +2040,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Passe die heutige Anzahl der Erfüllungen an"
+            "value" : "Heutige Anzahl anpassen"
           }
         },
         "en-GB" : {

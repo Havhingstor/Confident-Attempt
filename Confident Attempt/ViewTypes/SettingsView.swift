@@ -47,7 +47,7 @@ struct SettingsView: View {
             } header: {
                 Text("settings.minimum-completion")
             } footer: {
-                Text("settings.minimum-completion.explanation-\(viewModel.redZone.formatted(.percent))-\(1.0.formatted(.percent))")
+                Text("settings.minimum-completion.explanation-\(viewModel.redZone.formatted(.percent))")
             }
 
             Section {
