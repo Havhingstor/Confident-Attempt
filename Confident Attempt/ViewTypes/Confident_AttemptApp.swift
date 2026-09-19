@@ -29,7 +29,7 @@ struct Confident_AttemptApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView(preferences)
+            ContentView(preferences, initContext: ModelContext(container))
         }
         .modelContainer(container)
     }

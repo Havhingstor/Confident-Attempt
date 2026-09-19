@@ -16,9 +16,10 @@ struct ContentView: View {
         modelContext.undoManager
     }
 
-    init(_ prefs: Preferences) {
+    init(_ prefs: Preferences, initContext: ModelContext) {
         let viewModelWrapped = ViewModel(prefs)
         _viewModel = .init(initialValue: viewModelWrapped)
+        viewModelWrapped.preloadEvals(context: initContext)
     }
 
     private var floatStyle: FloatingPointFormatStyle<Double> {
@@ -120,7 +121,6 @@ struct ContentView: View {
         }
         .alert(viewModel.alertText, isPresented: $viewModel.alertShown, actions: {})
         .onAppear {
-            viewModel.preloadEvals(context: modelContext)
             Self.numberOfHabits = habits.count
         }
     }
@@ -137,6 +137,8 @@ struct ContentView: View {
 }
 
 #Preview {
-    ContentView(Preferences())
-        .modelContainer(getPreviewContainer())
+    let container = getPreviewContainer()
+    let context = ModelContext(container)
+    ContentView(Preferences(), initContext: context)
+        .modelContainer(container)
 }
