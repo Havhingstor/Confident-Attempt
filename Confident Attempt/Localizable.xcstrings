@@ -36,7 +36,8 @@
             "value" : "CalendarView"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "details.completions-%llu" : {
       "localizations" : {
@@ -1622,6 +1623,22 @@
         }
       }
     },
+    "settings.icloud-toggle" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aktiviere oder deaktiviere die iCloud-Synchronisierung wie folgt:\n- Öffne die App „Einstellungen“ und rufe den Hauptbildschirm auf.\n- Tippe auf deinen Namen, dann auf „iCloud“ und „In iCloud gesichert“.\n- Tippe anschließend auf den Schalter neben „Confident Attempt“.\n\nZum Löschen der Daten aus iCloud:\n- Tippe auf deinen Namen, dann auf „iCloud“, „Speicher“ und „Confident Attempt“.\n- Dort kannst du die in iCloud gespeicherte Datenmenge einsehen und die Daten löschen."
+          }
+        },
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You can toggle iCloud Syncing by\n- opening the Settings app to the main screen,\n- tapping your name, then \"iCloud\" and \"Saved to iCloud\",\n- and then tapping the toggle next to \"Confident Attempt\".\n\nTo delete the data from iCloud,\n- tap your name, then \"iCloud\", \"Storage\", and \"Confident Attempt\".\n- There you can see the amount of data stored on iCloud and delete it."
+          }
+        }
+      }
+    },
     "settings.import" : {
       "localizations" : {
         "de" : {
@@ -1854,6 +1871,22 @@
         }
       }
     },
+    "settings.system" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Systemeinstellungen öffnen"
+          }
+        },
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open System Settings"
+          }
+        }
+      }
+    },
     "settings.title" : {
       "localizations" : {
         "de" : {
@@ -1910,7 +1943,8 @@
             "value" : "SFSymbolsPickerForSwiftUI"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "TaskGate" : {
       "localizations" : {
@@ -1920,7 +1954,8 @@
             "value" : "TaskGate"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "tips.create.message" : {
       "localizations" : {
@@ -1990,7 +2025,7 @@
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : " Der Text ist grün, wenn das Ziel (im Auswertungszeitraum) erreicht wurde, und rot, wenn das festgelegte Minimum unterschritten wird. Dazwischen ist er gelb."
           }
         },
