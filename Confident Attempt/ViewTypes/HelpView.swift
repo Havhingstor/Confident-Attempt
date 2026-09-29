@@ -4,7 +4,7 @@ import TipKit
 struct HelpView: View {
     let appVersion = (Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String) ?? ""
     var preferences: Preferences
-    
+
     @State var showTipsReloadHint = false
 
     var body: some View {
@@ -29,7 +29,7 @@ struct HelpView: View {
                 }
                 .alert("help.tips.reload.restart-hint", isPresented: $showTipsReloadHint, actions: {})
             }
-            
+
             Section("help.libraries") {
                 Link("CalendarView", destination: URL(string: "https://github.com/AllanJuenemann/CalendarView")!)
                 Link("SFSymbolsPickerForSwiftUI", destination: URL(string: "https://github.com/alessiorubicini/SFSymbolsPickerForSwiftUI")!)

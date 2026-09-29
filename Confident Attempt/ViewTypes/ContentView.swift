@@ -5,7 +5,7 @@ import TipKit
 
 struct ContentView: View {
     @Parameter static var numberOfHabits: Int = 0
-    
+
     @Environment(\.modelContext) private var modelContext
     @Query(sort: \Habit.name) private var habits: [Habit]
     @Environment(\.scenePhase) var scenePhase
@@ -30,7 +30,7 @@ struct ContentView: View {
         NavigationStack {
             List {
                 TipView(SwipeTip())
-                
+
                 rows
             }
             .animation(.default, value: habits)
@@ -124,8 +124,7 @@ struct ContentView: View {
             Self.numberOfHabits = habits.count
         }
     }
-    
-    @ViewBuilder
+
     var rows: some View {
         ForEach(Array(habits.enumerated()), id: \.offset) { idx, habit in
             HabitRowView(habit, viewModel, first: idx == 0)

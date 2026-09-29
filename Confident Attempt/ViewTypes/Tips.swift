@@ -1,7 +1,6 @@
 import TipKit
 
 struct SwipeTip: Tip {
-    
     var title: Text {
         Text("tips.swipe.title")
     }
@@ -25,7 +24,6 @@ struct SwipeTip: Tip {
 }
 
 struct CreateTip: Tip {
-    
     var title: Text {
         Text("tips.create.title")
     }

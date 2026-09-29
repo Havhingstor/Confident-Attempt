@@ -81,7 +81,7 @@ struct SettingsView: View {
             }
             .animation(.default, value: viewModel.badgingWarning)
             .animation(.default, value: viewModel.notifications)
-            
+
             Section {
                 if let dest = URL(string: UIApplication.openSettingsURLString) {
                     Link("settings.system", destination: dest)

@@ -89,7 +89,7 @@ extension SettingsView {
                 preferences.redZone = newValue
             }
         }
-        
+
         var redZonePercentage: UInt {
             UInt(redZone * 100.0)
         }

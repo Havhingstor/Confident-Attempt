@@ -8,7 +8,7 @@ struct HabitRowView: View {
     @Environment(\.editMode) private var editMode
     @Environment(\.colorScheme) var colourScheme
     @State private var viewModel: ViewModel
-    
+
     private var isFirst = false
 
     init(_ habit: Habit, _ model: ContentView.ViewModel, first: Bool) {

@@ -6,8 +6,8 @@ import SwiftUI
 import TipKit
 
 struct HabitEditView: View {
-    static let userCreatedHabit: Tip.Event = Tip.Event(id: "createdHabit")
-    
+    static let userCreatedHabit: Tip.Event = .init(id: "createdHabit")
+
     private var editedHabit: Habit?
     @Environment(\.modelContext) private var modelContext
 

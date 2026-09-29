@@ -34,7 +34,7 @@ public enum HabitsSchemaV1: VersionedSchema {
         var storedDayEval: StoredDayEval? = nil
         @Transient
         var storedPrediction: StoredPrediction? = nil
-        
+
         @Transient
         var calculatedTotalEval = false
         @Transient

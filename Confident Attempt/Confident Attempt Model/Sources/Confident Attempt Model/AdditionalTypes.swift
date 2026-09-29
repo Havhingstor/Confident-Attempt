@@ -146,7 +146,7 @@ struct StoredEval: CustomStringConvertible {
             firstDay.cleanEq(other.firstDay) &&
             dayDefault == other.dayDefault
     }
-    
+
     var description: String {
         "(from: \(from), to: \(to), dayResultsHash: \(dayResultsHash), goal: \(goal), firstDay: \(firstDay), dayDefault: \(dayDefault), value: \(value))"
     }
@@ -170,7 +170,7 @@ struct StoredDayEval: CustomStringConvertible {
             day.cleanEq(other.day) &&
             goal == other.goal
     }
-    
+
     var description: String {
         "(dayResult: \(dayResult), day: \(day), goal: \(goal), value: \(value))"
     }
@@ -209,7 +209,7 @@ struct StoredPrediction: CustomStringConvertible {
             dayDefault == other.dayDefault &&
             firstDay == other.firstDay
     }
-    
+
     var description: String {
         "(referenceDate: \(referenceDate), start: \(start), yellowRatio: \(yellowRatio), goal: \(goal), dayResultsHash: \(dayResultsHash), limit: \(limit, default: "N/A"), dayDefault: \(dayDefault), firstDay: \(firstDay), value: \(value))"
     }

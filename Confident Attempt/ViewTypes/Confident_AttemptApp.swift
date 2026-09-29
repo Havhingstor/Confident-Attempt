@@ -17,11 +17,11 @@ struct Confident_AttemptApp: App {
         } catch {
             fatalError("Failed to initialize model container: \(error)")
         }
-        
+
         if prefs.retrieveShouldReloadTips() {
             try? Tips.resetDatastore()
         }
-        
+
         try? Tips.configure([
             .cloudKitContainer(.automatic)
         ])
