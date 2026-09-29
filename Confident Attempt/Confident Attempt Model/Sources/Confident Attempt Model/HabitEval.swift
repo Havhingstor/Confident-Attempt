@@ -35,9 +35,18 @@ public extension Habit {
         var base = StoredDayEval(dayResult: dayVal, day: day, goal: goal)
         
         if let storedDayEval, storedDayEval.equalsBase(base) {
-            logger().info("Did load DayEval from cache")
             return storedDayEval
         }
+        
+        if calculatedDayEval {
+#if DEBUG
+            logger().info("Calculating Day Eval for a second time: StoredDayEval \(self.storedDayEval?.description ?? "N/A") - Base: \(base.description)")
+#else
+            logger().info("Calculating Day Eval for a second time")
+#endif
+        }
+        
+        calculatedDayEval = true
 
         fillStoredDayEval(&base)
         
@@ -60,9 +69,18 @@ public extension Habit {
         var base = StoredEval(from: from, to: to, dayResultsHash: dayResultsHash, goal: goal, firstDay: calculateFirstDay(), dayDefault: dayDefault)
         
         if let storedEval, storedEval.equalsBase(base) {
-            logger().info("Did load Total Eval from cache")
             return storedEval
         }
+        
+        if calculatedTotalEval {
+#if DEBUG
+            logger().info("Calculating Total Eval for a second time: StoredDayEval \(self.storedEval?.description ?? "N/A") - Base: \(base.description)")
+#else
+            logger().info("Calculating Total Eval for a second time")
+#endif
+        }
+        
+        calculatedTotalEval = true
         
         fillStoredEval(&base, dayResults)
         
@@ -87,9 +105,18 @@ public extension Habit {
         if let storedPrediction,
            storedPrediction.equalsBase(base)
         {
-            logger().info("Did load Prediction from cache")
             return storedPrediction
         }
+        
+        if calculatedDayEval {
+#if DEBUG
+            logger().info("Calculating Prediction for a second time: StoredDayEval \(self.storedPrediction?.description ?? "N/A") - Base: \(base.description)")
+#else
+            logger().info("Calculating Prediction for a second time")
+#endif
+        }
+        
+        calculatedDayEval = true
         
         fillStoredPrediction(&base, dayResults)
         

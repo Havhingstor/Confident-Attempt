@@ -119,7 +119,7 @@ public enum CalculationStart: Codable, Equatable {
     }
 }
 
-struct StoredEval {
+struct StoredEval: CustomStringConvertible {
     var from: CalculationStart
     var to: DateComponents
     var dayResultsHash: Int
@@ -146,9 +146,13 @@ struct StoredEval {
             firstDay.cleanEq(other.firstDay) &&
             dayDefault == other.dayDefault
     }
+    
+    var description: String {
+        "(from: \(from), to: \(to), dayResultsHash: \(dayResultsHash), goal: \(goal), firstDay: \(firstDay), dayDefault: \(dayDefault), value: \(value))"
+    }
 }
 
-struct StoredDayEval {
+struct StoredDayEval: CustomStringConvertible {
     var dayResult: UInt
     var day: DateComponents
     var goal: CompletionGoal
@@ -166,9 +170,13 @@ struct StoredDayEval {
             day.cleanEq(other.day) &&
             goal == other.goal
     }
+    
+    var description: String {
+        "(dayResult: \(dayResult), day: \(day), goal: \(goal), value: \(value))"
+    }
 }
 
-struct StoredPrediction {
+struct StoredPrediction: CustomStringConvertible {
     var referenceDate: DateComponents
     var start: CalculationStart
     var yellowRatio: Double
@@ -200,5 +208,9 @@ struct StoredPrediction {
             limit == other.limit &&
             dayDefault == other.dayDefault &&
             firstDay == other.firstDay
+    }
+    
+    var description: String {
+        "(referenceDate: \(referenceDate), start: \(start), yellowRatio: \(yellowRatio), goal: \(goal), dayResultsHash: \(dayResultsHash), limit: \(limit, default: "N/A"), dayDefault: \(dayDefault), firstDay: \(firstDay), value: \(value))"
     }
 }

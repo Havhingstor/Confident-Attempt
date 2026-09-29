@@ -34,6 +34,13 @@ public enum HabitsSchemaV1: VersionedSchema {
         var storedDayEval: StoredDayEval? = nil
         @Transient
         var storedPrediction: StoredPrediction? = nil
+        
+        @Transient
+        var calculatedTotalEval = false
+        @Transient
+        var calculatedDayEval = false
+        @Transient
+        var calculatedPred = false
 
         fileprivate init(name: String, textDescription: String, symbol: String?, limit: UInt?, goal: CompletionGoal,
                          dayResults: [DateComponents: UInt], firstDay: DateComponents, dayDefault: UInt)
