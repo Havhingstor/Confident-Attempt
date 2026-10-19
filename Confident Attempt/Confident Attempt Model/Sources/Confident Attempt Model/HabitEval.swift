@@ -175,13 +175,14 @@ private func fillStoredPrediction(_ base: inout StoredPrediction, _ dayResults: 
     var currentTotal = getTotalOutside(beforeStart, currentEndDate, dayResults, dayDefault)
     
     // Today should also be set to at least completions
+    // IF today's number of completions isn't lower than the default one
     var completions = UInt(goal.getAsDaily(forDate: currentEndDate).rounded(.up))
     if let lim = limit, lim < completions {
         completions = lim
     }
     
     let actualValueToday = getDayOutside(referenceDate, dayResults, dayDefault)
-    if completions > actualValueToday {
+    if completions > actualValueToday, actualValueToday >= dayDefault {
         currentTotal -= actualValueToday
         currentTotal += completions
     }
