@@ -17,6 +17,9 @@ struct HelpView: View {
                 Link(destination: URL(string: "https://github.com/Havhingstor/Confident-Attempt")!, label: {
                     Text("help.github")
                 })
+                Link(destination: URL(string: "https://github.com/Havhingstor/Confident-Attempt/blob/main/Privacy.md")!, label: {
+                    Text("help.privacy")
+                })
                 Text("help.version-\(appVersion)")
             }
 
