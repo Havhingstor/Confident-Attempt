@@ -126,7 +126,7 @@ struct ContentView: View {
     }
 
     var rows: some View {
-        ForEach(Array(habits.enumerated()), id: \.offset) { idx, habit in
+        ForEach(Array(habits.enumerated()), id: \.element.persistentModelID) { idx, habit in
             HabitRowView(habit, viewModel, first: idx == 0)
         }
         .onDelete { indices in
