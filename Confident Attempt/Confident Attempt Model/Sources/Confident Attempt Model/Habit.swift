@@ -61,11 +61,7 @@ public enum HabitsSchemaV1: VersionedSchema {
             name = try container.decode(String.self, forKey: .name)
             textDescription = try container.decode(String.self, forKey: .textDescription)
             symbol = try container.decode(String?.self, forKey: .symbol)
-            limit = if let loadedLimit = try? container.decode(UInt?.self, forKey: .limit) {
-                loadedLimit
-            } else {
-                try container.decode(UInt?.self, forKey: .repetition)
-            }
+            limit = try container.decode(UInt?.self, forKey: .limit)
             goal = try container.decode(CompletionGoal.self, forKey: .goal)
             dayResults = try container.decode([DateComponents: UInt].self, forKey: .dayResults)
             if let firstDay = try? container.decode(DateComponents.self, forKey: .firstDay) {
@@ -159,7 +155,6 @@ private enum HabitCodingKeys: CodingKey {
     case name
     case textDescription
     case symbol
-    case repetition
     case limit
     case goal
     case dayResults
